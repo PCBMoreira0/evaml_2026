@@ -12,11 +12,11 @@
 
 ☐ @high Preciso terminar a parte do módulo talk que envia para o simulador e o robot. Ver também a parte de idioma da fala.
 
-☐ @critical Preciso que perimitir a subscrição com base no basetopic (SIMULATOR ou ROBOT).
+☐ @critical Preciso que permitir a subscrição com base no basetopic (SIMULATOR ou ROBOT).
     1. Até agora, a subscrição está sempre com base_topic = "EVA".
     2. Assim, quando no simulador, os comandos de desbloqueio estão enviando para base_topic = EVA.
     3. No momento da subscrição, na criação da instancia pub_sub de comunicação, preciso saber qual o base_topic. Talvez seja necessário passar a "memória" no construtor.
-    4. O problema é que na hora da instanciação (no carregamento dos módulos) ainda não sabemos em modo o usuário vai executar o script.
+    4. O problema é que na hora da instanciação (no carregamento dos módulos) ainda não sabemos em que modo o usuário vai executar o script.
 
 ✔ @high  Executei um script 3x em 3 modos e a memória (com os dólares) não está resetando à cada execução. @done (04/10/2025, 21:10:28)
 
