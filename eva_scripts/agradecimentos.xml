@@ -4,7 +4,7 @@
   xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
-    <voice type="pt_BR-faber-medium" pitchShift="8"/>
+    <voice type="pt_BR-faber-medium" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
@@ -26,12 +26,12 @@
     <led animation="SURPRISE" />
     <audio source="song-aquarela" block="FALSE" />
     <motion head="2NO" rightArm="SHAKE2" />
-    <wait duration="6000" />
+    <wait duration="6" />
     <motion head="2NO" />
     <motion rightArm="SHAKE2"/>
-    <wait duration="7000" />
+    <wait duration="7" />
     <motion leftArm="POSITION 0"/>
-    <wait duration="2000" />
+    <wait duration="2" />
     <led animation="STOP" />
     <evaEmotion emotion="NEUTRAL" />
     <motion head="CENTER" rightArm="POSITION 0" />

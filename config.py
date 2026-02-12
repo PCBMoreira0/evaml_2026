@@ -5,6 +5,7 @@ MQTT_PORT               = 1883
 ROBOT_PACKAGE_FOLDER    = 'robot_package' # Directory with robot modules
 SIMULATOR_BASE_TOPIC    = 'SIMULATOR'
 TERMINAL_BASE_TOPIC    = 'TERMINAL'
+TERMINAL_TOPIC_BASE    = 'TERMINAL'
 
 # Default audio file extension.
 AUDIO_EXTENSION = ".wav"
