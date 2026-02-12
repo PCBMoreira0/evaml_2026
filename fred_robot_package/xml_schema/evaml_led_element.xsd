@@ -1,0 +1,46 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+		<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+    <!-- EVAML led command definition ** -->
+	<xs:element name="led">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="animation" type="ledAnimationType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Led type definition -->
+	<xs:simpleType name="ledAnimationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HAPPY"/> <!-- GREEN -->
+			<xs:enumeration value="SAD"/> <!-- BLUE -->
+			<xs:enumeration value="ANGRY"/> <!-- RED -->
+			<xs:enumeration value="STOP"/> <!-- BLACK (OFF) -->
+			<xs:enumeration value="SPEAK"/> <!-- BLUE -->
+			<xs:enumeration value="LISTEN"/> <!-- GREEN -->
+			<xs:enumeration value="SURPRISE"/> <!-- YELLOW -->
+			<xs:enumeration value="GREEN"/>
+			<xs:enumeration value="BLUE"/>
+			<xs:enumeration value="RED"/>
+			<xs:enumeration value="WHITE"/>
+            <xs:enumeration value="YELLOW"/>
+			<xs:enumeration value="PINK"/>
+            <xs:enumeration value="RAINBOW"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

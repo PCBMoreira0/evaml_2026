@@ -1,0 +1,26 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+	
+    <!-- ** EVAML mqtt command definition ** -->
+	<xs:element name="mqtt">
+		<xs:complexType mixed="true">
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="topic" type="topicType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

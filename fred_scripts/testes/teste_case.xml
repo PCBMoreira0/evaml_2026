@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <listen />
+    <switch var="$">
+      <case op="eq" value="1">
+        <talk>Yes! It is correct!</talk>
+        <light state="ON" color="GREEN"/>
+        <stop />
+      </case>
+      <default>
+        <talk>Oh não!</talk>
+        <light state="ON" color="RED"/>
+      </default>  
+    </switch>
+    <loop times="2">
+      <light state="ON" />
+      <wait duration="1000" />
+    </loop>
+  </script>
+</evaml>

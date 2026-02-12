@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <useMacro macro="M3" />
+    <talk>Voltando!</talk>
+  </script>
+  <macros>
+    <macro id="M1">
+      <audio id="TARGET1" source="efx-blin" block="TRUE" />
+      <counter var="VAR" op="=" value="1" />
+      <goto target="TARGET3" />
+    </macro>
+    <macro id="M2">
+      <led id="TARGET2" animation="SAD" />
+      <counter var="VAR2" op="=" value="2" />
+    </macro>
+    <macro id="M3">
+      <led id="TARGET3" animation="HAPPY" />
+      <counter var="VAR2" op="=" value="3" />
+      <useMacro macro="M2" />
+    </macro>
+  </macros>
+</evaml>

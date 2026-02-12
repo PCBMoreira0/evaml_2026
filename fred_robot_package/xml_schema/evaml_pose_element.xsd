@@ -1,0 +1,40 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+		<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+    <!-- EVAML pose command definition ** -->
+	<xs:element name="pose">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="type" type="poseListType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Pose type definition -->
+	<xs:simpleType name="poseListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NEUTRAL"/> <!-- Place FRED on the neutral pose. -->
+			<xs:enumeration value="LEFT_FOOT1"/> <!-- Place FRED on the tip of its left foot. -->
+			<xs:enumeration value="LEFT_FOOT2"/> <!-- Place FRED with its left foot raised. -->
+			<xs:enumeration value="RIGHT_FOOT1"/> <!-- Place FRED on the tip of its right foot. -->
+			<xs:enumeration value="RIGHT_FOOT2"/> <!-- Place FRED with its right foot raised. -->
+			<xs:enumeration value="SAD_FOOT_SLOW"/> <!-- Put FRED "sitting", "broken" (slowly). -->
+			<xs:enumeration value="SAD_FOOT_FAST"/> <!-- Put FRED "sitting", "broken". (faster). -->
+			<xs:enumeration value="TIPTOE_FOOT"/> <!-- Put FRED on its toes -->
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

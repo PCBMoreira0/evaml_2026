@@ -1,0 +1,37 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+    <!-- ** EVAML textEmotion command definition ** -->
+	<xs:element name="textEmotion">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="language" type="languageType"/>
+			<xs:attribute name="var" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Language type definitions -->
+	<xs:simpleType name="languageType"> <!-- Some codes for the source languages for Google translating processing -->
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="EN"/>
+			<xs:enumeration value="FR"/>
+			<xs:enumeration value="DE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

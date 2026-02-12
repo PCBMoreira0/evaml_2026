@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <evaEmotion emotion="GREETINGS" />
+    <wait duration="2000" />
+    <evaEmotion emotion="AFRAID" />
+    <wait duration="2000" />
+    <evaEmotion emotion="ANGRY" />
+    <wait duration="2000" />
+    <evaEmotion emotion="ANGRY2" />
+    <wait duration="2000" />
+    <evaEmotion emotion="BROKEN" />
+    <wait duration="2000" />
+    <evaEmotion emotion="HAPPY" />
+    <wait duration="2000" />
+    <evaEmotion emotion="IN_LOVE" />
+    <wait duration="2000" />
+    <evaEmotion emotion="NEUTRAL" />
+    <wait duration="2000" />
+    <evaEmotion emotion="PLEASED" />
+    <wait duration="2000" />
+    <evaEmotion emotion="SAD" />
+    <wait duration="2000" />
+    <evaEmotion emotion="SPEECH_ON_1" />
+    <wait duration="5000" />
+    <evaEmotion emotion="SPEECH_OFF_1" />
+    <wait duration="2000" />
+    <evaEmotion emotion="SPEECH_ON_2" />
+    <wait duration="5000" />
+    <evaEmotion emotion="SPEECH_OFF_2" />
+    <wait duration="2000" />
+  </script>
+</evaml>

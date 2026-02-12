@@ -1,0 +1,47 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EvaML bascis type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+	
+    <!-- ** EVAML evaEmotion command definition ** -->
+	<xs:element name="evaEmotion">
+		<xs:complexType >
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="emotion" type="evaEmotionType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- EvaEmotion type definitions -->
+	<xs:simpleType name="evaEmotionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GREETINGS"/>
+			<xs:enumeration value="NEUTRAL"/>
+			<xs:enumeration value="BROKEN"/>
+			<xs:enumeration value="PLEASED"/>
+			<xs:enumeration value="HAPPY"/>
+			<xs:enumeration value="SAD"/>
+			<xs:enumeration value="ANGRY"/>
+			<xs:enumeration value="ANGRY2"/>
+			<xs:enumeration value="AFRAID"/>
+			<xs:enumeration value="SURPRISED"/>
+			<xs:enumeration value="IN_LOVE"/>
+			<xs:enumeration value="SPEECH_ON_1"/>
+			<xs:enumeration value="SPEECH_OFF_1"/>
+			<xs:enumeration value="SPEECH_ON_2"/>
+			<xs:enumeration value="SPEECH_OFF_2"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

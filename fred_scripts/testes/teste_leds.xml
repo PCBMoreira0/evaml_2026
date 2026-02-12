@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <evaEmotion emotion="NEUTRAL" />
+    <led animation="SAD" />
+    <light state="ON" color="BLUE"/>
+    <wait duration="4000" />
+    <led animation="STOP" />
+    <light state="OFF" />
+    <wait duration="4000" />
+    <led animation="HAPPY" />
+    <light state="ON" color="GREEN"/>
+    <wait duration="4000" />
+    <led animation="PINK" />
+    <light state="ON" color="PINK"/>
+    <wait duration="4000" />
+    <led animation="WHITE" />
+    <light state="ON" color="WHITE"/>
+    <wait duration="4000" />
+    <led animation="SURPRISE" />
+    <light state="ON" color="YELLOW"/>
+    <wait duration="4000" />
+    <led animation="RAINBOW" />
+    <light state="OFF" />
+  </script>
+</evaml>

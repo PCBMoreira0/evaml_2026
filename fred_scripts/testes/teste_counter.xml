@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <talk>Qual a sua idade?</talk>
+    <listen var="_IDADE_1"/>
+    <counter var="_IDADE_1" op="*" value="2" />
+    <talk>Sua idade x 2 é #_IDADE_1</talk>
+  </script>
+</evaml>

@@ -1,0 +1,17 @@
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste" xsi:noNamespaceSchemaLocation="xml_schema/evaml_schema.xsd">
+  <settings>
+    <voice tone="en-US_EmmaExpressive" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <light state="ON" color="BLUE" />
+    <talk>Olá, qual o seu nome?</talk>
+    <listen />
+    <light state="ON" color="PINK" />
+    <talk>E qual a sua idade?</talk>
+    <listen var="IDADE" />
+    <talk>Legal! Seu nome é $ e você tem #IDADE anos!</talk>
+    <light state="OFF" />
+  </script>
+</evaml>

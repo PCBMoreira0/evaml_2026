@@ -1,0 +1,73 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including EVAML basic types definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+	
+	<!-- Including referenced elements -->
+	<xs:include schemaLocation="./evaml_loop_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_mqtt_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_random_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_wait_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_talk_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_log_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_stop_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_light_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_goto_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_motion_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_pose_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_useremotion_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_textemotion_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_userid.element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_qrread_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_evaemotion_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_usemacro_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_listen_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_audio_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_led_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_counter_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_switch_element.xsd"></xs:include>
+
+    <!-- EVAML macro command definition ** -->
+	<xs:element name="macro">
+		<xs:complexType>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="loop"/>
+				<xs:element ref="mqtt"/>
+				<xs:element ref="random"/>
+				<xs:element ref="wait"/>
+				<xs:element ref="talk"/>
+				<xs:element ref="log"/>
+				<xs:element ref="stop"/>
+				<xs:element ref="light"/>
+				<xs:element ref="goto"/>
+				<xs:element ref="motion"/>
+				<xs:element ref="pose"/>
+				<xs:element ref="userEmotion"/>
+				<xs:element ref="textEmotion"/>
+				<xs:element ref="userID"/>
+				<xs:element ref="qrRead"/>
+				<xs:element ref="evaEmotion"/>
+				<xs:element ref="useMacro"/>
+				<xs:element ref="listen"/>
+				<xs:element ref="audio"/>
+				<xs:element ref="led"/>
+				<xs:element ref="counter"/>
+				<xs:element ref="switch"/>
+			</xs:choice>
+			<xs:attribute name="id" type="idType" use="required" />
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

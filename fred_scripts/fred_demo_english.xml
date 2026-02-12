@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="fred_demo_english"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice type="en_US-amy-medium" pitchShift="0"/>
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <light state="OFF" />
+    <evaEmotion emotion="NEUTRAL" />
+    <led animation="STOP" />
+    <pose type="NEUTRAL" />
+    <audio source="efx-blin" block="TRUE" />
+    <talk>Hello, I am a affective robot. How are you today?</talk>
+    <audio source="efx-harp-gliss" block="TRUE" />
+    <talk>I have several capabilities and I'll show you a demonstration!</talk>
+    <audio source="efx-fanfare" block="TRUE" />
+    <talk>I can control this smart bulb. I can turn it on and off and also control its color.</talk>
+    <light state="ON" color="WHITE"/>
+    <audio source="efx-display" block="TRUE" />
+    <wait duration="2000" />
+    <light state="ON" color="BLUE"/>
+    <audio source="efx-display" block="TRUE" />
+    <wait duration="2000" />
+    <light state="ON" color="GREEN"/>
+    <audio source="efx-display" block="TRUE" />
+    <wait duration="2000" />
+    <light state="ON" color="RED"/>
+    <audio source="efx-display" block="TRUE" />
+    <wait duration="2000" />
+    <talk>I can also use the colors of the LEDs on my chest to convey emotions.</talk>
+    <led animation="ANGRY" />
+    <wait duration="3000" />
+    <led animation="GREEN" />
+    <wait duration="3000" />
+    <led animation="PINK" />
+    <wait duration="3000" />
+    <led animation="STOP" />
+    <wait duration="3000" />
+    <talk>I can also express emotions through my gaze</talk>
+    <audio source="efx-display2" block="TRUE" />
+    <wait duration="2000" />
+    <talk>Now, for example, I have the expression of neutrality</talk>
+    <wait duration="3000" />
+    <talk>I can express happiness</talk>
+    <evaEmotion emotion="HAPPY" />
+    <led animation="HAPPY" />
+    <audio source="efx-display2" block="TRUE" />
+    <wait duration="4000" />
+
+    <talk>I can be sad</talk>
+    <evaEmotion emotion="SAD" />
+    <led animation="SAD" />
+    <audio source="efx-display2" block="TRUE" />
+    <wait duration="4000" />
+
+    <talk>I can express anger</talk>
+    <evaEmotion emotion="ANGRY2" />
+    <led animation="ANGRY" />
+    <audio source="efx-display2" block="TRUE" />
+    <wait duration="4000" />
+
+    <talk>I can be surprised</talk>
+    <evaEmotion emotion="SURPRISED" />
+    <led animation="SURPRISE" />
+    <audio source="efx-display2" block="TRUE" />
+    <wait duration="4000" />
+    <evaEmotion emotion="NEUTRAL" />
+    <led animation="STOP" />
+    <wait duration="2000" />
+
+    <talk>I can also do poses</talk>
+    <audio source="efx-display2" block="TRUE" />
+    <wait duration="2000" />
+    <talk>I can move my right foot</talk>
+    <audio source="efx-display2" block="TRUE" />
+    <pose type="RIGHT_FOOT1" />
+    <wait duration="2000" />
+    <audio source="efx-display2" block="TRUE" />
+    <pose type="RIGHT_FOOT2" />
+    <wait duration="2000" />
+    <pose type="NEUTRAL" />
+    <wait duration="2000" />
+
+    <talk>I can do the same with my left foot</talk>
+    <audio source="efx-display2" block="TRUE" />
+    <pose type="LEFT_FOOT1" />
+    <wait duration="2000" />
+    <audio source="efx-display2" block="TRUE" />
+    <pose type="LEFT_FOOT2" />
+    <wait duration="2000" />
+
+    <talk>I can bend down like this</talk>
+    <audio source="efx-display2" block="TRUE" />
+    <pose type="SAD_FOOT_SLOW" />
+    <wait duration="3000" />
+    <talk>Or stand on tiptoe, like this</talk>
+    <audio source="efx-display2" block="TRUE" />
+    <pose type="TIPTOE_FOOT" />
+    <wait duration="5000" />
+    <pose type="NEUTRAL" />
+
+    <talk>I can use these elements together to become more expressive.</talk>
+    <evaEmotion emotion="SAD" />
+    <led animation="SAD" />
+    <pose type="SAD_FOOT_SLOW" />
+    <audio source="song-ben" block="TRUE" />
+    <evaEmotion emotion="NEUTRAL" />
+    <pose type="NEUTRAL" />
+    <led animation="STOP" />
+    <wait duration="4000" />
+
+
+    
+    <evaEmotion emotion="ANGRY2" />
+    <led animation="ANGRY" />
+    <motion type="STOMPING_FOOT_R" />
+    <wait duration="1000" />
+    <audio source="song-mj-thriller2" block="FALSE" />
+    <wait duration="10000" />
+
+
+    <audio source="song-here-comes-the-sun" block="FALSE" />
+    <evaEmotion emotion="HAPPY" />
+    <led animation="HAPPY" />
+    <pose type="RIGHT_FOOT1" />
+    <wait duration="5000" />
+    <pose type="NEUTRAL" />
+    <wait duration="2000" />
+    <pose type="LEFT_FOOT1" />
+    <wait duration="5000" />
+    <pose type="NEUTRAL" />
+    <wait duration="2000" />
+
+    <audio source="song-i-believe-i-can-fly" block="FALSE" />
+    <pose type="TIPTOE_FOOT" />
+    <wait duration="2000" />
+    <led animation="RAINBOW" />
+    <wait duration="5000" />
+    <evaEmotion emotion="NEUTRAL" />
+    <pose type="NEUTRAL" />
+    <led animation="STOP" />
+    <wait duration="2000" />
+
+    <evaEmotion emotion="HAPPY" />
+    <led animation="GREEN" />
+    <wait duration="2000" />
+    <talk>I can dance too!</talk>
+    <audio source="song-take-on-me" block="FALSE" />
+    <motion type="DANCE1_2" />
+    <wait duration="8000" />
+    <motion type="DANCE2_2" />
+    <wait duration="6000" />
+
+    <evaEmotion emotion="ANGRY" />
+    <led animation="ANGRY" />
+    <wait duration="2000" />
+    <motion type="STOMPING_FOOT_R" />
+    <audio source="song-billie-jean" block="FALSE" />
+    <wait duration="5000" />
+    <motion type="MOONWALK" />
+    <wait duration="7000" />
+
+    <evaEmotion emotion="HAPPY" />
+    <led animation="HAPPY" />
+    <wait duration="2000" />
+    <motion type="RIGHT" />
+    <audio source="song-toda-a-sorte" block="FALSE" />
+    <wait duration="2000" />
+    <motion type="LEFT" />
+    <wait duration="2000" />
+    <motion type="FORWARD" />
+    <wait duration="4000" />
+    <motion type="BACKWARD" />
+    <wait duration="7000" />
+    <pose type="TIPTOE_FOOT" />
+    <wait duration="3000" />
+    <pose type="NEUTRAL" />
+    <wait duration="1000" />
+    <evaEmotion emotion="NEUTRAL" />
+    <wait duration="1000" />
+    <led animation="STOP" />
+    <wait duration="2000" />
+    <talk>Nice to meet you! See you later!</talk>
+  </script>
+</evaml>

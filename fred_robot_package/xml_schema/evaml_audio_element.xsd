@@ -1,0 +1,104 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+    <!-- EVAML audio command definition ** -->
+	<xs:element name="audio">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="source" type="audioFileType" use="required"/>
+			<xs:attribute name="block" type="audioBlockType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Audio type definitions -->
+	<xs:simpleType name="audioListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="efx-blin"/>
+			<xs:enumeration value="efx-blin2"/>
+			<xs:enumeration value="efx-aplausos-bom"/>
+            <xs:enumeration value="efx-cheering"/>
+            <xs:enumeration value="efx-crowdapplause1"/>
+			<xs:enumeration value="efx-display"/>
+			<xs:enumeration value="efx-display2"/>
+            <xs:enumeration value="efx-fanfare"/>
+			<xs:enumeration value="efx-harp-gliss"/>
+            <xs:enumeration value="efx-mario-end-01"/>
+            <xs:enumeration value="efx-mario-end-02"/>
+            <xs:enumeration value="efx-mario-end-03"/>
+            <xs:enumeration value="efx-mario-fundo"/>
+            <xs:enumeration value="efx-mario-game-intro"/>
+            <xs:enumeration value="efx-mario-sound1-longo"/>
+            <xs:enumeration value="efx-mario-sound1"/>
+            <xs:enumeration value="efx-mario-sound2"/>
+            <xs:enumeration value="efx-mario-start-01"/>
+            <xs:enumeration value="efx-mario-start-02"/>
+			<xs:enumeration value="efx-robot"/>
+			<xs:enumeration value="efx-robot-arm"/>
+			<xs:enumeration value="efx-robot-head"/>
+			<xs:enumeration value="efx-susto"/>
+            <xs:enumeration value="efx-tic-toc"/>
+			<xs:enumeration value="efx-trombone-triste"/>
+            <xs:enumeration value="efx-wand1"/>
+            <xs:enumeration value="MUTED-SOUND"/>
+			<xs:enumeration value="song-aquarela"/>
+            <xs:enumeration value="song-ben"/>
+			<xs:enumeration value="song-billie-jean"/>
+            <xs:enumeration value="song-caneta-azul"/>
+            <xs:enumeration value="song-exodus"/>
+			<xs:enumeration value="song-fear"/>
+			<xs:enumeration value="song-happy"/>
+			<xs:enumeration value="song-i-believe-i-can-fly"/>
+			<xs:enumeration value="song-i-will-be-there" />
+            <xs:enumeration value="song-mj-heal-the-world"/>
+            <xs:enumeration value="song-here-comes-the-sun"/>
+			<xs:enumeration value="song-macarena-edit"/>
+            <xs:enumeration value="song-mj-heal-the-world"/>
+            <xs:enumeration value="song-mj-thriller2"/>
+            <xs:enumeration value="song-mj-thriller3-laugh"/>
+            <xs:enumeration value="song-oh-no"/>
+			<xs:enumeration value="song-rude-magic"/>
+			<xs:enumeration value="song-sad-violin"/>
+			<xs:enumeration value="song-samba-loop"/>
+			<xs:enumeration value="song-surprise"/>
+            <xs:enumeration value="song-take-on-me"/>
+            <xs:enumeration value="song-the-girl-from-ipanema"/>
+            <xs:enumeration value="song-the-imperial-march"/>
+            <xs:enumeration value="song-thriller-open"/>
+			<xs:enumeration value="song-toda-a-sorte"/>
+            <xs:enumeration value="song-vivaldi-spring"/>
+            <xs:enumeration value="song-weird-science"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="audioStringType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="audioFileType">
+		<xs:union memberTypes="audioListType audioStringType" />
+	</xs:simpleType>
+
+	<xs:simpleType name="audioBlockType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TRUE"/>
+			<xs:enumeration value="FALSE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+
+</xs:schema>

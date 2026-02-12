@@ -1,0 +1,57 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+	
+    <!-- ** EVAML light command definition ** -->
+	<xs:element name="light">
+		<xs:complexType>
+			<xs:attribute name="id" type="idType"/>
+			<xs:attribute name="state" type="lightStateType" use="required"/>
+			<xs:attribute name="color" type="lightColorType" default="WHITE"/>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Light type definitions -->
+	<xs:simpleType name="lightStateType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ON"/>
+			<xs:enumeration value="OFF"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightRgbColorType">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="#[\dA-F | a-f ]{6}([\dA-F | a-f][\dA-F | a-f])?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightListColorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="WHITE"/>
+			<xs:enumeration value="BLACK"/>
+			<xs:enumeration value="RED"/>
+			<xs:enumeration value="PINK"/>
+			<xs:enumeration value="GREEN"/>
+			<xs:enumeration value="YELLOW"/>
+			<xs:enumeration value="BLUE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="lightColorType">
+		<xs:union memberTypes="lightListColorType lightRgbColorType" />
+	</xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,61 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+    <!-- EVAML voice command definition ** -->
+	<xs:element name="voice">
+		<xs:complexType>
+			<xs:attribute name="type" type="voiceType" use="required"/>
+			<xs:attribute name="pitchShift" type="pitchShiftType" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Voice type definition -->
+	 <xs:simpleType name="voiceStringType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+
+	<xs:simpleType name="voiceType">
+		<xs:union memberTypes="voiceListType voiceStringType" />
+	</xs:simpleType>
+	
+	<xs:simpleType name="voiceListType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pt-BR_IsabelaV3Voice"/>
+			<xs:enumeration value="en-US_AllisonV3Voice"/> 
+			<xs:enumeration value="en-US_AllisonExpressive"/> 
+			<xs:enumeration value="en-US_EmmaExpressive"/>
+			<xs:enumeration value="en-US_LisaExpressive"/>
+			<xs:enumeration value="en-US_MichaelExpressive"/>
+			<xs:enumeration value="en-US_MichaelV3Voice"/>
+			<xs:enumeration value="en-US_KevinV3Voice"/>
+			<xs:enumeration value="en-US_OliviaV3Voice"/>
+			<xs:enumeration value="en-US_EmilyV3Voice"/>
+			<xs:enumeration value="en-US_HenryV3Voice"/>
+			<xs:enumeration value="es-LA_SofiaV3Voice"/>
+			<xs:enumeration value="es-ES_LauraV3Voice"/>
+			<xs:enumeration value="es-ES_EnriqueV3Voice"/>     
+			<xs:enumeration value="fr-FR_NicolasV3Voice"/>
+			<xs:enumeration value="fr-FR_ReneeV3Voice"/>
+			<xs:enumeration value="de-DE_BirgitV3Voice"/>
+			<xs:enumeration value="de-DE_DieterV3Voice"/>
+			<xs:enumeration value="en_US-ryan-medium"/>
+			<xs:enumeration value="en_US-amy-medium"/>
+			<xs:enumeration value="pt_BR-faber-medium"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
