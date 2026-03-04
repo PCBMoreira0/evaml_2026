@@ -2,8 +2,8 @@ from script_engine import ScriptEngine
 
 sp1 = ScriptEngine() # Empty state.
 
-if not (sp1.load_script("eva_scripts/agradecimentos_evaml.xml")): # If file was loaded, it is in a Not_Init state.
-    # We have a problem with the file.
+if not (sp1.load_script("eva_scripts/tabuada_nova_evaml.xml")): # If file was loaded, it is in a Not_Init state.
+    # We have a problem with the file. eva_scripts/tabuada_nova_evaml.xml
     exit(1)
 
 sp1.initialize() # After initialization it is in Idle state.

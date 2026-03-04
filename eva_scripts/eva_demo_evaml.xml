@@ -1,158 +1,158 @@
 <evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="eva_demo" xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd">
   <settings>
-    <voice type="en-US_AllisonExpressive" pitchShift="5" />
-    <lightEffects mode="ON" />
-    <audioEffects mode="ON" />
+    <voice type="en-US_AllisonExpressive" commMode="NULL" />
+    <lightEffects mode="ON" commMode="NULL" />
+    <audioEffects mode="ON" commMode="NULL" vol="100%" />
   </settings>
   <script>
     
-    <light state="OFF" />
-    <evaEmotion emotion="NEUTRAL" />
-    <led animation="STOP" />
-    <motion head="CENTER" rightArm="POSITION 0" leftArm="POSITION 0" />
-    <talk>Hi, every body!</talk>
-    <talk>My name is Eva.</talk>
-    <audio source="efx-blin2" block="TRUE" />
-    <talk>I am a social robot.</talk>
-    <wait duration="1500" />
-    <talk>I can be used in healthcare and educational applications</talk>
-    <audio source="efx-blin2" block="TRUE" />
-    <talk>Now, I will initiate a test of all my capabilities</talk>
+    <light state="OFF" commMode="MQTT_PUB" pubTopic="LIGHT" color="WHITE" />
+    <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <led animation="STOP" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <motion head="CENTER" rightArm="POSITION 0" leftArm="POSITION 0" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hi, every body!</talk>
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">My name is Eva.</talk>
+    <audio source="efx-blin2" block="TRUE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I am a social robot.</talk>
+    <wait duration="2" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can be used in healthcare and educational applications</talk>
+    <audio source="efx-blin2" block="TRUE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Now, I will initiate a test of all my capabilities</talk>
 
 
     
-    <talk>I will start testing the smart bulb</talk>
-    <audio source="efx-display" block="FALSE" />
-    <light state="ON" color="WHITE" />
-    <wait duration="1000" />
-    <audio source="efx-display" block="FALSE" />
-    <light state="ON" color="BLUE" />
-    <wait duration="1000" />
-    <audio source="efx-display" block="FALSE" />
-    <light state="ON" color="GREEN" />
-    <wait duration="1000" />
-    <audio source="efx-display" block="FALSE" />
-    <light state="ON" color="RED" />
-    <wait duration="1000" />
-    <audio source="efx-display" block="FALSE" />
-    <light state="ON" color="YELLOW" />
-    <wait duration="1000" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I will start testing the smart bulb</talk>
+    <audio source="efx-display" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="WHITE" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <wait duration="1" commMode="NULL" />
+    <audio source="efx-display" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="BLUE" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <wait duration="1" commMode="NULL" />
+    <audio source="efx-display" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="GREEN" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <wait duration="1" commMode="NULL" />
+    <audio source="efx-display" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="RED" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <wait duration="1" commMode="NULL" />
+    <audio source="efx-display" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="YELLOW" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <wait duration="1" commMode="NULL" />
 
 
     
-    <talk>I can express emotions using my gaze and I will test it now</talk>
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="HAPPY" />
-    <wait duration="2000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="SAD" />
-    <wait duration="2000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="ANGRY" />
-    <wait duration="2000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="FEAR" />
-    <wait duration="2000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="SURPRISE" />
-    <wait duration="2000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="DISGUST" />
-    <wait duration="2000" />
-    <audio source="efx-blin2" block="FALSE" />
-    <evaEmotion emotion="INLOVE" />
-    <wait duration="2000" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can express emotions using my gaze and I will test it now</talk>
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="ANGRY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="FEAR" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="SURPRISE" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="DISGUST" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
+    <audio source="efx-blin2" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <evaEmotion emotion="INLOVE" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="2" commMode="NULL" />
 
     
     
-    <evaEmotion emotion="NEUTRAL" />
-    <talk>Now, I will run some animations using the leds on my chest</talk>
-    <audio source="efx-robot" block="FALSE" />
-    <light state="ON" color="GREEN" />
-    <led animation="HAPPY" />
-    <wait duration="5000" />
-    <audio source="efx-robot" block="FALSE" />
-    <light state="ON" color="RED" />
-    <led animation="ANGRY" />
-    <wait duration="5000" />
-    <audio source="efx-robot" block="FALSE" />
-    <light state="ON" color="YELLOW" />
-    <led animation="SURPRISE" />
-    <wait duration="5000" />
-    <audio source="efx-robot" block="FALSE" />
-    <light state="ON" color="WHITE" />
-    <led animation="RAINBOW" />
-    <wait duration="5000" />
+    <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Now, I will run some animations using the leds on my chest</talk>
+    <audio source="efx-robot" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="GREEN" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <wait duration="5" commMode="NULL" />
+    <audio source="efx-robot" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="RED" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <wait duration="5" commMode="NULL" />
+    <audio source="efx-robot" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="YELLOW" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <led animation="SURPRISE" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <wait duration="5" commMode="NULL" />
+    <audio source="efx-robot" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <light state="ON" color="WHITE" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <led animation="RAINBOW" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <wait duration="5" commMode="NULL" />
 
     
-    <led animation="STOP" />
-    <talk>I have non verbal capabilities so I can move my head</talk>
-    <wait duration="1000" />
-    <talk>I can move up</talk>
-    <audio source="efx-robot-head" block="FALSE" />
-    <motion type="2UP" />
-    <wait duration="2000" />
-    <motion type="CENTER" />
-    <wait duration="2000" />
-    <talk>I can move down</talk>
-    <audio source="efx-robot-head" block="FALSE" />
-    <motion type="2DOWN" />
-    <wait duration="2000" />
-    <motion type="CENTER" />
-    <wait duration="2000" />
-    <talk>I can say no</talk>
-    <light state="ON" color="RED" />
-    <led animation="ANGRY" />
-    <evaEmotion emotion="ANGRY" />
-    <motion head="DOWN" />
-    <wait duration="1000" />
-    <motion type="NO" />
-    <wait duration="4000" />
-    <talk>and I can say yes</talk>
-    <led animation="HAPPY" />
-    <light state="ON" color="GREEN" />
-    <evaEmotion emotion="HAPPY" />
-    <motion type="2YES" />
-    <wait duration="4000" />
-    <evaEmotion emotion="NEUTRAL" />
-    <motion head="CENTER" />
-    <light state="ON" color="WHITE" />
+    <led animation="STOP" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I have non verbal capabilities so I can move my head</talk>
+    <wait duration="1" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can move up</talk>
+    <audio source="efx-robot-head" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <motion type="2UP" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2" commMode="NULL" />
+    <motion type="CENTER" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can move down</talk>
+    <audio source="efx-robot-head" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <motion type="2DOWN" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2" commMode="NULL" />
+    <motion type="CENTER" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can say no</talk>
+    <light state="ON" color="RED" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <evaEmotion emotion="ANGRY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <motion head="DOWN" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="1" commMode="NULL" />
+    <motion type="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="4" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">and I can say yes</talk>
+    <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <light state="ON" color="GREEN" commMode="MQTT_PUB" pubTopic="LIGHT" />
+    <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <motion type="2YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="4" commMode="NULL" />
+    <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <motion head="CENTER" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <light state="ON" color="WHITE" commMode="MQTT_PUB" pubTopic="LIGHT" />
     
     
-    <talk>I can move my right arm</talk>
-    <audio source="efx-robot-arm" block="FALSE" />
-    <motion rightArm="POSITION 3" />
-    <wait duration="2000" />
-    <talk>I can move my left arm</talk>
-    <audio source="efx-robot-arm" block="FALSE" />
-    <motion leftArm="POSITION 2" />
-    <wait duration="2000" />
-    <talk>and I can shake my arms</talk>
-    <audio source="song-samba-loop" block="FALSE" />
-    <motion leftArm="SHAKE2" rightArm="SHAKE2" />
-    <wait duration="6000" />
-    <motion rightArm="POSITION 0" leftArm="POSITION 0" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can move my right arm</talk>
+    <audio source="efx-robot-arm" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <motion rightArm="POSITION 3" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can move my left arm</talk>
+    <audio source="efx-robot-arm" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <motion leftArm="POSITION 2" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">and I can shake my arms</talk>
+    <audio source="song-samba-loop" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <motion leftArm="SHAKE2" rightArm="SHAKE2" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="6" commMode="NULL" />
+    <motion rightArm="POSITION 0" leftArm="POSITION 0" commMode="MQTT_PUB" pubTopic="MOTION" />
 
     
-    <talk>I can also play sounds</talk>
-    <audio source="efx-blin" block="TRUE" />
-    <talk>I can play some good music too</talk>
-    <audio source="song-rude-magic" block="FALSE" />
-    <led animation="SURPRISE" />
-    <motion head="RIGHT_UP2" rightArm="POSITION 3" leftArm="POSITION 0" />
-    <evaEmotion emotion="HAPPY" />
-    <wait duration="7000" />
-    <motion head="LEFT_UP2" rightArm="POSITION 0" leftArm="POSITION 3" />
-    <wait duration="7000" />
-    <motion head="CENTER" rightArm="POSITION 0" leftArm="POSITION 0" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can also play sounds</talk>
+    <audio source="efx-blin" block="TRUE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">I can play some good music too</talk>
+    <audio source="song-rude-magic" block="FALSE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="AUDIO_RESPONSE" />
+    <led animation="SURPRISE" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <motion head="RIGHT_UP2" rightArm="POSITION 3" leftArm="POSITION 0" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <wait duration="7" commMode="NULL" />
+    <motion head="LEFT_UP2" rightArm="POSITION 0" leftArm="POSITION 3" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="7" commMode="NULL" />
+    <motion head="CENTER" rightArm="POSITION 0" leftArm="POSITION 0" commMode="MQTT_PUB" pubTopic="MOTION" />
 
     
-    <led animation="STOP" />
-    <motion head="CENTER" />
+    <led animation="STOP" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <motion head="CENTER" commMode="MQTT_PUB" pubTopic="MOTION" />
     
-    <talk>That is all folks</talk>
-    <wait duration="1000" />
-    <talk>Good bye!</talk>
-    <light state="OFF" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">That is all folks</talk>
+    <wait duration="1" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Good bye!</talk>
+    <light state="OFF" commMode="MQTT_PUB" pubTopic="LIGHT" color="WHITE" />
   </script>
 </evaml>

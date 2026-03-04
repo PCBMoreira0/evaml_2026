@@ -4,7 +4,7 @@
   xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <settings>
-    <voice type="en-US_AllisonExpressive" pitchShift="5"/>
+    <voice type="en-US_AllisonExpressive" />
     <lightEffects mode="ON" />
     <audioEffects mode="ON" />
   </settings>
@@ -18,7 +18,7 @@
     <talk>My name is Eva.</talk>
     <audio source="efx-blin2" block="TRUE" />
     <talk>I am a social robot.</talk>
-    <wait duration="1500" />
+    <wait duration="2" />
     <talk>I can be used in healthcare and educational applications</talk>
     <audio source="efx-blin2" block="TRUE" />
     <talk>Now, I will initiate a test of all my capabilities</talk>
@@ -28,44 +28,44 @@
     <talk>I will start testing the smart bulb</talk>
     <audio source="efx-display" block="FALSE" />
     <light state="ON" color="WHITE"/>
-    <wait duration="1000" />
+    <wait duration="1" />
     <audio source="efx-display" block="FALSE" />
     <light state="ON" color="BLUE"/>
-    <wait duration="1000" />
+    <wait duration="1" />
     <audio source="efx-display" block="FALSE" />
     <light state="ON" color="GREEN"/>
-    <wait duration="1000" />
+    <wait duration="1" />
     <audio source="efx-display" block="FALSE" />
     <light state="ON" color="RED"/>
-    <wait duration="1000" />
+    <wait duration="1" />
     <audio source="efx-display" block="FALSE" />
     <light state="ON" color="YELLOW"/>
-    <wait duration="1000" />
+    <wait duration="1" />
 
 
     <!-- Eva expressions - Display test -->
     <talk>I can express emotions using my gaze and I will test it now</talk>
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="HAPPY" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="SAD" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="ANGRY" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="FEAR" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="SURPRISE" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="DISGUST" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <audio source="efx-blin2" block="FALSE" />
     <evaEmotion emotion="INLOVE" />
-    <wait duration="2000" />
+    <wait duration="2" />
 
     
     <!-- Leds animation test -->
@@ -74,50 +74,50 @@
     <audio source="efx-robot" block="FALSE" />
     <light state="ON" color="GREEN" />
     <led animation="HAPPY" />
-    <wait duration="5000" />
+    <wait duration="5" />
     <audio source="efx-robot" block="FALSE" />
     <light state="ON" color="RED" />
     <led animation="ANGRY" />
-    <wait duration="5000" />
+    <wait duration="5" />
     <audio source="efx-robot" block="FALSE" />
     <light state="ON" color="YELLOW" />
     <led animation="SURPRISE" />
-    <wait duration="5000" />
+    <wait duration="5" />
     <audio source="efx-robot" block="FALSE" />
     <light state="ON" color="WHITE"/>
     <led animation="RAINBOW" />
-    <wait duration="5000" />
+    <wait duration="5" />
 
     <!-- Head movement test -->
     <led animation="STOP" />
     <talk>I have non verbal capabilities so I can move my head</talk>
-    <wait duration="1000"/>
+    <wait duration="1"/>
     <talk>I can move up</talk>
     <audio source="efx-robot-head" block="FALSE" />
     <motion type="2UP" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <motion type="CENTER" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <talk>I can move down</talk>
     <audio source="efx-robot-head" block="FALSE" />
     <motion type="2DOWN" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <motion type="CENTER" />
-    <wait duration="2000" />
+    <wait duration="2" />
     <talk>I can say no</talk>
     <light state="ON" color="RED"/>
     <led animation="ANGRY" />
     <evaEmotion emotion="ANGRY" />
     <motion head="DOWN"/>
-    <wait duration="1000" />
+    <wait duration="1" />
     <motion type="NO" />
-    <wait duration="4000" />
+    <wait duration="4" />
     <talk>and I can say yes</talk>
     <led animation="HAPPY" />
     <light state="ON" color="GREEN"/>
     <evaEmotion emotion="HAPPY" />
     <motion type="2YES" />
-    <wait duration="4000" />
+    <wait duration="4" />
     <evaEmotion emotion="NEUTRAL" />
     <motion head="CENTER"/>
     <light state="ON" color="WHITE"/>
@@ -126,15 +126,15 @@
     <talk>I can move my right arm</talk>
     <audio source="efx-robot-arm" block="FALSE" />
     <motion rightArm="POSITION 3"/>
-    <wait duration="2000" />
+    <wait duration="2" />
     <talk>I can move my left arm</talk>
     <audio source="efx-robot-arm" block="FALSE" />
     <motion leftArm="POSITION 2"/>
-    <wait duration="2000" />
+    <wait duration="2" />
     <talk>and I can shake my arms</talk>
     <audio source="song-samba-loop" block="FALSE" />
     <motion leftArm="SHAKE2" rightArm="SHAKE2"/>
-    <wait duration="6000" />
+    <wait duration="6" />
     <motion rightArm="POSITION 0" leftArm="POSITION 0"/>
 
     <!-- Sound play test -->
@@ -145,9 +145,9 @@
     <led animation="SURPRISE" />
     <motion head="RIGHT_UP2" rightArm="POSITION 3" leftArm="POSITION 0"/>
     <evaEmotion emotion="HAPPY" />
-    <wait duration="7000" />
+    <wait duration="7" />
     <motion head="LEFT_UP2" rightArm="POSITION 0" leftArm="POSITION 3"/>
-    <wait duration="7000" />
+    <wait duration="7" />
     <motion head="CENTER" rightArm="POSITION 0" leftArm="POSITION 0"/>
 
     <!-- Listening test -->
@@ -159,7 +159,7 @@
     <talk>Hello $</talk>
     <talk>How are you?</talk> -->
     <talk>That is all folks</talk>
-    <wait duration="1000" />
+    <wait duration="1" />
     <talk>Good bye!</talk>
     <light state="OFF" />
   </script>
