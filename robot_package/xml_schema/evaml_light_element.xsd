@@ -20,6 +20,8 @@ Revision: 2025/04/16
 		<xs:complexType>
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
 			<xs:attribute name="pubTopic" type="xs:string" fixed="LIGHT"/>
+			<xs:attribute name="ipAdress" type="xs:string" default="192.168.99.11"/>
+			<xs:attribute name="ipPort" type="xs:string" default="55443"/>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="state" type="lightStateType" use="required"/>
 			<xs:attribute name="color" type="lightColorType" default="WHITE"/>

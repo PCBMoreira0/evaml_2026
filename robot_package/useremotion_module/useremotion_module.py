@@ -31,7 +31,7 @@ class CommandHandler(BaseCommandHandler):
         """ Node handling function """
 
         if memory.running_mode == "simulator":
-            topic_base = config.SIMULATOR_TOPIC_BASE
+            topic_base = robot_profile.SIMULATOR_BASE_TOPIC
         elif memory.running_mode == "robot":
             topic_base = robot_profile.ROBOT_TOPIC_BASE
         else:

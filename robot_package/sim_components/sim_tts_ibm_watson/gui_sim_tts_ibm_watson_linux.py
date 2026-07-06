@@ -1,11 +1,30 @@
 from tkinter import *
 import tkinter
 from  tkinter import ttk # Using tables
+import os
+import sys
+
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+
+# Adiciona o diretório pai ao path
+# Caminho do diretório atual (onde está este script)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# Sobe três níveis
+parent_dir = os.path.abspath(os.path.join(current_dir, "../../.."))
+sys.path.append(parent_dir)
+parent_dir = os.path.abspath(os.path.join(current_dir, "../.."))
+sys.path.append(parent_dir)
+
 
 # Closing application
 def on_closing(window, self):
     # if messagebox.askokcancel("Quit", "Do you want to quit?"):
-    print("Eva says: Bye bye!")
+    print("Bye bye!")
     self.estado = "stopped"
     window.destroy()
     
@@ -37,12 +56,12 @@ class Gui(ttk.Frame):
 
         self.frame_top.pack(side=tkinter.TOP)
 
-        # Defining the image files
-        self.tts_ibm_0 = PhotoImage(file = "sim_tts_ibm_watson/images/tts_ibm_0.png")
-        self.tts_ibm_1 = PhotoImage(file = "sim_tts_ibm_watson/images/tts_ibm_1.png")
-        self.tts_ibm_2 = PhotoImage(file = "sim_tts_ibm_watson/images/tts_ibm_2.png")
-        self.tts_ibm_3 = PhotoImage(file = "sim_tts_ibm_watson/images/tts_ibm_3.png")
-        self.tts_ibm_4 = PhotoImage(file = "sim_tts_ibm_watson/images/tts_ibm_4.png")
+        # Defining the image files /home/mrocha/MEGA/meus-codigos-2025/repositorios_git/evaml_2026/robot_package/sim_components/sim_tts_ibm_watson/images/tts_ibm_0.png
+        self.tts_ibm_0 = PhotoImage(file = BASE_DIR / "images/tts_ibm_0.png")
+        self.tts_ibm_1 = PhotoImage(file = BASE_DIR / "images/tts_ibm_1.png")
+        self.tts_ibm_2 = PhotoImage(file = BASE_DIR / "images/tts_ibm_2.png")
+        self.tts_ibm_3 = PhotoImage(file = BASE_DIR / "images/tts_ibm_3.png")
+        self.tts_ibm_4 = PhotoImage(file = BASE_DIR / "images/tts_ibm_4.png")
 
         # Define the frame that will accommodate the canvas with the EVA image
         self.frame_robot = tkinter.Frame(master=self.frame_top, width= 360) #self.h

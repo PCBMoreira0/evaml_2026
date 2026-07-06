@@ -1,3 +1,6 @@
+# Todos os valores na memória do robô são armazenados como strings, inclusive as representações de vetores VAD.
+# Sendo de responsabildade de quem usa essas variáveis a conversão para o tipo adequado.
+
 class RobotMemory(): # 
     def __init__(self):
         # Is equivalent to the $ of the original Eva VPL software.
@@ -6,6 +9,15 @@ class RobotMemory(): #
 
         # Eva ram (a key/value dictionary)
         self.vars = {}
+
+        # System vars (a  key/value dictionary)
+        self.system_vars = {}
+
+        # LLM vars (a  key/value dictionary)
+        self.llm_vars = {}
+
+        # Flag de inicialização da LLM
+        self.llm_vars["LLM_INIT"] = False
 
         # Stack of return nodes, used in script execution.
         self.node_stack = []
@@ -33,14 +45,23 @@ class RobotMemory(): #
         # Format {"Element name" : ["element_type (str)", <elment_reference>]}
         self.tab_ids = {} # Identify scrpit elements
         
-        # Default voice type
-        self.default_voice = None
-
-        # Default voice pitch
-        self.default_voice_pitch_shift = 0
-
         # Base topic for MQTT messages
         self.base_topic = None
+
+        # [0, 1] values
+        self.empathy = "0"
+
+        # [0, 1] values
+        self.emotion_decay = "0"
+
+        # String representando um vetor do tipo VAD "0.1, 0.2, 0.3". VAD vector ([0, 1] values))
+        self.base_mood = "0.0, 0.0, 0.0"
+
+        # String representando um vetor do tipo VAD "0.1, 0.2, 0.3". VAD vector ([0, 1] values))
+        self.robot_affective_state = "0.0, 0.0, 0.0"
+
+        # String representando um vetor do tipo VAD "0.1, 0.2, 0.3". VAD vector ([0, 1] values))
+        self.user_affective_state = "0.0, 0.0, 0.0"
 
 
     # Setters and Getters 
@@ -58,6 +79,9 @@ class RobotMemory(): #
     
     def getVars(self):
         return self.vars
+    
+    def getSystemVars(self):
+        return self.system_vars
     
     def get_node_stack(self):
         return self.node_stack
@@ -103,7 +127,7 @@ class RobotMemory(): #
         if mode == "terminal" or mode == "terminal-plus":
             self.set_base_topic(config_file_ref.TERMINAL_BASE_TOPIC)
         elif mode == "simulator":
-            self.set_base_topic(config_file_ref.SIMULATOR_BASE_TOPIC)
+            self.set_base_topic(robot_profile_ref.SIMULATOR_BASE_TOPIC)
         elif mode == "robot":
             self.set_base_topic(robot_profile_ref.ROBOT_BASE_TOPIC)
 
@@ -152,6 +176,66 @@ class RobotMemory(): #
     def get_default_voice_pitch_shift(self):
         return self.default_voice_pitch_shift
     
+    # System Vars
+    def set_empathy(self, value):
+        self.system_vars["EMPATHY"] = value
+
+    def set_decay(self, value):
+        self.system_vars["EMOTION_DECAY"] = value
+
+    def set_base_mood(self, value):
+        self.system_vars["BASE_MOOD"] = value
+
+    def set_robot_affective_state(self, value): # Value é uma string representando um vetor do tipo VAD "0.1, 0.2, 0.3"
+        self.system_vars["ROBOT_AFFECTIVE_STATE"] = value
+
+    def set_user_affective_state(self, value): # Value é uma string representando um vetor do tipo VAD "0.1, 0.2, 0.3"
+        self.system_vars["USER_AFFECTIVE_STATE"] = value
+
+    def get_empathy(self):
+        return self.system_vars["EMPATHY"]
+
+    def get_decay(self):
+        return self.system_vars["EMOTION_DECAY"]
+    
+    def get_base_mood(self):
+        return self.system_vars["BASE_MOOD"]
+    
+    def get_robot_affective_state(self):
+        return self.system_vars["ROBOT_AFFECTIVE_STATE"]
+    
+    def get_user_affective_state(self):
+        return self.system_vars["USER_AFFECTIVE_STATE"]
+
+    # LLM Configuration Vars
+    def set_llm_temperature(self, value):
+        self.llm_vars["TEMPERATURE"] = value
+
+    def set_llm_num_predict(self, value):
+        self.llm_vars["NUM_PREDICT"] = value
+
+    def get_llm_temperature(self):
+        return self.llm_vars["TEMPERATURE"]
+
+    def get_llm_num_predict(self):
+        return self.llm_vars["NUM_PREDICT"]
+    
+    def set_llm_messages(self, value):
+        if "MESSAGES" in self.llm_vars:
+            self.llm_vars["MESSAGES"].append(value)
+        else:
+            self.llm_vars["MESSAGES"] = [value]
+
+    def get_llm_messages(self):
+        return self.llm_vars["MESSAGES"]
+    
+    def set_llm_init(self):
+        self.llm_vars["LLM_INIT"] = True
+
+    def get_llm_init(self):
+        return self.llm_vars["LLM_INIT"]
+
+
     def reset_memory(self): # 
         # 
         self.var_dollar = []
@@ -163,3 +247,12 @@ class RobotMemory(): #
         self.running_mode = 'terminal'
         self.robot_response = None
         self.robot_state = "free"
+        self.system_vars["EMPATHY"] = "0"
+        self.system_vars["EMOTION_DECAY"] = "0"
+        self.system_vars["BASE_MOOD"] = "0.0, 0.0, 0.0" # VAD
+        self.system_vars["ROBOT_AFFECTIVE_STATE"] = "0.0, 0.0, 0.0" # VAD
+        self.system_vars["USER_AFFECTIVE_STATE"] = "0.0, 0.0, 0.0" # VAD
+        self.llm_vars = {}
+        self.llm_vars["LLM_INIT"] = False
+
+

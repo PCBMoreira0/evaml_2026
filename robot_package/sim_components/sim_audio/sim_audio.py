@@ -7,13 +7,15 @@ from tkinter import *
 # from  tkinter import ttk # Using tables
 
 import sys
+
 import os
 
-# Adiciona o diretório pai ao path
-# Caminho do diretório atual (onde está este script)
-current_dir = os.path.dirname(os.path.abspath(__file__))
-# Sobe três níveis
-parent_dir = os.path.abspath(os.path.join(current_dir, "../../.."))
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+parent_dir = os.path.abspath(os.path.join(BASE_DIR, "../../.."))
+sys.path.append(parent_dir)
+parent_dir = os.path.abspath(os.path.join(BASE_DIR, "../.."))
 sys.path.append(parent_dir)
 
 
@@ -21,9 +23,15 @@ import platform
 
 import config # Module with network device configurations.
 
+import robot_profile
+
+
 broker = config.MQTT_BROKER_ADRESS # Broker address.
 port = config.MQTT_PORT # Broker Port.
-base_topic = config.SIMULATOR_BASE_TOPIC
+response_topic = robot_profile.ROBOT_BASE_TOPIC
+sim_base_topic = robot_profile.SIMULATOR_BASE_TOPIC
+robot_base_topic = robot_profile.ROBOT_BASE_TOPIC
+
 
 x_pos = 90
 y_pos = 80
@@ -56,42 +64,43 @@ gui = gui_sim_audio.Gui(window) # Instance of the Gui class within the graphical
 
 # Play a Sound or a Speech
 def playsound(file_path, audio_file, type, block = True):
-        if type == "audio":
-            # client.publish(base_topic + "/log", "Playing the sound: " + audio_file)
-            audio_format = ".wav" # config.AUDIO_EXTENSION
-        elif type == "speech":
-            audio_format = config.WATSON_AUDIO_EXTENSION
-            # client.publish(base_topic + "/log", "EVA spoke the text and is free now.")
-        
-        if block == True:
-            print('Playing audio in BLOCKING mode.')
-            # Start the thread animation
-            event_anim_state.set()
-            # Criação de uma instância de Thread
-            threading.Thread(target=anim, args=(event_anim_state,)).start()
-            play = subprocess.Popen(['play', file_path + audio_file + audio_format], stdout=subprocess.PIPE)
-            play.communicate()[0]
-            # End of animation
-            event_anim_state.clear()
-            client.publish(base_topic + "/robot_response", "state|free", qos=2) # Libera o robô.
-        else:
-            print('Playing audio in NON-BLOCKING mode.')
+    if type == "audio":
+        # client.publish(base_topic + "/log", "Playing the sound: " + audio_file)
+        audio_format = ".wav" # config.AUDIO_EXTENSION
+    elif type == "speech":
+        audio_format = config.PIPER_AUDIO_EXTENSION
+        # client.publish(base_topic + "/log", "EVA spoke the text and is free now.")
+    
+    if block == True:
+        print('Playing audio in BLOCKING mode.')
+        # Start the thread animation
+        event_anim_state.set()
+        # Criação de uma instância de Thread
+        threading.Thread(target=anim, args=(event_anim_state,)).start()
+        file_to_play = (BASE_DIR / file_path / (audio_file + audio_format)).resolve()
+        play = subprocess.Popen(['play', file_to_play], stdout=subprocess.PIPE)
+        play.communicate()[0]
+        # End of animation
+        event_anim_state.clear()
+    else:
+        print('Playing audio in NON-BLOCKING mode.')
 
-            # Start the thread animation
-            event_anim_state.set()
-            # Criação de uma instância de Thread
-            threading.Thread(target=anim, args=(event_anim_state,)).start()
-            play = subprocess.Popen(['play', file_path + audio_file + audio_format], stdout=subprocess.PIPE)
-            play.communicate()[0]
-            # End of animation
-            event_anim_state.clear()
+        # Start the thread animation
+        event_anim_state.set()
+        # Criação de uma instância de Thread
+        threading.Thread(target=anim, args=(event_anim_state,)).start()
+        file_to_play = (BASE_DIR / file_path / (audio_file + audio_format)).resolve()
+        play = subprocess.Popen(['play', file_to_play], stdout=subprocess.PIPE)
+        play.communicate()[0]
+        # End of animation
+        event_anim_state.clear()
 
         
 
 # The speech is always of the type (Blocking).
 # The playsound function is responsible for setting the robot's state to "FREE".
 def speech(audio_file, block = True):
-    file_path = "sim_tts_piper/tts_cache_files/"
+    file_path = "tts_cache_files"
     # Start the thread animation
     event_anim_state.set()
     # Criação de uma instância de Thread
@@ -105,14 +114,16 @@ def speech(audio_file, block = True):
 def on_connect(client, userdata, flags, rc):
     # Subscribing in on_connect() means that if we lose the connection and
     # Reconnect then subscriptions will be renewed.
-    client.subscribe(topic=[(base_topic + '/AUDIO', 1), ])
-    client.subscribe(topic=[(base_topic + '/SPEECH', 1), ])
+    client.subscribe(topic=[(sim_base_topic + '/AUDIO', 1), ])
+    client.subscribe(topic=[(sim_base_topic + '/SPEECH', 1), ])
+    client.subscribe(topic=[(robot_base_topic + '/AUDIO', 1), ])
+    client.subscribe(topic=[(robot_base_topic + '/SPEECH', 1), ])
     print("Audio Module - Connected.")
 
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
-    if msg.topic == base_topic + '/AUDIO':
+    if (msg.topic == sim_base_topic + '/AUDIO') or (msg.topic == robot_base_topic + '/AUDIO'):
         file_name = msg.payload.decode().split("|")[0]
         block = msg.payload.decode().split("|")[1]
         if block == "TRUE":
@@ -120,16 +131,18 @@ def on_message(client, userdata, msg):
             event_anim_state.set()
             # Criação de uma instância de Thread
             threading.Thread(target=anim, args=(event_anim_state,)).start()
-            playsound("robot_package/sim_components/sim_audio/audio_files/", file_name, "audio", True)
-            # client.publish(base_topic + "/robot_response", "state|free", qos=2) # Libera o robô.
+            
+            playsound("audio_files/", file_name, "audio", True)
+            client.publish(response_topic + "/AUDIO_RESPONSE", "state|free", qos=2) # Libera o robô.
             # Draw the sound speaker
             event_anim_state.clear()
         else:
-            playsound("robot_package/sim_components/sim_audio/audio_files/", file_name, "audio", False) 
+            playsound("audio_files/", file_name, "audio", False) 
 
-    if msg.topic == base_topic + '/SPEECH':
+    if (msg.topic == sim_base_topic + '/SPEECH') or (msg.topic == robot_base_topic + '/SPEECH'):
         file_name = msg.payload.decode()
         speech(file_name, True) # Speech always runs in "Blocking" mode.
+        client.publish(response_topic + "/TALK_RESPONSE", "state|free", qos=2) # Libera o robô.
 
 
 # Run the MQTT client thread.

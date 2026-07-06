@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml name="hello-world">
+  <settings>
+    <voice type="pt-BR_IsabelaV3Voice" />
+  </settings>
+  <script>
+    <talk>o valor de x é #x</talk>
+  </script>
+</evaml>

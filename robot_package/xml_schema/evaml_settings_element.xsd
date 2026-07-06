@@ -17,8 +17,10 @@ Revision: 2025/04/16
 
     <!-- Including referenced elements -->
 	<xs:include schemaLocation="./evaml_voice_element.xsd"></xs:include>
-	<xs:include schemaLocation="./evaml_lightEffects_element.xsd"></xs:include>
-	<xs:include schemaLocation="./evaml_audioEffects_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_lighteffects_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_audioeffects_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_robotaffectiveprofile_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_llmrobotprofile_element.xsd"></xs:include>
 
     <!-- ** Settings section definition ** -->
 	<xs:element name="settings">
@@ -27,6 +29,8 @@ Revision: 2025/04/16
 				<xs:element ref="voice" minOccurs="1" maxOccurs="1"/>
 				<xs:element ref="lightEffects" minOccurs="0" maxOccurs="1"/>
 				<xs:element ref="audioEffects" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="robotAffectiveProfile" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="llmRobotProfile" minOccurs="0" maxOccurs="1"/>
 			</xs:all>
 		</xs:complexType>
 	</xs:element>

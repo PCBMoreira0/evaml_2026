@@ -34,11 +34,13 @@ class CommandHandler(BaseCommandHandler):
                     "YELLOW": "[b white on yellow ] ON [/]",
                     "WHITE": "[b reverse white] ON [/]"
                     }
-        print("[b white]State: Setting [/]the [b white]Smart Bulb[/]. 💡 " + tab_colors[light_color])
+        print("[b white]State: Setting [/]the [b white]Smart Bulb[/]. (IP:" + xml_node.get('ipAdress') + ", PORT:" + xml_node.get('ipPort') + "). 💡 " + tab_colors[light_color])
         
         base_topic = memory.get_base_topic()
 
-        if base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
+        message += ("|" + xml_node.get('ipAdress') + "|" + xml_node.get('ipPort'))
+
+        if base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
             self.send(topic_base=base_topic, mqtt_message=message)
 
 

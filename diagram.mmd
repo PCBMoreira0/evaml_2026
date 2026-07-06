@@ -1,0 +1,111 @@
+classDiagram
+    %% Relações de Interface e Herança
+    CommunicatorInterface <|.. NullCommunicator : Implements
+    CommunicatorInterface <|.. PubMqttCommunicator : Implements
+    CommunicatorInterface <|.. PubSubMqttComunicator : Implements
+    CommunicatorInterface <|.. HttpCommunicator : Implements
+
+    %% Relações de Associação e Dependência
+    CommunicatorFactory ..> CommunicatorInterface : Creates
+    ModuleLoader --> CommunicatorFactory : Uses
+    ScriptEngine --> ModuleLoader : Uses
+    ScriptEngine --> RobotMemory : Manages
+    ScriptEngine ..> ScriptMetadata : Uses
+
+    class CommunicatorInterface {
+        <<interface>>
+        +send(**kwargs)*
+        +receive() dict*
+    }
+
+    class NullCommunicator {
+        +send(**kwargs)
+        +receive() dict
+    }
+
+    class PubMqttCommunicator {
+        +client: mqtt.Client
+        +pub_topic: str
+        +topic_base: str
+        +__init__(xml_node)
+        +send(**kwargs)
+        +receive() dict
+        #_on_connect(client, userdata, flags, rc)
+    }
+
+    class PubSubMqttComunicator {
+        +client: mqtt.Client
+        +pub_topic: str
+        +sub_topic: str
+        +response_queue: Queue
+        +topic_base: str
+        +__init__(node_xml)
+        +send(**kwargs)
+        +receive() dict
+        #_on_connect(client, userdata, flags, rc)
+        #_on_message(client, userdata, msg)
+    }
+
+    class HttpCommunicator {
+        +xml_node: xml
+        +base_url: str
+        +__init__(xml_node)
+        +send(**kwargs)
+        +receive() dict
+    }
+
+    class CommunicatorFactory {
+        +create_communicator(xml_node) CommunicatorInterface
+    }
+
+    class ModuleLoader {
+        +comm_factory: CommunicatorFactory
+        +__init__()
+        +import_modules(xml_root, verbose_mode) dict
+        -__identify_elements(xml_root, verbose_mode) dict
+    }
+
+    class RobotMemory {
+        +var_dollar: list
+        +vars: dict
+        +node_stack: list
+        +flag_case: bool
+        +op_switch: str
+        +running_mode: str
+        +robot_response: any
+        +robot_state: str
+        +log_seq_numbers: dict
+        +tab_ids: dict
+        +default_voice: str
+        +default_voice_pitch_shift: int
+        +base_topic: str
+        +empathy: float
+        +emotion_decay: float
+        +base_mood: list
+        +robot_affective_sate: list
+        +__init__()
+        +setDollar(value)
+        +getDollar() list
+        +setVar(var_name, value)
+        +getVar(var_name) any
+        +getVars() dict
+        +node_stack_push(value)
+        +node_stack_pop() any
+        +set_running_mode(config, profile, mode)
+        +reset_memory()
+    }
+
+    class ScriptEngine {
+        -__state: str
+        -__robot_memory: RobotMemory
+        -__root: xml_node
+        -__moduleloader: ModuleLoader
+        -__scriptmetadata: ScriptMetadata
+        +__init__()
+        +get_state() str
+        +load_script(script_file) bool
+        +initialize(verbose_mode) bool
+        +start_script(running_mode)
+        +play_next() bool
+        +reset() bool
+    }

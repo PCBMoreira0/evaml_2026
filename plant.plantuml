@@ -1,0 +1,132 @@
+@startuml
+skinparam ClassAttributeIconSize 0
+skinparam Monochrome false
+skinparam PackageStyle rectangle
+
+title Arquitetura Unificada (SENSEI / EvaSIM)
+
+' --- DEFINIÇÃO DAS CLASSES CORE E ATRIBUTOS ---
+
+class ScriptEngine {
+    - __state : String
+    - __robot_memory : RobotMemory
+    - __root : Object
+    - __moduleloader : ModuleLoader
+    + load_script(script_file : String) : Boolean
+    + initialize(verbose_mode : Boolean) : Boolean
+    + start_script(running_mode : String)
+    + play_next() : Boolean
+}
+
+class ModuleLoader {
+    + comm_factory : CommunicatorFactory
+    + import_modules(xml_root : Object, verbose : Boolean) : Dict
+}
+
+class RobotMemory {
+    + var_dollar : List
+    + vars : Dict
+    + node_stack : List
+    + tab_ids : Dict
+    + empathy : Float
+    + emotion_decay : Float
+    + setDollar(value : Any)
+    + setVar(var_name : String, value : Any)
+    + set_running_mode(config, profile, mode : String)
+}
+
+interface CommunicatorInterface {
+    + send(kwargs : Dict)
+    + receive() : Dict
+}
+
+class CommunicatorFactory {
+    + create_communicator(xml_node : Object) : CommunicatorInterface
+}
+
+abstract class BaseCommandHandler {
+    + xml_node : Object
+    + comms : CommunicatorInterface
+    + node_process(xml_node : Object, memory : RobotMemory) : Object
+}
+
+' --- CLASSES DERIVADAS DE COMANDOS (EVAML) ---
+
+class TalkModule
+class AudioModule
+class LedModule
+class MotionModule
+class PoseModule
+class QrreadModule
+class RobotpersonalityModule
+class TextEmotionModule
+class UserEmotionModule
+class UseridModule
+class WaitModule
+class CaseModule
+class CounterModule
+class GotoModule
+class LogModule
+class UsemacroModule
+
+' --- INFRAESTRUTURA DO SIMULADOR ---
+
+class SimComponents
+class SimLight
+class SimTtsIbmWatson
+class GuiLight
+class GuiWatson
+
+' --- ORGANIZAÇÃO DOS PACOTES ---
+
+package "Interpretador e Estado" {
+    ScriptEngine .. ModuleLoader
+    ModuleLoader .. RobotMemory
+}
+
+package "Padrão Strategy (Rede)" {
+    CommunicatorInterface <|.. NullCommunicator
+    CommunicatorInterface <|.. PubMqttCommunicator
+    CommunicatorInterface <|.. PubSubMqttComunicator
+    CommunicatorInterface <|.. HttpCommunicator
+    CommunicatorFactory .. CommunicatorInterface
+}
+
+package "Atuação e Percepção" {
+    BaseCommandHandler <|-- TalkModule
+    BaseCommandHandler <|-- AudioModule
+    BaseCommandHandler <|-- LedModule
+    BaseCommandHandler <|-- MotionModule
+    BaseCommandHandler <|-- PoseModule
+    BaseCommandHandler <|-- QrreadModule
+    BaseCommandHandler <|-- RobotpersonalityModule
+    BaseCommandHandler <|-- TextEmotionModule
+    BaseCommandHandler <|-- UserEmotionModule
+    BaseCommandHandler <|-- UseridModule
+}
+
+package "Fluxo e Lógica" {
+    BaseCommandHandler <|-- WaitModule
+    BaseCommandHandler <|-- CaseModule
+    BaseCommandHandler <|-- CounterModule
+    BaseCommandHandler <|-- GotoModule
+    BaseCommandHandler <|-- LogModule
+    BaseCommandHandler <|-- UsemacroModule
+}
+
+package "Ambiente Simulador (EvaSIM)" {
+    SimComponents .. SimLight
+    SimComponents .. SimTtsIbmWatson
+    SimLight --> GuiLight
+    SimTtsIbmWatson --> GuiWatson
+}
+
+' --- RELACIONAMENTOS GLOBAIS ---
+
+ScriptEngine --> ModuleLoader
+ScriptEngine --> RobotMemory
+ModuleLoader --> CommunicatorFactory
+ModuleLoader ..> BaseCommandHandler : "Instancia"
+BaseCommandHandler --> CommunicatorInterface
+
+@enduml

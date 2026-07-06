@@ -2,11 +2,25 @@ from tkinter import *
 import tkinter
 from  tkinter import ttk # Using tables
 
+import sys
+
+import os
+
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+parent_dir = os.path.abspath(os.path.join(BASE_DIR, "../../.."))
+sys.path.append(parent_dir)
+parent_dir = os.path.abspath(os.path.join(BASE_DIR, "../.."))
+sys.path.append(parent_dir)
+parent_dir = os.path.abspath(os.path.join(BASE_DIR, ".."))
+sys.path.append(parent_dir)
+
 
 # Closing application
 def on_closing(window):
     # if messagebox.askokcancel("Quit", "Do you want to quit?"):
-    print("Eva says: Bye bye!")
+    print("Bye bye!")
     window.destroy()
     
 
@@ -37,7 +51,7 @@ class Gui(ttk.Frame):
         self.frame_top.pack(side=tkinter.TOP)
 
         # Defining the image files
-        self.bulb_image = PhotoImage(file = "robot_package/sim_components/sim_light/images/bulb.png")
+        self.bulb_image = PhotoImage(file = (BASE_DIR / "images/bulb.png").resolve())
 
         # Define the frame that will accommodate the canvas with the EVA image
         self.frame_robot = tkinter.Frame(master=self.frame_top, width= 360) #self.h

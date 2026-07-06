@@ -1,0 +1,53 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Schema for the EvaML Language
+This is EvaML
+Copyright : 2024 MIDIACOM LAB, All Rights Reserved.
+See https://www.midiacom.uff.br
+PublicURI : https://github.com/midiacom/eva-robot/blob/master/EvaML-EvaSIM-source-code/Linux%20Version/EvaML-Schema/evaml_schema.xsd
+
+Developed by Marcelo Marques da Rocha
+MidiaCom Laboratory - Universidade Federal Fluminense
+This work was funded by CAPES and Google Research
+
+Revision: 2025/04/16
+-->
+	<!-- Including the EVAML basic type definitions -->
+    <xs:include schemaLocation="./evaml_basic_types.xsd"></xs:include>
+
+    <!-- EVAML voice command definition ** -->
+	<xs:element name="robotAffectiveProfile">
+		<xs:complexType>
+			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
+			<xs:attribute name="pubTopic" type="xs:string" fixed="ROBOT_PERSONALITY"/>
+			<xs:attribute name="profile" type="robotAffectiveProfileType" />
+			<xs:attribute name="empathy" type="coefficientType" default="0.0"/>
+			<xs:attribute name="decay" type="coefficientType" default="0.0"/>
+			<xs:attribute name="baseMood" type="vadList" default="0.0, 0.0, 0.0"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:simpleType name="robotAffectiveProfileType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NEUTRAL"/>
+			<xs:enumeration value="EMPATHETIC"/>
+			<xs:enumeration value="THERAPIST"/> 
+			<xs:enumeration value="OPTIMISTIC"/> 
+			<xs:enumeration value="MELANCHOLIC"/> 
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="coefficientType">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0.0"/>
+      <xs:maxInclusive value="1.0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="vadList">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="-?(1(\.0+)?|0(\.[0-9]+)?),\s*-?(1(\.0+)?|0(\.[0-9]+)?),\s*-?(1(\.0+)?|0(\.[0-9]+)?)"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

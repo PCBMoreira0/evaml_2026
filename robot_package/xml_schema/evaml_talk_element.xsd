@@ -24,7 +24,6 @@ Revision: 2025/04/16
 			<xs:attribute name="subTopic" type="xs:string" fixed="TALK_RESPONSE"/>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="voiceType" type="voiceType"/>
-			<xs:attribute name="pitchShift" type="pitchShiftType"/>
 		</xs:complexType>
 	</xs:element>
 

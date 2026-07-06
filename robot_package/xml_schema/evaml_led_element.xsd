@@ -19,25 +19,72 @@ Revision: 2025/04/16
 	<xs:element name="led">
 		<xs:complexType>
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
-			<xs:attribute name="pubTopic" type="xs:string" fixed="LEDS"/>
+            <!-- FRED uses lowercase in topics -->
+			<xs:attribute name="pubTopic" type="xs:string" fixed="leds"/>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="animation" type="ledAnimationType" use="required"/>
 		</xs:complexType>
 	</xs:element>
 
-	<!-- Led type definition -->
+	<!-- Led type definition for FRED. We will define in uppercase, so conveting to lowercase in the module -->
 	<xs:simpleType name="ledAnimationType">
 		<xs:restriction base="xs:string">
+            <xs:enumeration value="GREEN"/>
+			<xs:enumeration value="BLUE"/>
+			<xs:enumeration value="RED"/>
+            <xs:enumeration value="RAINBOW"/>
+            <xs:enumeration value="BLACK"/>
+			<xs:enumeration value="WHITE"/>
+			<xs:enumeration value="PINK"/>
+			<xs:enumeration value="YELLOW"/>
+
 			<xs:enumeration value="HAPPY"/>
+			<xs:enumeration value="HAPPY0"/>
+			<xs:enumeration value="HAPPY1"/>
+			<xs:enumeration value="HAPPY2"/>
 			<xs:enumeration value="SAD"/>
+			<xs:enumeration value="SAD0"/>
+			<xs:enumeration value="SAD1"/>
+			<xs:enumeration value="SAD2"/>
 			<xs:enumeration value="ANGRY"/>
-            <xs:enumeration value="ANGRY2"/>
+			<xs:enumeration value="ANGRY0"/>
+			<xs:enumeration value="ANGRY1"/>
+			<xs:enumeration value="ANGRY2"/>
 			<xs:enumeration value="STOP"/>
 			<xs:enumeration value="SPEAK"/>
 			<xs:enumeration value="LISTEN"/>
 			<xs:enumeration value="SURPRISE"/>
-            <xs:enumeration value="WHITE"/>
-            <xs:enumeration value="RAINBOW"/>
+			<xs:enumeration value="SURPRISE0"/>
+			<xs:enumeration value="SURPRISE1"/>
+			<xs:enumeration value="SURPRISE2"/>
+			<!-- Mixed colors and emotions -->
+			<xs:enumeration value="GREEN_BLUE"/>
+			<xs:enumeration value="BLUE_GREEN"/>
+			<xs:enumeration value="GREEN_RED"/>
+			<xs:enumeration value="RED_GREEN"/>
+			<xs:enumeration value="GREEN_YELLOW"/>
+			<xs:enumeration value="YELLOW_GREEN"/>
+			<xs:enumeration value="BLUE_RED"/>
+			<xs:enumeration value="RED_BLUE"/>
+			<xs:enumeration value="BLUE_YELLOW"/>
+			<xs:enumeration value="YELLOW_BLUE"/>
+			<xs:enumeration value="YELLOW_RED"/>
+			<xs:enumeration value="RED_YELLOW"/>
+
+			<xs:enumeration value="HAPPY_SAD"/>
+			<xs:enumeration value="SAD_HAPPY"/>
+			<xs:enumeration value="HAPPY_ANGRY"/>
+			<xs:enumeration value="ANGRY_HAPPY"/>
+			<xs:enumeration value="HAPPY_SURPRISE"/>
+			<xs:enumeration value="SURPRISE_HAPPY"/>
+			<xs:enumeration value="SAD_ANGRY"/>
+			<xs:enumeration value="ANGRY_SAD"/>
+			<xs:enumeration value="SAD_SURPRISE"/>
+			<xs:enumeration value="SURPRISE_SAD"/>
+			<xs:enumeration value="SURPRISE_ANGRY"/>
+			<xs:enumeration value="ANGRY_SURPRISE"/>
+
+
 		</xs:restriction>
 	</xs:simpleType>
 	

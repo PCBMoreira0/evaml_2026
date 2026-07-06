@@ -19,80 +19,31 @@ Revision: 2025/04/16
 	<xs:element name="motion">
 		<xs:complexType>
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
-			<xs:attribute name="pubTopic" type="xs:string" fixed="MOTION"/> <!-- Here it should be more topics. It needs to be solved... May be in the robot module... -->
+			<xs:attribute name="pubTopic" type="xs:string" fixed="move"/> <!-- Here it should be more topics. It needs to be solved... May be in the robot module... -->
 			<xs:attribute name="id" type="idType"/>
-			<xs:attribute name="type" type="headMotionListType"/> <!-- Still exists to maintain compatibility with the previous model -->
-			<!-- New head, leftArm and rightArm features -->
-			<xs:attribute name="head" type="headMotionListType"/>
-			<xs:attribute name="leftArm" type="armMotionListType"/>
-			<xs:attribute name="rightArm" type="armMotionListType"/>
+			<xs:attribute name="type" type="motionListType" use="required"/>
 		</xs:complexType>
 	</xs:element>
 
 	<!-- Motion type definition -->
-	<xs:simpleType name="headMotionListType">
+	<xs:simpleType name="motionListType">
 		<xs:restriction base="xs:string">
-			<!-- commands compatible with CICESE servomotor control software (previous version of XMLSchema). -->
-			<xs:enumeration value="YES"/>
-			<xs:enumeration value="2YES"/>
-			<xs:enumeration value="NO"/>
-			<xs:enumeration value="2NO"/>
-			<xs:enumeration value="CENTER"/>
+			<xs:enumeration value="FORWARD"/>
+			<xs:enumeration value="FORWARD2"/>
+			<xs:enumeration value="BACKWARD"/>
+			<xs:enumeration value="BACKWARD2"/>
 			<xs:enumeration value="LEFT"/>
+			<xs:enumeration value="LEFT_MOON"/>
 			<xs:enumeration value="RIGHT"/>
-			<xs:enumeration value="UP"/>
-			<xs:enumeration value="DOWN"/>
-			<xs:enumeration value="2UP"/>
-			<xs:enumeration value="2DOWN"/>
-			<xs:enumeration value="2RIGHT"/>
-			<xs:enumeration value="2LEFT"/>
-			<xs:enumeration value="DOWN_RIGHT"/>
-			<xs:enumeration value="2DOWN_RIGHT"/>
-			<xs:enumeration value="DOWN_LEFT"/>
-			<xs:enumeration value="2DOWN_LEFT"/>
-			<xs:enumeration value="UP_RIGHT"/>
-			<xs:enumeration value="2UP_RIGHT"/>
-			<xs:enumeration value="UP_LEFT"/>
-			<xs:enumeration value="2UP_LEFT"/>
-			<!-- commands based on the new servomotor control software using the Arduino board. -->
-			<xs:enumeration value="UP1"/>
-			<xs:enumeration value="UP2"/>
-			<xs:enumeration value="DOWN1"/>
-			<xs:enumeration value="DOWN2"/>
-			<xs:enumeration value="LEFT1"/>
-			<xs:enumeration value="LEFT2"/>
-			<xs:enumeration value="LEFT3"/>
-			<xs:enumeration value="RIGHT1"/>
-			<xs:enumeration value="RIGHT2"/>
-			<xs:enumeration value="RIGHT3"/>
-			<xs:enumeration value="LEFT_UP1"/>
-			<xs:enumeration value="LEFT_UP2"/>
-			<xs:enumeration value="LEFT_UP3"/>
-			<xs:enumeration value="RIGHT_UP1"/>
-			<xs:enumeration value="RIGHT_UP2"/>
-			<xs:enumeration value="RIGHT_UP3"/>
-			<xs:enumeration value="LEFT_DOWN1"/>
-			<xs:enumeration value="LEFT_DOWN2"/>
-			<xs:enumeration value="LEFT_DOWN3"/>
-			<xs:enumeration value="RIGHT_DOWN1"/>
-			<xs:enumeration value="RIGHT_DOWN2"/>
-			<xs:enumeration value="RIGHT_DOWN3"/>
-			<xs:enumeration value="CENTER_X"/>
-			<xs:enumeration value="CENTER_Y"/>
+			<xs:enumeration value="RIGHT_MOON"/>
+			<xs:enumeration value="MOONWALK"/>
+			<xs:enumeration value="MOONWALK2"/>
+			<xs:enumeration value="DANCE1"/>
+			<xs:enumeration value="DANCE1_2"/>
+			<xs:enumeration value="DANCE2"/>
+			<xs:enumeration value="DANCE2_2"/>
+			<xs:enumeration value="STOMPING_FOOT_R"/>
+			<xs:enumeration value="STOMPING_FOOT_L"/>
 		</xs:restriction>
 	</xs:simpleType>
-
-	<xs:simpleType name="armMotionListType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="POSITION 0"/> <!-- Move arm to starting position (0) -->
-			<xs:enumeration value="POSITION 1"/>
-			<xs:enumeration value="POSITION 2"/>
-			<xs:enumeration value="POSITION 3"/> <!-- Move arm to starting position (3) -->
-			<xs:enumeration value="UP"/> <!-- Move arm to next higher position -->
-			<xs:enumeration value="DOWN"/> <!-- Move arm to next lower position -->
-			<xs:enumeration value="SHAKE1"/> <!-- Swings arm up and down around current position (1 x cycle) -->
-			<xs:enumeration value="SHAKE2"/> <!-- Swing arm up and down around current position (2 x cycle) -->
-		</xs:restriction>
-	</xs:simpleType>
-	
 </xs:schema>

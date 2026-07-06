@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice type="pt_BR-faber-medium" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <pose type="LEFT_FOOT1" />
+    <wait duration="3" />
+    <pose type="LEFT_FOOT2" />
+    <wait duration="3" />
+    <pose type="RIGHT_FOOT1" />
+    <wait duration="3" />
+    <pose type="RIGHT_FOOT2" />
+    <wait duration="3" />
+    <pose type="SAD_FOOT_FAST" />
+    <wait duration="3" />
+    <pose type="NEUTRAL" />
+    <wait duration="3" />
+    <pose type="SAD_FOOT_SLOW" />
+    <wait duration="3" />
+    <pose type="NEUTRAL" />
+    <wait duration="3" />
+    <pose type="TIPTOE_FOOT" />
+    <wait duration="4" />
+    <pose type="NEUTRAL" />
+    <wait duration="3" />
+  </script>
+</evaml>

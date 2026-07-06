@@ -6,12 +6,7 @@ from rich import print
 
 import config # Module with network device configurations.
 
-from tts_ibm import TtsIBM
-
-import play_speech
-
 import robot_profile  # Module with network device configurations.
-
 
 
 from base_command_handler import BaseCommandHandler
@@ -95,30 +90,29 @@ class CommandHandler(BaseCommandHandler):
             print('[b white]"')
 
 
-        elif memory.get_running_mode() == "terminal-plus":
-            # Running in a special terminal mode. In this mode, TTS uses IBM Watson API.
-            tts_service = TtsIBM(xml_node) # Create the Text-To-Speech service obj.
-            play_speech_audio = play_speech.create_audio_player()
-            if xml_node.get("voiceType") == None:
-                tts_file_name = tts_service.make_tts_and_play(text_to_speech[ind_random], memory.get_default_voice()) # This method return file_name if TTS file generated is ok.
-            else:
-                tts_file_name = tts_service.make_tts_and_play(text_to_speech[ind_random], xml_node.get("voiceType"))
+        # elif memory.get_running_mode() == "terminal-plus":
+        #     # Running in a special terminal mode. In this mode, TTS uses IBM Watson API.
+        #     tts_service = TtsIBM(xml_node) # Create the Text-To-Speech service obj.
+        #     play_speech_audio = play_speech.create_audio_player()
+        #     if xml_node.get("voiceType") == None:
+        #         tts_file_name = tts_service.make_tts_and_play(text_to_speech[ind_random], memory.get_default_voice()) # This method return file_name if TTS file generated is ok.
+        #     else:
+        #         tts_file_name = tts_service.make_tts_and_play(text_to_speech[ind_random], xml_node.get("voiceType"))
 
-            if tts_file_name: # A file_name is None if the tts was wrong.
-                play_speech_audio.play(xml_node, text_to_speech[ind_random], tts_file_name)
+        #     if tts_file_name: # A file_name is None if the tts was wrong.
+        #         play_speech_audio.play(xml_node, text_to_speech[ind_random], tts_file_name)
 
         # Using the Simulator or the Robot
         elif base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
-
-            message = memory.default_voice + "|" + str(memory.get_default_voice_pitch_shift()) + "|" + text_to_speech[ind_random]
-
+            print('[b white]State:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"[/]', end="")
+            for c in text_to_speech[ind_random]:
+                print('[b white]' + c + '[/]', end="")
+            print('[b white]"')
+            if xml_node.get("voiceType") == None:
+                message = memory.default_voice + "|" + text_to_speech[ind_random]
+            elif xml_node.get("voiceType") != None:
+                message = xml_node.get("voiceType") + "|" + text_to_speech[ind_random]
             self.send(topic_base=base_topic, mqtt_message=message)
-        
-
-            # if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
-            #     print('[b white]State:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]$[/].')
-            # else:
-            #     print('[b white]State:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]' + xml_node.get("var") + '[/].')
 
             mqtt_response = self.receive() # self.receive() returns a dict {RESPONSE: "response"}
             

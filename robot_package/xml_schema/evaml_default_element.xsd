@@ -18,6 +18,7 @@ Revision: 2025/04/16
 	<!-- Including referenced elements -->
 	<xs:include schemaLocation="./evaml_loop_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_mqtt_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_llm_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_http_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_random_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_wait_element.xsd"></xs:include>
@@ -46,6 +47,7 @@ Revision: 2025/04/16
 			<xs:choice minOccurs="1" maxOccurs="unbounded">
 				<xs:element ref="loop"/>
 				<xs:element ref="mqtt"/>
+				<xs:element ref="llm"/>
 				<xs:element ref="http"/>
 				<xs:element ref="random"/>
 				<xs:element ref="wait"/>

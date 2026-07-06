@@ -19,9 +19,8 @@ class CommandHandler(BaseCommandHandler):
 
         # Search for id in tab_ids
         for key, value in memory.tab_ids.items():
-            if key == xml_node.get("macro") and value[0] == "macro":
-                # print("tyoe value", type(value))
-                # print("Valueeeee", value, "  key", key)
+            if key == xml_node.get("macro") and value[0] == "macro": # Returning a non-macro ID is not allowed.
+                
                 rprint("[b white]State:[/] Using macro [b white]" + key + "[/].")
                 return value[1] # Returns the macro associated with the found "id".
         

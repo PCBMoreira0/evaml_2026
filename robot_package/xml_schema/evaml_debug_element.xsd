@@ -30,6 +30,7 @@ Revision: 2025/04/16
 			<xs:enumeration value="PAUSE"/>
 			<xs:enumeration value="SHOW_DOLLAR_VAR"/>
 			<xs:enumeration value="SHOW_USER_VARS"/>
+			<xs:enumeration value="SHOW_SYSTEM_VARS"/>
 		</xs:restriction>
 	</xs:simpleType>
 

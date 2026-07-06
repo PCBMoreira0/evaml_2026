@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice type="pt_BR-faber-medium" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <evaEmotion emotion="NEUTRAL" />
+    <wait duration="2" />
+    <evaEmotion emotion="ANGRY" />
+    <wait duration="2" />
+    <evaEmotion emotion="ANGRY2" />
+    <wait duration="2" />
+    <evaEmotion emotion="AFRAID" />
+    <wait duration="2" />
+    <evaEmotion emotion="HAPPY" />
+    <wait duration="2" />
+    <evaEmotion emotion="IN_LOVE" />
+    <wait duration="2" />
+    <evaEmotion emotion="SAD" />
+    <wait duration="2" />
+    <evaEmotion emotion="SURPRISED" />
+    <wait duration="2" />
+    <evaEmotion emotion="BROKEN" />
+    <wait duration="2" />
+    <evaEmotion emotion="GREETINGS" />
+    <wait duration="2" />
+    <evaEmotion emotion="PLEASED" />
+    <wait duration="2" />
+    <evaEmotion emotion="SPEECH_ON_1" />
+    <wait duration="2" />
+    <evaEmotion emotion="SPEECH_OFF_1" />
+    <wait duration="2" />
+    <evaEmotion emotion="SPEECH_ON_2" />
+    <wait duration="2" />
+    <evaEmotion emotion="SPEECH_OFF_2" />
+    <wait duration="2" />
+  </script>
+</evaml>

@@ -9,7 +9,6 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <useMacro macro="idmacro" />
     <useMacro macro="idlight" />
   </script>
   <macros>
@@ -18,3 +17,4 @@
     </macro>
   </macros>
 </evaml>
+

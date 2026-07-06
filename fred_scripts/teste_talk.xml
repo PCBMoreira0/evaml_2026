@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice type="pt-BR_IsabelaV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+    <robotPersonality 
+      sensitivity="0.5"
+      decay="0.8"
+      baseMood="1, 1, 0.2"
+    />
+  </settings>
+  <script>
+    <light state="ON" color="GREEN"/>
+    <evaEmotion emotion="PLEASED" />
+    <led animation="GREEN" />
+    <evaEmotion emotion="SPEECH_ON_2" />
+    <talk voiceType="en-US_AllisonV3Voice">Hello, how are you?</talk>
+    <talk voiceType="pt-BR_IsabelaV3Voice">Gerando uma voz no IBM</talk>
+    <evaEmotion emotion="SPEECH_OFF_2" />
+    <audio source="efx-blin" block="TRUE" />
+    <evaEmotion emotion="NEUTRAL" />
+    <light state="OFF" />
+    <led animation="BLACK" />
+  </script>
+</evaml>

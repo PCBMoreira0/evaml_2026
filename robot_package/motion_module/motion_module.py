@@ -15,31 +15,54 @@ class CommandHandler(BaseCommandHandler):
         super().__init__(self, communicator_obj)
 
     def node_process(self, xml_node, memory):
-        """ Node handling function """
-        if memory.running_mode == "simulator":
-            topic_base = config.SIMULATOR_TOPIC_BASE
-        elif memory.running_mode == "robot":
-            topic_base = robot_profile.ROBOT_TOPIC_BASE
-        else:
-            topic_base = config.TERMINAL_TOPIC_BASE
+        """ Função de tratamento do nó """
+        
+        print("[b white]State:[/] The robot is [b white]MOVING[/]. [b white]Type: [/][reverse b white on black] " + xml_node.attrib["type"] + " [/].")
 
-        if xml_node.get("leftArm") != None: # Move the left arm
-            print("[b white]State:[/] [b white]Moving[/] the [b white]LEFT ARM[/]. [b white]Type: [/][reverse b white on black] " + xml_node.attrib["leftArm"] + " [/].")
-        if xml_node.get("rightArm") != None: # Move the right arm
-            print("[b white]State:[/] [b white]Moving[/] the [b white]RIGHT ARM[/]. [b white]Type: [/][reverse b white on black] " + xml_node.attrib["rightArm"] + " [/].")
-        if xml_node.get("head") != None: # Move head with the new format (<head> element)
-            print("[b white]State:[/] [b white]Moving[/] the [b white]HEAD[/]. [b white]Type: [/][reverse b white on black] " + xml_node.attrib["head"] + " [/].")
-        else: # Check if the old version was used
-            if xml_node.get("type") != None: # Maintaining compatibility with the old version of the motion element
-                print("[b white]State:[/] [b white]Moving[/] the [b white]HEAD[/]. [b white]Type: [/][reverse b white on black] " + xml_node.attrib["type"] + " [/].")
+        message = xml_node.get("type").lower()
+        
+        base_topic = memory.get_base_topic()
 
-        # Controls the physical robot.
-        if memory.running_mode == "robot":  
-            message = xml_node.get("type")
-            client_mqtt.publish(topic_base + '/' + "motion", message)
+        if base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
+            # Mapping uppercase atributes to MQTT FRED lowercase atributes
+            # m = {
+            #         "GREEN"    : "green",
+            #         "BLUE"     : "blue",
+            #         "RED"      : "red",
+            #         "RAINBOW"  : "rainbow",
+            #         "BLACK"    : "black",
+            #         "WHITE"    : "white",
+            #         "PINK"     : "pink",
+            #         "YELLOW"   : "yellow",
 
-        elif memory.running_mode == "simulator":
-            message = xml_node.get("type")
-            client_mqtt.publish(topic_base + '/' + "motion", message)
+            #         "HAPPY"    : "green",
+            #         "SAD"      : "blue",
+            #         "ANGRY"    : "red",
+            #         "STOP"     : "black",
+            #         "SPEAK"    : "blue",
+            #         "LISTEN"   : "green",
+            #         "SURPRISE" : "yellow"
+            # }
+
+            self.send(topic_base=base_topic, mqtt_message=message)
+
 
         return xml_node # It returns the same node
+
+
+			# <xs:enumeration value="FORWARD"/>
+			# <xs:enumeration value="FORWARD2"/>
+			# <xs:enumeration value="BACKWARD"/>
+			# <xs:enumeration value="BACKWARD2"/>
+			# <xs:enumeration value="LEFT"/>
+			# <xs:enumeration value="LEFT_MOON"/>
+			# <xs:enumeration value="RIGHT"/>
+			# <xs:enumeration value="RIGHT_MOON"/>
+			# <xs:enumeration value="MOONWALK"/>
+			# <xs:enumeration value="MOONWALK2"/>
+			# <xs:enumeration value="DANCE1"/>
+			# <xs:enumeration value="DANCE1_2"/>
+			# <xs:enumeration value="DANCE2"/>
+			# <xs:enumeration value="DANCE2_2"/>
+			# <xs:enumeration value="STOMPING_FOOT_R"/>
+			# <xs:enumeration value="STOMPING_FOOT_L"/>

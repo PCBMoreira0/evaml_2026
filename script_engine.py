@@ -16,6 +16,11 @@ import config
 # Robot Memory Class
 from robot_memory import RobotMemory
 
+# Shared State Sync Class
+# Esta classe tem como funcionalidade capturar os estados emocionais do usuário e do robô a partir do PULSE e do ROSE
+from shared_state_sync import SharedStateSync
+
+
 sys.path.append(os.getcwd() + "/" + "robot_package/")
 
 import robot_profile
@@ -35,6 +40,7 @@ class ScriptEngine:
 
         self.__state = "EMPTY"
         self.__robot_memory = RobotMemory() # Cria o objeto de memória do "robô"
+        self.__shared_state_sync = SharedStateSync(self.__robot_memory) # Cria a classe
         self.__root = None # Elemento root do arquivo XML
         self.__moduleloader = ModuleLoader()
         self.__scriptmetadata = ScriptMetadata()
@@ -98,11 +104,10 @@ class ScriptEngine:
         self.__robot_memory.set_running_mode(config, robot_profile, running_mode)
 
         # Execute the <settings> section
-        self.node = self.settings_node[0] # First node of the <settings> section
         self.__state = "PLAY"
-        self.play_next() # <voice>
-        self.play_next() # <lightEffects>
-        self.play_next() # <audioEffects>
+        for child in self.settings_node:
+            self.node = child
+            self.play_next()
         
         # Points to the first node of the <script> section
         self.node = self.script_node[0] # First node of the <script> section

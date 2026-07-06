@@ -49,5 +49,16 @@ class CommandHandler(BaseCommandHandler):
                 table.add_row("[yellow b]" + var_name + "[/]", value)
             console.print(table)
 
+        # Operation: Show system vars contents.
+        elif xml_node.get("operation") == "SHOW_SYSTEM_VARS":
+            print('[b reverse yellow]Debug mode:[/] Showing the [white b]System Variables Contents[/] Table.')
+            print("")
+            table = Table(title="[b]Table: System Variables Contents (Memory MAP)[/]")
+            table.add_column("Variable Name")
+            table.add_column("Content")
+            for var_name, value in memory.getSystemVars().items():
+                table.add_row("[yellow b]" + var_name + "[/]", str(value))
+            console.print(table)
+
             
         return xml_node # It returns the same node

@@ -1,0 +1,8 @@
+<evaml name="hello-world">
+  <settings>
+    <voice type="pt-BR_IsabelaV3Voice" commMode="NULL" />
+  </settings>
+  <script>
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">o valor de x é #x</talk>
+  </script>
+</evaml>
