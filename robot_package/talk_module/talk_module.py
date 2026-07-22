@@ -4,8 +4,6 @@ import random as rnd
 import re
 from rich import print
 
-import config # Module with network device configurations.
-
 import robot_profile  # Module with network device configurations.
 
 
@@ -83,7 +81,7 @@ class CommandHandler(BaseCommandHandler):
 
         if memory.get_running_mode() == "terminal":
             # Running in terminal mode....
-            print('[b white]State:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"[/]', end="")
+            print('[b white]STATE:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"[/]', end="")
             for c in text_to_speech[ind_random]:
                 print('[b white]' + c + '[/]', end="")
                 time.sleep(0.08)
@@ -103,8 +101,8 @@ class CommandHandler(BaseCommandHandler):
         #         play_speech_audio.play(xml_node, text_to_speech[ind_random], tts_file_name)
 
         # Using the Simulator or the Robot
-        elif base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
-            print('[b white]State:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"[/]', end="")
+        elif base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
+            print('[b white]STATE:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"[/]', end="")
             for c in text_to_speech[ind_random]:
                 print('[b white]' + c + '[/]', end="")
             print('[b white]"')
@@ -122,7 +120,7 @@ class CommandHandler(BaseCommandHandler):
 
             
             # Controls the physical robot
-            # print('[b white]State:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"' + text_to_speech[ind_random] + '"[/]')
+            # print('[b white]STATE:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"' + text_to_speech[ind_random] + '"[/]')
 
             # if xml_node.get("voiceType") == None:
             #     message = memory.default_voice + "|" + memory.default_voice_pitch_shift + "|" + text_to_speech[ind_random]

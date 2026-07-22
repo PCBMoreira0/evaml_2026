@@ -1,5 +1,6 @@
 # Todos os valores na memória do robô são armazenados como strings, inclusive as representações de vetores VAD.
 # Sendo de responsabildade de quem usa essas variáveis a conversão para o tipo adequado.
+import json
 
 class RobotMemory(): # 
     def __init__(self):
@@ -48,20 +49,23 @@ class RobotMemory(): #
         # Base topic for MQTT messages
         self.base_topic = None
 
-        # [0, 1] values
-        self.empathy = "0"
+        # # [0, 1] values
+        # self.empathy = "0"
 
-        # [0, 1] values
-        self.emotion_decay = "0"
+        # # [0, 1] values
+        # self.emotion_decay = "0"
 
-        # String representando um vetor do tipo VAD "0.1, 0.2, 0.3". VAD vector ([0, 1] values))
-        self.base_mood = "0.0, 0.0, 0.0"
+        # # [0, 10] values in seconds
+        # self.emotion_latency = "0"
 
-        # String representando um vetor do tipo VAD "0.1, 0.2, 0.3". VAD vector ([0, 1] values))
-        self.robot_affective_state = "0.0, 0.0, 0.0"
+        # String representando um vetor do tipo VAD em JSON. Valores no intervalo [0, 1].
+        self.base_mood = '{"valence": "0.00", "arousal": "0.00", "dominance": "0.00"}'
 
-        # String representando um vetor do tipo VAD "0.1, 0.2, 0.3". VAD vector ([0, 1] values))
-        self.user_affective_state = "0.0, 0.0, 0.0"
+        # String representando um vetor do tipo VAD em JSON. Valores no intervalo [0, 1].
+        self.robot_affective_state = '{"valence": "0.00", "arousal": "0.00", "dominance": "0.00"}'
+
+        # String representando um vetor do tipo VAD em JSON. Valores no intervalo [0, 1].
+        self.user_affective_state = '{"valence": "0.00", "arousal": "0.00", "dominance": "0.00"}'
 
 
     # Setters and Getters 
@@ -178,62 +182,102 @@ class RobotMemory(): #
     
     # System Vars
     def set_empathy(self, value):
-        self.system_vars["EMPATHY"] = value
+        self.system_vars["empathy"] = value
 
     def set_decay(self, value):
-        self.system_vars["EMOTION_DECAY"] = value
+        self.system_vars["emotion_decay"] = value
 
-    def set_base_mood(self, value):
-        self.system_vars["BASE_MOOD"] = value
+    def set_decay_delay(self, value):
+        self.system_vars["decay_delay"] = value
 
-    def set_robot_affective_state(self, value): # Value é uma string representando um vetor do tipo VAD "0.1, 0.2, 0.3"
-        self.system_vars["ROBOT_AFFECTIVE_STATE"] = value
+    def set_base_mood(self, value): # Value é um JSON (serializado como string) representando um vetor do tipo VAD.
+        # Exemplo: '{"valence": 0.00, "arousal": 0.00, "dominance": 0.00}'
+        m = json.loads(value)
+        self.system_vars["base_mood_valence"] = m["valence"]
+        self.system_vars["base_mood_arousal"] = m["arousal"]
+        self.system_vars["base_mood_dominance"] = m["dominance"]
+        self.system_vars["base_mood"] = value
 
-    def set_user_affective_state(self, value): # Value é uma string representando um vetor do tipo VAD "0.1, 0.2, 0.3"
-        self.system_vars["USER_AFFECTIVE_STATE"] = value
+    def set_robot_affective_state(self, value): # Value é um JSON representando um vetor do tipo VAD.
+        # Exemplo: '{"valence": 0.00, "arousal": 0.00, "dominance": 0.00}'
+        m = json.loads(value)
+        self.system_vars["robot_affective_state_valence"] = m["valence"]
+        self.system_vars["robot_affective_state_arousal"] = m["arousal"]
+        self.system_vars["robot_affective_state_dominance"] = m["dominance"]
+        self.system_vars["robot_affective_state"] = value
+
+    def set_robot_behavior_state(self, value): # Value é um JSON representando um vetor do tipo VAD.
+        # Message structure:
+        # {
+        #     "affective_state": "happiness_l1",
+        #     "facial_expression": "l1",
+        #     "leds": "l1",
+        #     "pose": "l1"
+        # }
+        value = json.loads(value)
+        self.system_vars["aeb_affective_state"] = value["affective_state"]
+        self.system_vars["aeb_facial_expression"] = value["facial_expression"]
+        self.system_vars["aeb_leds"] = value["leds"]
+        self.system_vars["aeb_pose"] = value["pose"]
+
+
+    def set_user_affective_state(self, value): # Value é um JSON representando um vetor do tipo VAD.
+        # Exemplo: '{"valence": 0.00, "arousal": 0.00, "dominance": 0.00}'
+        m = json.loads(value)
+        self.system_vars["user_affective_state_valence"] = m["valence"]
+        self.system_vars["user_affective_state_arousal"] = m["arousal"]
+        self.system_vars["user_affective_state_dominance"] = m["dominance"]
+        self.system_vars["user_affective_state"] = value
+
 
     def get_empathy(self):
-        return self.system_vars["EMPATHY"]
+        return self.system_vars["empathy"]
 
     def get_decay(self):
-        return self.system_vars["EMOTION_DECAY"]
+        return self.system_vars["emotion_decay"]
+    
+    def get_decay_delay(self):
+        return self.system_vars["decay_delay"]
     
     def get_base_mood(self):
-        return self.system_vars["BASE_MOOD"]
+        # Exemplo: '{"valence": 0.00, "arousal": 0.00, "dominance": 0.00}'
+        return self.system_vars["base_mood"]
     
     def get_robot_affective_state(self):
-        return self.system_vars["ROBOT_AFFECTIVE_STATE"]
+        # Exemplo: '{"valence": 0.00, "arousal": 0.00, "dominance": 0.00}'
+        return self.system_vars["robot_affective_state"]
     
     def get_user_affective_state(self):
-        return self.system_vars["USER_AFFECTIVE_STATE"]
+        # Exemplo: '{"valence": 0.00, "arousal": 0.00, "dominance": 0.00}'
+        return self.system_vars["user_affective_state"]
 
     # LLM Configuration Vars
     def set_llm_temperature(self, value):
-        self.llm_vars["TEMPERATURE"] = value
+        self.llm_vars["temperature"] = value
 
     def set_llm_num_predict(self, value):
-        self.llm_vars["NUM_PREDICT"] = value
+        self.llm_vars["num_predict"] = value
 
     def get_llm_temperature(self):
-        return self.llm_vars["TEMPERATURE"]
+        return self.llm_vars["temperature"]
 
     def get_llm_num_predict(self):
-        return self.llm_vars["NUM_PREDICT"]
+        return self.llm_vars["num_predict"]
     
     def set_llm_messages(self, value):
-        if "MESSAGES" in self.llm_vars:
-            self.llm_vars["MESSAGES"].append(value)
+        if "messages" in self.llm_vars:
+            self.llm_vars["messages"].append(value)
         else:
-            self.llm_vars["MESSAGES"] = [value]
+            self.llm_vars["messages"] = [value]
 
     def get_llm_messages(self):
-        return self.llm_vars["MESSAGES"]
+        return self.llm_vars["messages"]
     
     def set_llm_init(self):
-        self.llm_vars["LLM_INIT"] = True
+        self.llm_vars["llm_init"] = True
 
     def get_llm_init(self):
-        return self.llm_vars["LLM_INIT"]
+        return self.llm_vars["llm_init"]
 
 
     def reset_memory(self): # 
@@ -247,12 +291,32 @@ class RobotMemory(): #
         self.running_mode = 'terminal'
         self.robot_response = None
         self.robot_state = "free"
-        self.system_vars["EMPATHY"] = "0"
-        self.system_vars["EMOTION_DECAY"] = "0"
-        self.system_vars["BASE_MOOD"] = "0.0, 0.0, 0.0" # VAD
-        self.system_vars["ROBOT_AFFECTIVE_STATE"] = "0.0, 0.0, 0.0" # VAD
-        self.system_vars["USER_AFFECTIVE_STATE"] = "0.0, 0.0, 0.0" # VAD
+        self.system_vars["empathy"] = "0"
+        self.system_vars["emotion_decay"] = "0"
+        self.system_vars["decay_delay"] = "2"
+
+        self.system_vars["base_mood"] = '{"valence": "0.00", "arousal": "0.00", "dominance": "0.00"}' # VAD
+        self.system_vars["base_mood_valence"] = "0.00"
+        self.system_vars["base_mood_arousal"] = "0.00"
+        self.system_vars["base_mood_dominance"] = "0.00"
+
+        self.system_vars["robot_affective_state"] = '{"valence": "0.00", "arousal": "0.00", "dominance": "0.00"}' # VAD
+        self.system_vars["robot_affective_state_valence"] = "0.00"
+        self.system_vars["robot_affective_state_arousal"] = "0.00"
+        self.system_vars["robot_affective_state_dominance"] = "0.00"
+
+        self.system_vars["user_affective_state"] = '{"valence": "0.00", "arousal": "0.00", "dominance": "0.00"}' # VAD
+        self.system_vars["user_affective_state_valence"] = "0.00"
+        self.system_vars["user_affective_state_arousal"] = "0.00"
+        self.system_vars["user_affective_state_dominance"] = "0.00"
+
+        self.system_vars["aeb_affective_state"] = '' # No caso do FRED, uma string do tipo hapiness_l1
+        self.system_vars["aeb_facial_expression"] = "" # No caso do FRED, uma string do tipo l1
+        self.system_vars["aeb_leds"] = "l3" # No caso do FRED, uma string do tipo l1
+        self.system_vars["aeb_pose"] = "l1" # No caso do FRED, uma string do tipo l1
+
+
         self.llm_vars = {}
-        self.llm_vars["LLM_INIT"] = False
+        self.llm_vars["llm_init"] = False
 
 

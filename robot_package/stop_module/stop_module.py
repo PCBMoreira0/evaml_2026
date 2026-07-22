@@ -10,6 +10,6 @@ class CommandHandler(BaseCommandHandler):
 
     def node_process(self, xml_node, memory):
         """ Node handling function """
-        rprint("[bold white]State:[/] [b white]Stopping [/]the script.")
+        rprint("[bold white]STATE:[/] [b white]Stopping [/]the script.")
 
         return xml_node # It returns the "target" node.

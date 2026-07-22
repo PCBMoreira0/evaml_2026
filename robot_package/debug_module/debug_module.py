@@ -57,7 +57,7 @@ class CommandHandler(BaseCommandHandler):
             table.add_column("Variable Name")
             table.add_column("Content")
             for var_name, value in memory.getSystemVars().items():
-                table.add_row("[yellow b]" + var_name + "[/]", str(value))
+                table.add_row("[yellow b]" + var_name + "[/]", '"' + str(value) + '"')
             console.print(table)
 
             

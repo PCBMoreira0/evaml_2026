@@ -26,11 +26,11 @@ class CommandHandler(BaseCommandHandler):
         if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
             result = str(rnd.randint(int(min), int(max)))
             memory.var_dollar.append([result, "<random>"])
-            print('[b white]State:[/] [b white]Generating[/] a [b white]random[/] integer between [b white]min=' + str(min) + '[/] and [b white]max=' + str(max) + '[/]. Putting the [b white]result=' + result + ' [/]in the [b white]$[/] variable.')
+            print('[b white]STATE:[/] [b white]Generating[/] a [b white]random[/] integer between [b white]min=' + str(min) + '[/] and [b white]max=' + str(max) + '[/]. Putting the [b white]result=' + result + ' [/]in the [b white]$[/] variable.')
         else:
             var_name = xml_node.attrib["var"]
             result = str(rnd.randint(int(min), int(max)))
             memory.vars[var_name] = result
-            print('[b white]State:[/] [b white]Generating[/] a [b white]random[/] integer between [b white]min=' + str(min) + '[/] and [b white]max=' + str(max) + '[/]. Putting the [b white]result=' + result + ' in the [b white]' + var_name + '[/] variable.')
+            print('[b white]STATE:[/] [b white]Generating[/] a [b white]random[/] integer between [b white]min=' + str(min) + '[/] and [b white]max=' + str(max) + '[/]. Putting the [b white]result=' + result + ' in the [b white]' + var_name + '[/] variable.')
 
         return xml_node # It returns the same node

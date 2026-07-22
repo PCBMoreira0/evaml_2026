@@ -4,8 +4,6 @@ import re
 
 import robot_profile  # Module with network device configurations.
 
-import config
-
 from base_command_handler import BaseCommandHandler
 
 class CommandHandler(BaseCommandHandler):
@@ -64,7 +62,7 @@ class CommandHandler(BaseCommandHandler):
 
         base_topic = memory.get_base_topic()
 
-        if base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
+        if base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
             self.send(topic_base=base_topic, pub_topic=xml_node.get("pubTopic"), mqtt_message=message)
         
         return xml_node # It returns the same node

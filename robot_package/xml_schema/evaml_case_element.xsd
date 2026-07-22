@@ -18,6 +18,7 @@ Revision: 2025/04/16
 	<!-- Including referenced elements -->
 	<xs:include schemaLocation="./evaml_loop_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_mqtt_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_perception_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_llm_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_http_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_random_element.xsd"></xs:include>
@@ -28,6 +29,7 @@ Revision: 2025/04/16
 	<xs:include schemaLocation="./evaml_light_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_goto_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_motion_element.xsd"></xs:include>
+	<xs:include schemaLocation="./evaml_pose_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_useremotion_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_textemotion_element.xsd"></xs:include>
 	<xs:include schemaLocation="./evaml_userid.element.xsd"></xs:include>
@@ -47,6 +49,7 @@ Revision: 2025/04/16
 			<xs:choice minOccurs="1" maxOccurs="unbounded">
 				<xs:element ref="loop"/>
 				<xs:element ref="mqtt"/>
+				<xs:element ref="perception"/>
 				<xs:element ref="llm"/>
 				<xs:element ref="http"/>
 				<xs:element ref="random"/>
@@ -57,6 +60,7 @@ Revision: 2025/04/16
 				<xs:element ref="light"/>
 				<xs:element ref="goto"/>
 				<xs:element ref="motion"/>
+				<xs:element ref="pose"/>
 				<xs:element ref="userEmotion"/>
 				<xs:element ref="textEmotion"/>
 				<xs:element ref="userID"/>

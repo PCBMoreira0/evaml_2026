@@ -48,7 +48,7 @@ class CommandHandler(BaseCommandHandler):
             emoji = " 🤐"
 
 
-        print("[b white]State:[/] Setting the robot [b white]expression[/] to [b white]" + xml_node.get("emotion") + emoji + "[/].")
+        print("[b white]STATE:[/] Setting the robot [b white]expression[/] to [b white]" + xml_node.get("emotion") + emoji + "[/].")
 
         message = xml_node.get("emotion")
 

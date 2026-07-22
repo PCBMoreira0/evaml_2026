@@ -12,6 +12,6 @@ class CommandHandler(BaseCommandHandler):
     def node_process(self, xml_node, memory):
         """ Node process function """
             
-        print("[b white]State: Setting [/]the [b white]light effects=" + xml_node.get("mode") + "[/].")
+        print("[b white]STATE: Setting [/]the [b white]light effects=" + xml_node.get("mode") + "[/].")
 
         return xml_node # It returns the same node

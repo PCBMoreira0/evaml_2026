@@ -1,6 +1,8 @@
 from rich import print
 
-import numpy as np
+import json
+
+import ast
 
 from base_command_handler import BaseCommandHandler
 
@@ -21,27 +23,57 @@ class CommandHandler(BaseCommandHandler):
             if xml_node.get("profile") == "NEUTRAL":
                 memory.set_empathy("0.30")
                 memory.set_decay("0.70")
-                memory.set_base_mood("0.0, 0.0, 0.0")
+                bm = {
+                    "valence": "0.00",
+                    "arousal": "0.00",
+                    "dominance": "0.00"
+                }
+                memory.set_base_mood(json.dumps(bm))
+                memory.set_decay_delay("2.00")
 
             elif xml_node.get("profile") == "EMPATHETIC":
-                memory.set_empathy("0.9")
-                memory.set_decay("0.10")
-                memory.set_base_mood("0.0, 0.0, 0.0")
+                memory.set_empathy("1.0")
+                memory.set_decay("0.8")
+                bm = {
+                    "valence": "0.20",
+                    "arousal": "0.10",
+                    "dominance": "0.00"
+                }
+                memory.set_base_mood(json.dumps(bm))
+                memory.set_decay_delay("2.0")
 
-            elif xml_node.get("profile") == "THERAPEUTIC":
-                memory.set_empathy("0.5")
-                memory.set_decay("0.7")
-                memory.set_base_mood("0.0, 0.0, 0.0")
+            elif xml_node.get("profile") == "THERAPIST":
+                memory.set_empathy("0.50")
+                memory.set_decay("0.70")
+                bm = {
+                    "valence": "0.00",
+                    "arousal": "0.00",
+                    "dominance": "0.00"
+                }
+                memory.set_base_mood(json.dumps(bm))
+                memory.set_decay_delay("2.0")
 
             elif xml_node.get("profile") == "OPTIMISTIC":
-                memory.set_empathy("0.9")
-                memory.set_decay("0.1")
-                memory.set_base_mood("0.3, 0.2, 0.2") # Verificar esta posição no espaço de acordo com o artigo.
+                memory.set_empathy("0.90")
+                memory.set_decay("0.10")
+                bm = { # Verificar esta posição no espaço de acordo com o artigo.
+                    "valence": "0.30",
+                    "arousal": "0.20",
+                    "dominance": "0.20"
+                }
+                memory.set_base_mood(json.dumps(bm))
+                memory.set_decay_delay("2.0")
 
             elif xml_node.get("profile") == "MELANCHOLIC":
                 memory.set_empathy("0.10")
                 memory.set_decay("0.08")
-                memory.set_base_mood("-0.3, -0.3, -0.5") 
+                bm = {
+                    "valence": "-0.30",
+                    "arousal": "-0.30",
+                    "dominance": "-0.50"
+                }
+                memory.set_base_mood(json.dumps(bm))
+                memory.set_decay_delay("2.0")
             else:
                 # Profile not found...
                 exit(1)
@@ -49,16 +81,40 @@ class CommandHandler(BaseCommandHandler):
             xml_node.set("profile", "UNCATEGORIZED")
             memory.set_empathy(xml_node.get("empathy"))
             memory.set_decay(xml_node.get("decay"))
-            memory.set_base_mood(xml_node.get("baseMood"))
+            memory.set_decay_delay(xml_node.get("decayDelay"))
+            v, a, d = ast.literal_eval(xml_node.get("baseMood"))
+            bm = {
+                    "valence": v,
+                    "arousal": a,
+                    "dominance": d
+                }
+            memory.set_base_mood(json.dumps(bm))
 
-        print("[b white]State: Setting [/]the [b white]robot affective profile=" + xml_node.get("profile") + "[/].")
-        print("[b white]State: Setting [/]the [b white]robot empathy=" + memory.get_empathy() + "[/].")
-        print("[b white]State: Setting [/]the [b white]robot emotion decay=" + memory.get_decay() + "[/].")
-        print("[b white]State: Setting [/]the [b white]robot base mood (VAD vector)=" + memory.get_base_mood() + "[/].")
+        print("[b white]STATE: Setting [/]the [b white]robot affective profile=" + xml_node.get("profile") + "[/].")
+        print("[b white]STATE: Setting [/]the [b white]robot empathy=" + memory.get_empathy() + "[/].")
+        print("[b white]STATE: Setting [/]the [b white]robot emotional decay=" + memory.get_decay() + "[/].")
+        print("[b white]STATE: Setting [/]the [b white]robot emotional decay delay=" + memory.get_decay_delay() + "[/].")
+        print("[b white]STATE: Setting [/]the [b white]robot base mood (VAD vector)=" + memory.get_base_mood() + "[/].")
                 
         base_topic = memory.get_base_topic()
+ 
+        # values = [float(x) for x in memory.get_base_mood().strip("[]").split(",")]
 
-        message = xml_node.get('profile') + "|" + memory.get_empathy() + "|" + memory.get_decay() + "|" + memory.get_base_mood()
+        base_mood = json.loads(memory.get_base_mood())
+        message = {
+            "profile": xml_node.get("profile"),
+            "empathy": memory.get_empathy(),
+            "decay": memory.get_decay(),
+            "delay": memory.get_decay_delay(),
+            "mood": {
+                "valence": base_mood["valence"],
+                "arousal": base_mood["arousal"],
+                "dominance": base_mood["dominance"]
+            }
+        }
+
+        message = json.dumps(message)
+        # message = xml_node.get('profile') + "|" + memory.get_empathy() + "|" + memory.get_decay() + "|" + memory.get_base_mood()
         
 
         if base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:

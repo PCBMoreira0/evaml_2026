@@ -47,13 +47,13 @@ class CommandHandler(BaseCommandHandler):
         # if base_topic == config.TERMINAL_BASE_TOPIC or base_topic == config.SIMULATOR_BASE_TOPIC:
         #     # client_mqtt.publish(topic_base + "/leds", "STOP")
         #     if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
-        #         print('[b white]State:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]$[/] ', end="")
+        #         print('[b white]STATE:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]$[/] ', end="")
         #         # memory.var_dollar.append([user_answer, "<listen>"])
         #         user_answer = console.input("[b white on green blink] > [/] ")
         #         memory.setDollar([user_answer, "<listen>"])
         #     else:
         #         var_name = xml_node.get("var")
-        #         print('[b white]State:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]' + var_name + '[/] ', end="")
+        #         print('[b white]STATE:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]' + var_name + '[/] ', end="")
         #         # memory.vars[var_name] = user_answer
         #         user_answer = console.input("[b white on green blink] > [/] ")
         #         memory.setVar(var_name, user_answer)
@@ -79,20 +79,21 @@ class CommandHandler(BaseCommandHandler):
             print("The robot is listening!")
             audio = recognizer.listen(source)
             # print("The audio was recorded and it will send to the cloud!")
-            language_defined_by_user = "pt-BR"
+            # language_defined_by_user = "pt-BR"
+            language_defined_by_user = "en-US"
             try:
                 # Recognizes speech using Google Speech Recognition. ("pt-BR", "en-US", "es-ES")
                 response = recognizer.recognize_google(audio, language = language_defined_by_user)
                 print("Speech-To-Text: " + response)
 
                 if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
-                    # print('[b white]State:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]$[/] ', end="")
+                    # print('[b white]STATE:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]$[/] ', end="")
                     # # memory.var_dollar.append([user_answer, "<listen>"])
                     # user_answer = console.input("[b white on green blink] > [/] ")
                     memory.setDollar([response, "<listen>"])
                 else:
                     var_name = xml_node.get("var")
-                    # print('[b white]State:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]' + var_name + '[/] ', end="")
+                    # print('[b white]STATE:[/] The Robot is [b green]listening[/] in [b white]' + xml_node.get("language") + '[/]. It will be stored in [b white]' + var_name + '[/] ', end="")
                     # # memory.vars[var_name] = user_answer
                     # user_answer = console.input("[b white on green blink] > [/] ")
                     memory.setVar(var_name, response)

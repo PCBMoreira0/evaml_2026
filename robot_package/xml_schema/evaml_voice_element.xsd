@@ -33,8 +33,10 @@ Revision: 2025/04/16
 	</xs:simpleType>
 	
 	<xs:simpleType name="voiceListType">
-		<xs:restriction base="xs:string">
+		<xs:restriction base="xs:string"> 
 			<xs:enumeration value="pt_BR-faber-medium"/>
+			<xs:enumeration value="en_US-bryce-medium"/>
+			<xs:enumeration value="en_US-ryan-high"/> 
 			<xs:enumeration value="pm_alex"/>
 			<xs:enumeration value="pm_santa"/>
 			<xs:enumeration value="pf_dora"/>

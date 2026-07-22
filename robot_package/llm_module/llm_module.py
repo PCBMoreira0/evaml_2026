@@ -96,7 +96,7 @@ class CommandHandler(BaseCommandHandler):
         # instructions = instructions.split(sep="/") # Text becomes a list with the number of sentences divided by character. /
  
 
-        print('[b white]State:[/] The LLM is [b green]thinking...[/]')
+        print('[b white]STATE:[/] The LLM is [b green]thinking...[/]')
 
 
         memory.set_llm_messages({
@@ -124,14 +124,14 @@ class CommandHandler(BaseCommandHandler):
             "content": answer
         })
 
-        print('[b white]State:[/] The LLM answer is: [b white]' + answer + '[/]')
+        print('[b white]STATE:[/] The LLM answer is: [b white]' + answer + '[/]')
 
         if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
-            print('[b white]State:[/] The LLM answer will be stored in [b white]$[/]')
+            print('[b white]STATE:[/] The LLM answer will be stored in [b white]$[/]')
             memory.setDollar([answer, "<llm>"])
         else:
             var_name = xml_node.get("var")
-            print('[b white]State:[/] The LLM answer will be stored in [b white]' + var_name + '[/]')
+            print('[b white]STATE:[/] The LLM answer will be stored in [b white]' + var_name + '[/]')
             memory.setVar(var_name, answer)
         
 

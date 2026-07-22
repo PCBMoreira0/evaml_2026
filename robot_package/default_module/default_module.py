@@ -10,7 +10,7 @@ class CommandHandler(BaseCommandHandler):
         
     def node_process(self, xml_node, memory):
         """ Node handling function """
-        print("[b white]State:[/] Executing the [b green reverse] Default [/] option.")
+        print("[b white]STATE:[/] Executing the [b green reverse] Default [/] option.")
         
         return xml_node # It returns the same node
     

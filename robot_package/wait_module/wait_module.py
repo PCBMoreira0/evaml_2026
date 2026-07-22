@@ -22,7 +22,7 @@ class CommandHandler(BaseCommandHandler):
 
         # Barra de progresso personalizada
         with Progress(
-            TextColumn("[b white]State:[/] [b white]Waiting [/]for [b white]" + str(seconds) + "[/] seconds. 🕒"),
+            TextColumn("[b white]STATE:[/] [b white]Waiting [/]for [b white]" + str(seconds) + "[/] seconds. 🕒"),
             BarColumn(bar_width=20),
             TextColumn("[bold cyan]{task.fields[tempo]}")
         ) as progress:

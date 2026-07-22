@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice type="en_US-bryce-medium" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+    <robotAffectiveProfile profile="EMPATHETIC" />
+  </settings>
+  <script>
+    <!-- <debug operation="SHOW_SYSTEM_VARS" /> -->
+    <!-- <wait duration="1" />
+    <debug operation="SHOW_SYSTEM_VARS" />
+    <useMacro macro="AEB_EXECUTE" /> -->
+    <!-- <wait duration="3" />
+    <debug operation="SHOW_SYSTEM_VARS" />
+    <switch var="aeb_affective_state">
+      <case op="exact" value="happiness_l1">
+        <led animation="GREEN" />
+      </case>
+      <default>
+        <led animation="RED" />
+      </default>
+    </switch> -->
+    <wait duration="2" />
+    <perception action="START" sources="TER"/>
+    <mqtt pubTopic="TER_TEXT">I am so angry today!</mqtt>
+    <wait duration="2" />
+    <perception action="END" />
+    <wait duration="5" />
+    <perception action="START" sources="TER"/>
+    <mqtt pubTopic="TER_TEXT">I am so sad today!</mqtt>
+    <wait duration="2" />
+    <perception action="END" />
+    <wait duration="5" />
+    <perception action="START" sources="TER"/>
+    <mqtt pubTopic="TER_TEXT">Hello, how are you?</mqtt>
+    <wait duration="2" />
+    <perception action="END" />
+    <wait duration="5" />
+    <perception action="START" sources="TER"/>
+    <mqtt pubTopic="TER_TEXT">I am so happy!</mqtt>
+    <wait duration="2" />
+    <perception action="END" />
+  </script>
+  <macros>
+    <macro id="AEB_EXECUTE">
+      <switch var="aeb_affective_state">
+        <!-- ################################################################################################## -->
+        <!-- Neutral affective state ###########################################################################-->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="neutral">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="STOP" />
+          <pose type="NEUTRAL" />
+        </case>
+
+        <!-- ################################################################################################## -->
+        <!-- Happiness affective state ######################################################################## -->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="happiness_l1">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="HAPPY0" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="happiness_l2">
+          <evaEmotion emotion="PLEASED" />
+          <led animation="HAPPY1" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="happiness_l3">
+          <evaEmotion emotion="HAPPY" />
+          <led animation="HAPPY2" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="happiness_l4">
+          <evaEmotion emotion="HAPPY" />
+          <led animation="HAPPY2" />
+          <pose type="RIGHT_FOOT1" />
+        </case>
+        
+        <!-- ################################################################################################## -->
+        <!-- Anger affective state ######################################################################## -->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="anger_l1">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="ANGRY0" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="anger_l2">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="ANGRY1" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="anger_l3">
+          <evaEmotion emotion="ANGRY" />
+          <led animation="ANGRY2" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="anger_l4">
+          <evaEmotion emotion="ANGRY2" />
+          <led animation="ANGRY2" />
+          <pose type="NEUTRAL" />
+        </case>
+
+        <!-- ################################################################################################## -->
+        <!-- Sadness affective state ######################################################################## -->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="sadness_l1">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="SAD0" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="sadness_l2">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="SAD1" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="sadness_l3">
+          <evaEmotion emotion="SAD" />
+          <led animation="SAD2" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="sadness_l4">
+          <evaEmotion emotion="SAD" />
+          <led animation="SAD2" />
+          <pose type="SAD_FOOT_SLOW" />
+        </case>
+
+      </switch>
+    </macro>
+  </macros>
+</evaml>

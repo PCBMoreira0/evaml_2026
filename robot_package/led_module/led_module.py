@@ -2,8 +2,6 @@ import time
 
 from rich import print
 
-import config
-
 import robot_profile  # Module with network device configurations.
 
 from base_command_handler import BaseCommandHandler
@@ -18,13 +16,13 @@ class CommandHandler(BaseCommandHandler):
         """ Função de tratamento do nó """
 
 
-        print("[b white]State: Setting [/]the robot [b white]LEDs[/] to the animation/color [bold]" + xml_node.get("animation") + "![/].")
+        print("[b white]STATE: Setting [/]the robot [b white]LEDs[/] to the animation/color [bold]" + xml_node.get("animation") + "![/].")
 
         message = xml_node.get("animation")
         
         base_topic = memory.get_base_topic()
 
-        if base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
+        if base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
             # Mapping uppercase atributes to MQTT FRED lowercase atributes
             m = {
                     "GREEN"     : "green",

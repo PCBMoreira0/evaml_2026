@@ -20,7 +20,7 @@ class CommandHandler(BaseCommandHandler):
         # Search for id in tab_ids
         for key, value in memory.tab_ids.items():
             if key == xml_node.get("target"):
-                print("[b white]State:[/] Jumping ↪️  to the element [b white]" + value[1].tag.capitalize() + "[/] with [b white]id=" + value[1].get("id") + "[/].")
+                print("[b white]STATE:[/] Jumping ↪️  to the element [b white]" + value[1].tag.capitalize() + "[/] with [b white]id=" + value[1].get("id") + "[/].")
                 return value[1] # Returns the element associated with the found id.
         
         # Could not find "id"

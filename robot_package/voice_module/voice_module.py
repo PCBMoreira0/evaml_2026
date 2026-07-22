@@ -13,6 +13,6 @@ class CommandHandler(BaseCommandHandler):
         
         memory.set_default_voice(xml_node.get("type"))
 
-        print("[b white]State: Setting [/]the robot default[b white] voice=" + xml_node.get("type") + "[/].")
+        print("[b white]STATE: Setting [/]the robot default[b white] voice=" + xml_node.get("type") + "[/].")
 
         return xml_node # It returns the same node

@@ -70,7 +70,7 @@ class ModuleLoader():
                 
                 tab_modules[element_tag].append(command_handler_instance) # Stores the instance of the class.
             except Exception as e:
-                print("Exceção na importação do módulo", element_tag, e)
+                print(f"Exceção na importação do módulo: {element_tag}. {e}.")
                 tab_modules[element_tag].append("Not imported")
                 tab_modules[element_tag].append(None)
 

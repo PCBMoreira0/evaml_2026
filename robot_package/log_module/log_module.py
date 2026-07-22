@@ -68,7 +68,7 @@ class CommandHandler(BaseCommandHandler):
         else:
             log_seq_number = memory.log_seq_numbers[xml_node.get("name")] = 1
 
-        print('[b white ]State[/]:[b white] Sending [/]to the log ([b white]' + xml_node.get("name") + '[/]), with sequence number ' + str(log_seq_number) + ', the text [b white]"' + texto.strip() + '"[/].')
+        print('[b white ]STATE[/]:[b white] Sending [/]to the log ([b white]' + xml_node.get("name") + '[/]), with sequence number ' + str(log_seq_number) + ', the text [b white]"' + texto.strip() + '"[/].')
 
         # Strip is used to remove \n from texts that may come from xml.
         log_text = xml_node.get("name") + "_" + str(log_seq_number) + '_' + texto.strip()

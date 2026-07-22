@@ -1,3 +1,6 @@
+#Modelos do TTS Piper
+*.onnx
+
 # IBM TTS key
 robot_package/talk_module/ibm_cred.txt
 

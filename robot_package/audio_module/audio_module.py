@@ -26,7 +26,7 @@ class CommandHandler(BaseCommandHandler):
 
         # Audio blocking processing #################################
         if xml_node.get("block") == "TRUE": # Blocking mode.
-            print('[b white]State:[/][b white] Playing[/] ▶️  the sound [bold][b white]"' + xml_node.get("source") + '"[/] in [b white]BLOCKING[/] mode.')
+            print('[b white]STATE:[/][b white] Playing[/] ▶️  the sound [bold][b white]"' + xml_node.get("source") + '"[/] in [b white]BLOCKING[/] mode.')
             # Simulator ou Robot Mode
             if base_topic != "TERMINAL": # So, it is SIMULATOR or ROBOT.
                 message = xml_node.get("source") + "|" + xml_node.get("block")
@@ -42,7 +42,7 @@ class CommandHandler(BaseCommandHandler):
                     exit(1) 
         # Audio Non-blocking processing ###############################
         else: # Non-blocking mode.
-            print('[b white]State:[/][b white] Playing[/] ▶️  the sound [bold][b white]"' + xml_node.get("source") + '"[/] in [b white]NON-BLOCKING[/] mode.')
+            print('[b white]STATE:[/][b white] Playing[/] ▶️  the sound [bold][b white]"' + xml_node.get("source") + '"[/] in [b white]NON-BLOCKING[/] mode.')
             # Simulator or Robot mode.
             if base_topic != "TERMINAL": # So, it is SIMULATOR or ROBOT.
                 message = xml_node.get("source") + "|" + xml_node.get("block")

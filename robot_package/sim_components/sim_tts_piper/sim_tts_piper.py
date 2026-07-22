@@ -38,7 +38,11 @@ sim_base_topic = robot_profile.SIMULATOR_BASE_TOPIC
 robot_base_topic = robot_profile.ROBOT_BASE_TOPIC
 voice_type = config.VOICE_TYPE
 
-piper_voice = PiperVoice.load(BASE_DIR / "pt_BR-faber-medium.onnx")
+# piper_voice = PiperVoice.load(BASE_DIR / "pt_BR-faber-medium.onnx")
+piper_voice = PiperVoice.load(BASE_DIR / "en_US-bryce-medium.onnx") 
+# piper_voice = PiperVoice.load(BASE_DIR / "en_US-ryan-high.onnx")
+
+
 
 
 # Cria a janela do módulo

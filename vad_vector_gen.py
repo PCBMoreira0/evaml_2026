@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 # --- CONFIGURAÇÃO MQTT ---
 MQTT_BROKER = "localhost"  
 MQTT_PORT = 1883
-MQTT_TOPIC = "SIMULATOR/USER_EMOTION"
+MQTT_TOPIC = "SIMULATOR/USER_AFFECTIVE_STATE"
 
 class VAPickerApp:
     def __init__(self, root):
@@ -113,7 +113,7 @@ class VAPickerApp:
         self.vector_label.config(text=f"Vetor Atual VAD: [{self.v_val:.2f}, {self.a_val:.2f}, {self.d_val:.2f}]")
 
     def send_mqtt_message(self):
-        payload = f"{self.v_val},{self.a_val},{self.d_val}"
+        payload = f"{self.v_val} {self.a_val} {self.d_val}"
         
         try:
             result = self.mqtt_client.publish(MQTT_TOPIC, payload, qos=1)

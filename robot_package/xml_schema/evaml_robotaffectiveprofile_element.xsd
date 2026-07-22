@@ -19,10 +19,11 @@ Revision: 2025/04/16
 	<xs:element name="robotAffectiveProfile">
 		<xs:complexType>
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
-			<xs:attribute name="pubTopic" type="xs:string" fixed="ROBOT_PERSONALITY"/>
+			<xs:attribute name="pubTopic" type="xs:string" fixed="ROBOT_AFFECTIVE_PROFILE"/>
 			<xs:attribute name="profile" type="robotAffectiveProfileType" />
-			<xs:attribute name="empathy" type="coefficientType" default="0.0"/>
-			<xs:attribute name="decay" type="coefficientType" default="0.0"/>
+			<xs:attribute name="empathy" type="coefficientType" default="0.5"/>
+			<xs:attribute name="decay" type="coefficientType" default="0.5"/>
+			<xs:attribute name="decayDelay" type="timeType" default="2.0"/> 
 			<xs:attribute name="baseMood" type="vadList" default="0.0, 0.0, 0.0"/>
 		</xs:complexType>
 	</xs:element>
@@ -38,11 +39,18 @@ Revision: 2025/04/16
 	</xs:simpleType>
 
 	<xs:simpleType name="coefficientType">
-    <xs:restriction base="xs:decimal">
-      <xs:minInclusive value="0.0"/>
-      <xs:maxInclusive value="1.0"/>
-    </xs:restriction>
-  </xs:simpleType>
+		<xs:restriction base="xs:decimal">
+		<xs:minInclusive value="0.0"/>
+		<xs:maxInclusive value="1.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="timeType">
+		<xs:restriction base="xs:decimal">
+		<xs:minInclusive value="0.0"/>
+		<xs:maxInclusive value="10.0"/>
+		</xs:restriction>
+	</xs:simpleType>
 
   <xs:simpleType name="vadList">
     <xs:restriction base="xs:string">

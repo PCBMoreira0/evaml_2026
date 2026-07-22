@@ -35,11 +35,18 @@ class CommandHandler(BaseCommandHandler):
                 
         else: # It's a user-defined var, but without the leading # or a number.
             # Checks if the operation is different from assignment and checks if var ... DOES NOT exist in memory
-            if (value not in memory.vars): # Prevents an operation (other than assignment) from being performed on a variable that does not exist in memory.
+            if value in memory.vars:
+                return memory.vars[value]
+            elif value in memory.system_vars:
+                return memory.system_vars[value]
+            else:
                 print("[b white on red blink] FATAL ERROR [/]: The variable [b white]" + value + "[/] [b yellow reverse] has not been declared [/]. Please, check your code.✋⛔️")
                 exit(1)
-            else:
-                return memory.vars[value]
+            # if (value not in memory.vars): # Prevents an operation (other than assignment) from being performed on a variable that does not exist in memory.
+            #     print("[b white on red blink] FATAL ERROR [/]: The variable [b white]" + value + "[/] [b yellow reverse] has not been declared [/]. Please, check your code.✋⛔️")
+            #     exit(1)
+            # else:
+            #     return memory.vars[value]
 
 
 
@@ -47,9 +54,8 @@ class CommandHandler(BaseCommandHandler):
         """ Função de tratamento do nó """
         # By definition, the switch can contain references to "$" and variables.
         # Variables are referenced by name, without the use of a "#" at the beginning.
-
         memory.op_switch = self.get_var_value(xml_node.get("var"), memory)
         memory.flag_case = False
-        print('[b white]State:[/] Processing a [b white]Switch[/]. [b white]Var = "' + xml_node.get("var") + '"[/], with[b white] the string = "' + memory.op_switch + '".')
+        print('[b white]STATE:[/] Processing a [b white]Switch[/]. [b white]Var = "' + xml_node.get("var") + '"[/], with[b white] the string = "' + str(memory.op_switch) + '".')
         
         return xml_node # It returns the same node

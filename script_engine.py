@@ -40,6 +40,7 @@ class ScriptEngine:
 
         self.__state = "EMPTY"
         self.__robot_memory = RobotMemory() # Cria o objeto de memória do "robô"
+        # O objeto SharedStateSync permite a gravação de certos estados do robô na memória através de mensagens mqtt vindas de componentes distribuídos.
         self.__shared_state_sync = SharedStateSync(self.__robot_memory) # Cria a classe
         self.__root = None # Elemento root do arquivo XML
         self.__moduleloader = ModuleLoader()
@@ -76,7 +77,8 @@ class ScriptEngine:
                 print("O Player já foi inicializado e se encontra no estado " + self.__state + ".")
                 return False # Initialization did not occur
         
-        self.__robot_memory = RobotMemory() # Resets the "robot" memory
+        # self.__robot_memory = RobotMemory() # Resets the "robot" memory
+        self.__robot_memory.reset_memory()
         
         # Loading commands modules
         # # Contains the association between the element names and their classes (CommandHandlers).

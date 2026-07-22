@@ -41,7 +41,7 @@ class CommandHandler(BaseCommandHandler):
         # Whether in terminal mode or terminal-plus mode, entries are made via the keyboard via the terminal.
         if memory.running_mode == "terminal" or memory.running_mode == "terminal-plus": 
             
-            print('[b white]State:[/] The Robot is [b green]recognizing[/] [b white]the user emotion[/].', end="")
+            print('[b white]STATE:[/] The Robot is [b green]recognizing[/] [b white]the user emotion[/].', end="")
 
             user_answer = console.input("[b white on green blink] > [/] ")
             

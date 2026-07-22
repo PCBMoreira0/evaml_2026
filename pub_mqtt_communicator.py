@@ -1,8 +1,6 @@
 import paho.mqtt.client as mqtt
 from communicator_interface import CommunicatorInterface
 
-import time
-
 import config
 
 import sys
@@ -51,10 +49,10 @@ class PubMqttCommunicator(CommunicatorInterface):
         if "pub_topic" in kwargs:
             self.pub_topic = kwargs["pub_topic"] # Update the pubTopic to MQTT command
 
-        print(self.topic_base, self.pub_topic, message)
+        # print(self.topic_base, self.pub_topic, message)
         self.client.publish(self.topic_base + self.pub_topic, message)
 
-        print(f"OneWay MQTT: Enviando comando unidirecional -> {message}")
+        # print(f"OneWay MQTT: Enviando comando unidirecional -> {message}")
     
 
     def receive(self) -> dict:

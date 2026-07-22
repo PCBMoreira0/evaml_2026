@@ -1,0 +1,57 @@
+# Execução dos auxiliares para VAD
+
+    python3 vad_monitor.py & python3 vad_robot_personality.py & python3 vad_vector_gen.py & wait
+
+# O input multimodal TER
+
+    python3 input_ter.py
+
+# O input multimodal FER
+
+    python3 input_fer.py
+
+# Texto de teste para o input_ter.py
+
+    mosquitto_pub -t "TER_TEXT" -m "I'm fine too, thanks. But I have news."
+
+# Parsing the script
+
+    python3 evaml_parser.py fred_scripts/fred_demo.xml
+
+# Running the script
+
+    python3 teste-fred-demo.py
+
+# Running sim components
+
+    python3 robot_package/sim_components/sim_components.py
+
+-------------------------------------------------------------------------------------
+
+# PARSER_SENSEI
+python3 evaml_parser.py fred_scripts/framework1.xml
+python3 sensei.py -script="fred_scripts/framework1_evaml.xml" -mode="robot"
+
+# VAD_MON (a versão 2 é maior)
+python3 vad_monitor.py
+
+# VAD_AFF_PROF_GEN
+python3 vad_robot_affective_profile.py
+
+# ROSE
+python3 rose/rose.py
+
+# PULSE
+python3 pulse/pulse.py
+
+# AEB
+python3 aeb/aeb.py
+
+# INPUT_TER
+python3 input_ter/input_ter.py
+
+# INPUT_FER
+python3 input_fer/input_fer.py
+
+# SIM_COMPONENTS
+python3 robot_package/sim_components/sim_components.py

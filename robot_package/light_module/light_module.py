@@ -34,7 +34,7 @@ class CommandHandler(BaseCommandHandler):
                     "YELLOW": "[b white on yellow ] ON [/]",
                     "WHITE": "[b reverse white] ON [/]"
                     }
-        print("[b white]State: Setting [/]the [b white]Smart Bulb[/]. (IP:" + xml_node.get('ipAdress') + ", PORT:" + xml_node.get('ipPort') + "). 💡 " + tab_colors[light_color])
+        print("[b white]STATE: Setting [/]the [b white]Smart Bulb[/]. (IP:" + xml_node.get('ipAdress') + ", PORT:" + xml_node.get('ipPort') + "). 💡 " + tab_colors[light_color])
         
         base_topic = memory.get_base_topic()
 

@@ -100,7 +100,7 @@
     </llmRobotProfile>
   </settings>
   <script>
-    <talk>Por favor, se identifique</talk>
+    <!-- <talk>Por favor, se identifique</talk>
     <listen />
     <llm>
       - O usuário disse a frase "$"
@@ -118,7 +118,7 @@
       <llm>$</llm>
       <talk>$</talk>
   </loop>
-    <stop />
+    <stop /> -->
     <light state="OFF" />
     <evaEmotion emotion="NEUTRAL" />
     <led animation="HAPPY0" />

@@ -26,9 +26,9 @@ class CommandHandler(BaseCommandHandler):
         if base_topic == config.TERMINAL_BASE_TOPIC: # It is TERMINAL
             
             if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
-                print('[b white]State:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]$[/] ', end="")
+                print('[b white]STATE:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]$[/] ', end="")
             else:
-                print('[b white]State:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]' + xml_node.get("var") + '[/] ' , end="")
+                print('[b white]STATE:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]' + xml_node.get("var") + '[/] ' , end="")
 
             user_answer = console.input("[b white on green blink] > [/] ")
             
@@ -40,13 +40,13 @@ class CommandHandler(BaseCommandHandler):
         
         
 
-        if base_topic == config.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
+        if base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
             self.send(topic_base=base_topic)
             
             if xml_node.get("var") == None: # Maintains compatibility with the use of the $ variable
-                print('[b white]State:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]$[/].')
+                print('[b white]STATE:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]$[/].')
             else:
-                print('[b white]State:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]' + xml_node.get("var") + '[/].')
+                print('[b white]STATE:[/] The Robot is [b green]reading[/] [b white]a QR Code[/]. It will be stored in [b white]' + xml_node.get("var") + '[/].')
 
             mqtt_response = self.receive() # self.receive() returns a dict {RESPONSE: "response"}
 
