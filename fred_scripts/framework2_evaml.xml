@@ -10,8 +10,9 @@
     <useMacro macro="AEB_EXECUTE" commMode="NULL" />
     <wait duration="1" commMode="NULL" />
     <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hello Marcélo!</talk>
-    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">How are you doing?</talk>
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hi Jon!</talk>
+    <wait duration="1" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">How did you do on the test?</talk>
     <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
     <perception action="START" sources="TER" commMode="MQTT_PUB" pubTopic="PERCEPTION" />
     <listen commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
@@ -23,12 +24,12 @@
     <wait duration="1" commMode="NULL" />
     <switch var="aeb_affective_state" commMode="NULL">
       <case op="contain" value="sadness" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_1</mqtt>
+        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
         <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">There are days that are truly exhausting; you definitely need to rest.</talk>
         <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
       </case>
       <case op="contain" value="happiness" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_1</mqtt>
+        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
         <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hey, come on! Don't be sad—let's move forward!</talk>
         <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
       </case>
@@ -37,9 +38,9 @@
 
     <useMacro macro="AEB_EXECUTE" commMode="NULL" />
     <wait duration="1" commMode="NULL" />
-    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_1</mqtt>
+    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
     <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">But tell me one thing: how are you feeling today?</talk>
-    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
+    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
     <perception action="START" sources="TER" commMode="MQTT_PUB" pubTopic="PERCEPTION" />
     <listen commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
     
@@ -50,14 +51,14 @@
     <wait duration="1" commMode="NULL" />
     <switch var="aeb_affective_state" commMode="NULL"> 
       <case op="exact" value="anger_l4" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_1</mqtt>
+        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
         <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Wow, that's really bad! I hope you got your revenge.</talk> 
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
+        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
       </case>
       <case op="contain" value="happiness" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_1</mqtt>
+        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
         <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Calm down man! Jesus teaches us to forgive our enemies!</talk> 
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
+        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
       </case>
     </switch>
     <useMacro macro="AEB_EXECUTE" commMode="NULL" />

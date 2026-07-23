@@ -40,7 +40,7 @@ class CommandHandler(BaseCommandHandler):
                     "dominance": "0.00"
                 }
                 memory.set_base_mood(json.dumps(bm))
-                memory.set_decay_delay("2.0")
+                memory.set_decay_delay("3.0")
 
             elif xml_node.get("profile") == "THERAPIST":
                 memory.set_empathy("0.50")
@@ -54,15 +54,15 @@ class CommandHandler(BaseCommandHandler):
                 memory.set_decay_delay("2.0")
 
             elif xml_node.get("profile") == "OPTIMISTIC":
-                memory.set_empathy("0.90")
-                memory.set_decay("0.10")
+                memory.set_empathy("0.30")
+                memory.set_decay("1.0")
                 bm = { # Verificar esta posição no espaço de acordo com o artigo.
-                    "valence": "0.30",
-                    "arousal": "0.20",
+                    "valence": "0.40",
+                    "arousal": "0.30",
                     "dominance": "0.20"
                 }
                 memory.set_base_mood(json.dumps(bm))
-                memory.set_decay_delay("2.0")
+                memory.set_decay_delay("3.0")
 
             elif xml_node.get("profile") == "MELANCHOLIC":
                 memory.set_empathy("0.10")

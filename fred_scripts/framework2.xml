@@ -14,12 +14,13 @@
     <useMacro macro="AEB_EXECUTE" />
     <wait duration="1" />
     <mqtt pubTopic="expression">speech_on_2</mqtt>
-    <talk>Hello Marcélo!</talk>
-    <talk>How are you doing?</talk>
+    <talk>Hi Jon!</talk>
+    <wait duration="1" />
+    <talk>How did you do on the test?</talk>
     <mqtt pubTopic="expression">speech_off_2</mqtt>
     <perception action="START" sources="TER"/>
     <listen />
-    <!-- Hello Fred, I'm tired because I worked so much. -->
+    <!-- Oh Fred, I didn't get a good grade. -->
     <mqtt pubTopic="TER_TEXT">$</mqtt>
     <perception action="END" />
     <wait duration="1" />
