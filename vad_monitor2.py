@@ -9,10 +9,17 @@ import paho.mqtt.client as mqtt
 
 
 BASE_DIR = Path(__file__).resolve().parent
-parent_dir = os.path.abspath(os.path.join(BASE_DIR, "../"))
+parent_dir = os.path.abspath(
+    os.path.join(BASE_DIR, "../")
+)
 
 sys.path.append(parent_dir)
-sys.path.append(os.path.join(os.getcwd(), "robot_package"))
+sys.path.append(
+    os.path.join(
+        os.getcwd(),
+        "robot_package"
+    )
+)
 
 import config
 import robot_profile
@@ -24,19 +31,27 @@ MQTT_PORT = 1883
 
 robot_base_topic = robot_profile.ROBOT_BASE_TOPIC
 
-TOPIC_ROBOT_AFFECTIVE_STATE = config.ROBOT_AFFECTIVE_STATE_TOPIC
-TOPIC_USER_AFFECTIVE_STATE = config.USER_AFFECTIVE_STATE_TOPIC
+TOPIC_ROBOT_AFFECTIVE_STATE = (
+    config.ROBOT_AFFECTIVE_STATE_TOPIC
+)
+
+TOPIC_USER_AFFECTIVE_STATE = (
+    config.USER_AFFECTIVE_STATE_TOPIC
+)
+
 TOPIC_BASE_MOOD = "BASE_MOOD"
 
 
 class VAMonitorApp:
+
     def __init__(self, root):
         self.root = root
+
         self.root.title(
             "Robot and User Affective State Monitor"
         )
 
-        # Fator de escala:
+        # Fator de escala.
         # 1.5 representa um aumento de 50%.
         self.scale = 1.5
 
@@ -47,7 +62,10 @@ class VAMonitorApp:
             f"{window_width}x{window_height}"
         )
 
-        self.root.resizable(False, False)
+        self.root.resizable(
+            False,
+            False
+        )
 
         # Fila usada para comunicar a thread do MQTT
         # com a thread principal do Tkinter.
@@ -56,7 +74,8 @@ class VAMonitorApp:
         self.canvas_size = self.s(350)
         self.center = self.canvas_size / 2
 
-        # Coordenadas dos níveis mais intensos das emoções.
+        # Coordenadas dos níveis mais intensos
+        # das emoções.
         self.emocoes_referencia = {
             "Happiness": (0.76, 0.48),
             "Anger": (-0.43, 0.67),
@@ -73,12 +92,14 @@ class VAMonitorApp:
                 "#84CC16",  # L3
                 "#00FF00"   # L4
             ],
+
             "Anger": [
                 "#FECACA",  # L1
                 "#FCA5A5",  # L2
                 "#F87171",  # L3
                 "#FF0000"   # L4
             ],
+
             "Sadness": [
                 "#DBEAFE",  # L1
                 "#93C5FD",  # L2
@@ -98,15 +119,23 @@ class VAMonitorApp:
 
     def s(self, value):
         """
-        Aplica o fator de escala às dimensões da interface.
+        Aplica o fator de escala às dimensões
+        da interface.
         """
-        return int(round(value * self.scale))
+        return int(
+            round(
+                value * self.scale
+            )
+        )
 
     def setup_ui(self):
         # --- FRAME DO GRÁFICO ---
         graph_frame = tk.LabelFrame(
             self.root,
-            text=" Valence and Arousal Affective Space ",
+            text=(
+                " Valence and Arousal "
+                "Affective Space "
+            ),
             padx=self.s(10),
             pady=self.s(10),
             font=(
@@ -381,7 +410,8 @@ class VAMonitorApp:
         """
         point_size = self.s(4)
 
-        # Desenha as linhas entre o neutro e as emoções.
+        # Desenha as linhas entre o neutro
+        # e as emoções.
         for name, (valence, arousal) in (
             self.emocoes_referencia.items()
         ):
@@ -584,7 +614,8 @@ class VAMonitorApp:
             )
 
             print(
-                f"[MQTT] Inscrito em: {base_mood_topic}"
+                f"[MQTT] Inscrito em: "
+                f"{base_mood_topic}"
             )
 
         else:
@@ -640,6 +671,46 @@ class VAMonitorApp:
                 self.check_queue_loop
             )
 
+    def move_icon(
+        self,
+        parts_dict,
+        x_pixel,
+        y_pixel,
+        icon_type
+    ):
+        """
+        Move um ícone completo para a posição
+        VA informada.
+        """
+        current_coords = self.canvas.coords(
+            parts_dict["head"]
+        )
+
+        current_x = (
+            current_coords[0]
+            + current_coords[2]
+        ) / 2
+
+        current_y = (
+            current_coords[1]
+            + current_coords[3]
+        ) / 2
+
+        # A cabeça do usuário fica acima do centro
+        # visual formado pela cabeça e pelo corpo.
+        if icon_type == "user":
+            current_y += self.s(5)
+
+        dx = x_pixel - current_x
+        dy = y_pixel - current_y
+
+        for part_id in parts_dict.values():
+            self.canvas.move(
+                part_id,
+                dx,
+                dy
+            )
+
     def update_telemetry(
         self,
         topic,
@@ -689,26 +760,6 @@ class VAMonitorApp:
                 + TOPIC_BASE_MOOD
             )
 
-            # O Base Mood somente atualiza o texto.
-            if topic == base_mood_topic:
-                self.base_mood_label.config(
-                    text=(
-                        "Base Mood VAD: "
-                        f"[{v_val:.2f}, "
-                        f"{a_val:.2f}, "
-                        f"{d_val:.2f}]"
-                    )
-                )
-
-                print(
-                    "[BASE MOOD] "
-                    f"[{v_val:.2f}, "
-                    f"{a_val:.2f}, "
-                    f"{d_val:.2f}]"
-                )
-
-                return
-
             # Conversão da escala VA para pixels.
             x_pixel = (
                 v_val * self.center
@@ -718,8 +769,8 @@ class VAMonitorApp:
                 a_val * self.center
             )
 
-            # Margem proporcional para impedir
-            # que os ícones saiam do canvas.
+            # Margem para impedir que os ícones
+            # saiam do canvas.
             icon_margin = self.s(15)
 
             x_pixel = max(
@@ -750,23 +801,45 @@ class VAMonitorApp:
                     )
                 )
 
-                parts_dict = self.robot_parts
+                self.move_icon(
+                    self.robot_parts,
+                    x_pixel,
+                    y_pixel,
+                    "robot"
+                )
 
-                current_coords = (
-                    self.canvas.coords(
-                        parts_dict["head"]
+                print(
+                    "[ROBOT VAD] "
+                    f"[{v_val:.2f}, "
+                    f"{a_val:.2f}, "
+                    f"{d_val:.2f}]"
+                )
+
+            elif topic == base_mood_topic:
+                self.base_mood_label.config(
+                    text=(
+                        "Base Mood VAD: "
+                        f"[{v_val:.2f}, "
+                        f"{a_val:.2f}, "
+                        f"{d_val:.2f}]"
                     )
                 )
 
-                current_x = (
-                    current_coords[0]
-                    + current_coords[2]
-                ) / 2
+                # O vetor Base Mood posiciona
+                # o ícone do robô.
+                self.move_icon(
+                    self.robot_parts,
+                    x_pixel,
+                    y_pixel,
+                    "robot"
+                )
 
-                current_y = (
-                    current_coords[1]
-                    + current_coords[3]
-                ) / 2
+                print(
+                    "[BASE MOOD] "
+                    f"[{v_val:.2f}, "
+                    f"{a_val:.2f}, "
+                    f"{d_val:.2f}]"
+                )
 
             elif topic == user_topic:
                 self.user_label.config(
@@ -778,38 +851,22 @@ class VAMonitorApp:
                     )
                 )
 
-                parts_dict = self.user_parts
-
-                current_coords = (
-                    self.canvas.coords(
-                        parts_dict["head"]
-                    )
+                self.move_icon(
+                    self.user_parts,
+                    x_pixel,
+                    y_pixel,
+                    "user"
                 )
 
-                current_x = (
-                    current_coords[0]
-                    + current_coords[2]
-                ) / 2
-
-                current_y = (
-                    (
-                        current_coords[1]
-                        + current_coords[3]
-                    ) / 2
-                ) + self.s(5)
+                print(
+                    "[USER VAD] "
+                    f"[{v_val:.2f}, "
+                    f"{a_val:.2f}, "
+                    f"{d_val:.2f}]"
+                )
 
             else:
                 return
-
-            dx = x_pixel - current_x
-            dy = y_pixel - current_y
-
-            for part_id in parts_dict.values():
-                self.canvas.move(
-                    part_id,
-                    dx,
-                    dy
-                )
 
             self.root.update_idletasks()
 
@@ -817,20 +874,23 @@ class VAMonitorApp:
             print(
                 f"[Erro JSON] Tópico {topic} "
                 "enviou uma mensagem inválida: "
-                f"{payload_str}. Detalhes: {error}"
+                f"{payload_str}. "
+                f"Detalhes: {error}"
             )
 
         except (TypeError, ValueError) as error:
             print(
                 "[Erro VAD] Valores inválidos "
                 f"recebidos no tópico {topic}: "
-                f"{payload_str}. Detalhes: {error}"
+                f"{payload_str}. "
+                f"Detalhes: {error}"
             )
 
         except Exception as error:
             print(
                 f"[Erro de Parse] Tópico {topic} "
-                f"enviou a mensagem: '{payload_str}'. "
+                f"enviou a mensagem: "
+                f"'{payload_str}'. "
                 f"Detalhes: {error}"
             )
 

@@ -1,0 +1,90 @@
+@startuml
+
+title Communication Strategies and Communicator Creation in SENSEI
+
+top to bottom direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #707070
+}
+
+interface CommunicatorInterface <<Strategy>> {
+    + send(parameters)
+    + receive()
+}
+
+class NullCommunicator <<Null Object>> {
+    + send(parameters)
+    + receive()
+}
+
+class PubMqttCommunicator <<Concrete Strategy>> {
+    - pub_topic
+    + send(parameters)
+    + receive()
+}
+
+class PubSubMqttCommunicator <<Concrete Strategy>> {
+    - pub_topic
+    - sub_topic
+    - response_queue
+    + send(parameters)
+    + receive()
+}
+
+class HttpCommunicator <<Concrete Strategy>> {
+    - base_url
+    + send(parameters)
+    + receive()
+}
+
+class CommunicatorFactory <<Simple Factory>> {
+    + create_communicator(xml_node)
+}
+
+CommunicatorInterface <|.. NullCommunicator
+CommunicatorInterface <|.. PubMqttCommunicator
+CommunicatorInterface <|.. PubSubMqttCommunicator
+CommunicatorInterface <|.. HttpCommunicator
+
+CommunicatorFactory ..> NullCommunicator : creates
+CommunicatorFactory ..> PubMqttCommunicator : creates
+CommunicatorFactory ..> PubSubMqttCommunicator : creates
+CommunicatorFactory ..> HttpCommunicator : creates
+
+note right of CommunicatorFactory
+Selects the concrete communicator
+from the commMode attribute:
+
+NULL
+MQTT_PUB
+MQTT_PUB_SUB
+HTTP
+end note
+
+note left of NullCommunicator
+Provides the same communication
+interface when no message exchange
+is required.
+end note
+
+legend bottom
+  Strategy: CommunicatorInterface and concrete communicators
+  Simple Factory: CommunicatorFactory
+  Null Object: NullCommunicator
+endlegend
+
+@enduml

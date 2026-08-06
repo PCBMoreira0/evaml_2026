@@ -1,0 +1,91 @@
+@startuml
+
+title Extensible Confidence and Fusion Methods in PULSE
+
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #707070
+}
+
+class Pulse {
+    - confidence_method : ConfidenceMethod
+    - fusion_method : FusionMethod
+    - affective_observations : List
+
+    + Pulse(confidence_method,\n  fusion_method)
+    + process_observations()
+}
+
+abstract class ConfidenceMethod <<Strategy>> {
+    + estimate(observations) : List
+}
+
+class EntropyConfidenceMethod {
+    + estimate(observations) : List
+}
+
+class "Alternative\nConfidenceMethod" as AlternativeConfidence {
+    + estimate(observations) : List
+}
+
+abstract class FusionMethod <<Strategy>> {
+    + fuse(observations) : VADState
+}
+
+class WeightedFusionMethod {
+    + fuse(observations) : VADState
+}
+
+class "Alternative\nFusionMethod" as AlternativeFusion {
+    + fuse(observations) : VADState
+}
+
+ConfidenceMethod <|-- EntropyConfidenceMethod
+ConfidenceMethod <|-- AlternativeConfidence
+
+FusionMethod <|-- WeightedFusionMethod
+FusionMethod <|-- AlternativeFusion
+
+Pulse o--> ConfidenceMethod : stores injected\nmethod
+Pulse o--> FusionMethod : stores injected\nmethod
+
+note top of Pulse
+The concrete methods are supplied
+through the constructor.
+
+Pulse depends only on the
+abstract method contracts.
+end note
+
+note bottom of ConfidenceMethod
+Extension point for confidence
+estimation approaches.
+end note
+
+note bottom of FusionMethod
+Extension point for multimodal
+fusion approaches.
+end note
+
+legend bottom
+  <|--  Generalization: inheritance
+  o-->  Aggregation: stores an externally supplied object
+
+  <<Strategy>>  Interchangeable processing method
+endlegend
+
+@enduml

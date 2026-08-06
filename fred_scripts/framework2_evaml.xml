@@ -6,152 +6,35 @@
     <robotAffectiveProfile profile="OPTIMISTIC" commMode="MQTT_PUB" pubTopic="ROBOT_AFFECTIVE_PROFILE" empathy="0.5" decay="0.5" decayDelay="2.0" baseMood="0.0, 0.0, 0.0" />
   </settings>
   <script>
+    <light id="BEGIN" state="ON" commMode="MQTT_PUB" pubTopic="LIGHT" ipAdress="192.168.99.11" ipPort="55443" color="WHITE" />
     <wait duration="1" commMode="NULL" />
-    <useMacro macro="AEB_EXECUTE" commMode="NULL" />
-    <wait duration="1" commMode="NULL" />
-    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hi Jon!</talk>
-    <wait duration="1" commMode="NULL" />
-    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">How did you do on the test?</talk>
-    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
-    <perception action="START" sources="TER" commMode="MQTT_PUB" pubTopic="PERCEPTION" />
+    <talk id="ROBOT_TALK" commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hello, how are you?</talk>
+    <useMacro macro="START" commMode="NULL" />
+    <goto target="POINT1" commMode="NULL" />
     <listen commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
-    
-    <mqtt pubTopic="TER_TEXT" commMode="MQTT_PUB">$</mqtt>
-    <perception action="END" commMode="MQTT_PUB" pubTopic="PERCEPTION" />
-    <wait duration="1" commMode="NULL" />
-    <useMacro macro="AEB_EXECUTE" commMode="NULL" />
-    <wait duration="1" commMode="NULL" />
-    <switch var="aeb_affective_state" commMode="NULL">
-      <case op="contain" value="sadness" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-        <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">There are days that are truly exhausting; you definitely need to rest.</talk>
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
-      </case>
-      <case op="contain" value="happiness" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-        <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Hey, come on! Don't be sad—let's move forward!</talk>
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_1</mqtt>
-      </case>
-    </switch>
-    <wait duration="1" commMode="NULL" />
-
-    <useMacro macro="AEB_EXECUTE" commMode="NULL" />
-    <wait duration="1" commMode="NULL" />
-    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">But tell me one thing: how are you feeling today?</talk>
-    <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
-    <perception action="START" sources="TER" commMode="MQTT_PUB" pubTopic="PERCEPTION" />
-    <listen commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
-    
-    <mqtt pubTopic="TER_TEXT" commMode="MQTT_PUB">$</mqtt>
-    <perception action="END" commMode="MQTT_PUB" pubTopic="PERCEPTION" />
-    <wait duration="1" commMode="NULL" />
-    <useMacro macro="AEB_EXECUTE" commMode="NULL" />
-    <wait duration="1" commMode="NULL" />
-    <switch var="aeb_affective_state" commMode="NULL"> 
-      <case op="exact" value="anger_l4" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-        <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Wow, that's really bad! I hope you got your revenge.</talk> 
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
-      </case>
-      <case op="contain" value="happiness" commMode="NULL">
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_on_2</mqtt>
-        <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="TALK_RESPONSE">Calm down man! Jesus teaches us to forgive our enemies!</talk> 
-        <mqtt pubTopic="expression" commMode="MQTT_PUB">speech_off_2</mqtt>
-      </case>
-    </switch>
-    <useMacro macro="AEB_EXECUTE" commMode="NULL" />
-    
-    
-    
-    
+    <llm commMode="NULL">$</llm>
+    <goto target="BEGIN" commMode="NULL" />
   </script>
   <macros commMode="NULL">
-    <macro id="AEB_EXECUTE" commMode="NULL">
-      <switch var="aeb_affective_state" commMode="NULL">
-        
-        
-        
-        <case op="exact" value="neutral" commMode="NULL">
-          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="STOP" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-
-        
-        
-        
-        <case op="exact" value="happiness_l1" commMode="NULL">
-          <evaEmotion emotion="PLEASED" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="HAPPY0" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="happiness_l2" commMode="NULL">
-          <evaEmotion emotion="PLEASED" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="HAPPY1" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="happiness_l3" commMode="NULL">
-          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="HAPPY2" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="happiness_l4" commMode="NULL">
-          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="HAPPY2" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="RIGHT_FOOT1" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        
-        
-        
-        
-        <case op="exact" value="anger_l1" commMode="NULL">
-          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="ANGRY0" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="anger_l2" commMode="NULL">
-          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="ANGRY1" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="anger_l3" commMode="NULL">
-          <evaEmotion emotion="ANGRY" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="ANGRY2" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="anger_l4" commMode="NULL">
-          <evaEmotion emotion="ANGRY2" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="ANGRY2" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-
-        
-        
-        
-        <case op="exact" value="sadness_l1" commMode="NULL">
-          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="SAD0" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="sadness_l2" commMode="NULL">
-          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="SAD1" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="sadness_l3" commMode="NULL">
-          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="SAD2" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="NEUTRAL" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-        <case op="exact" value="sadness_l4" commMode="NULL">
-          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="expression" />
-          <led animation="SAD2" commMode="MQTT_PUB" pubTopic="leds" />
-          <pose type="SAD_FOOT_SLOW" commMode="MQTT_PUB" pubTopic="pose" />
-        </case>
-
-      </switch>
+    <macro id="START" commMode="NULL">
+      <led animation="GREEN" commMode="MQTT_PUB" pubTopic="leds" />
+      <light id="POINT1" state="ON" commMode="MQTT_PUB" pubTopic="LIGHT" ipAdress="192.168.99.11" ipPort="55443" color="WHITE" />
     </macro>
-  </macros>
+    <macro id="MACRO1" commMode="NULL">
+      <debug operation="PAUSE" commMode="NULL" />
+    </macro>
+    <macro id="MACRO2" commMode="NULL">
+      <random min="1" max="2" commMode="NULL" />
+    </macro>
+  <macro id="MACRO3" commMode="NULL">
+    <random min="1" max="2" commMode="NULL" />
+  </macro>
+<macro id="MACRO4" commMode="NULL">
+  <random min="1" max="2" commMode="NULL" />
+</macro>
+
+<macro id="MACRO5" commMode="NULL">
+  <random min="1" max="2" commMode="NULL" />
+</macro>
+</macros>
 </evaml>

@@ -54,7 +54,7 @@ class CommandHandler(BaseCommandHandler):
                 memory.set_decay_delay("2.0")
 
             elif xml_node.get("profile") == "OPTIMISTIC":
-                memory.set_empathy("0.30")
+                memory.set_empathy("0.40")
                 memory.set_decay("1.0")
                 bm = { # Verificar esta posição no espaço de acordo com o artigo.
                     "valence": "0.40",
@@ -119,6 +119,7 @@ class CommandHandler(BaseCommandHandler):
 
         if base_topic == robot_profile.SIMULATOR_BASE_TOPIC or base_topic == robot_profile.ROBOT_BASE_TOPIC:
             self.send(topic_base=base_topic, mqtt_message=message)
+            print("Aloooooooooooooooooooo", base_topic)
 
         return xml_node # It returns the same node
         

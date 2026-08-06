@@ -1,0 +1,103 @@
+@startuml
+
+title Communication Strategy Configuration in SENSEI
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #707070
+}
+
+class ModuleLoader {
+    - comm_factory : CommunicatorFactory
+    + import_modules(xml_root)
+}
+
+class CommunicatorFactory {
+    + create_communicator(xml_node)
+}
+
+interface CommunicatorInterface {
+    + send(parameters)
+    + receive()
+}
+
+class NullCommunicator {
+    + send(parameters)
+    + receive()
+}
+
+class PubMqttCommunicator {
+    - pub_topic
+    + send(parameters)
+    + receive()
+}
+
+class PubSubMqttCommunicator {
+    - pub_topic
+    - sub_topic
+    - response_queue
+    + send(parameters)
+    + receive()
+}
+
+class HttpCommunicator {
+    - base_url
+    + send(parameters)
+    + receive()
+}
+
+class "Element CommandHandler" as CommandHandler {
+    - communicator : CommunicatorInterface
+    + node_process(xml_node, memory)
+}
+
+ModuleLoader --> CommunicatorFactory : requests communicator
+ModuleLoader ..> CommandHandler : instantiates and injects\ncommunicator
+
+CommandHandler o--> CommunicatorInterface : uses
+
+CommunicatorInterface <|.. NullCommunicator
+CommunicatorInterface <|.. PubMqttCommunicator
+CommunicatorInterface <|.. PubSubMqttCommunicator
+CommunicatorInterface <|.. HttpCommunicator
+
+CommunicatorFactory ..> NullCommunicator : creates
+CommunicatorFactory ..> PubMqttCommunicator : creates
+CommunicatorFactory ..> PubSubMqttCommunicator : creates
+CommunicatorFactory ..> HttpCommunicator : creates
+
+note left of ModuleLoader
+Reads communication attributes
+from each XML node.
+
+Example:
+
+&lt;talk
+  commMode="MQTT_PUB_SUB"
+  pubTopic="TALK"
+  subTopic="TALK_RESPONSE"/&gt;
+end note
+
+note bottom of CommunicatorFactory
+The commMode attribute selects
+the communication strategy:
+
+NULL
+MQTT_PUB
+MQTT_PUB_SUB
+HTTP
+end note
+
+@enduml

@@ -1,0 +1,68 @@
+@startuml
+
+title Script Node Processing Sequence
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+
+skinparam sequence {
+    ArrowColor #202020
+    LifeLineBorderColor #303030
+    LifeLineBackgroundColor #F7F7F7
+    ParticipantBorderColor #303030
+    ParticipantBackgroundColor #F7F7F7
+    GroupBackgroundColor #FAFAFA
+    GroupBorderColor #505050
+}
+
+participant "Script Player" as Player
+collections "tab_modules" as Modules
+participant "Element\nCommandHandler" as Handler
+database "Robot Memory" as Memory
+participant "Communicator" as Comm
+participant "Simulator or\nPhysical Robot" as Target
+
+Player -> Player : Read node.tag
+Player -> Modules : lookup(node.tag)
+Modules --> Player : CommandHandler instance
+
+Player -> Player : Transition to BLOCKED
+
+Player -> Handler : command_handler.node_process(node, memory)
+activate Handler
+
+Handler -> Memory : Read execution-context data
+Memory --> Handler : Variables, states,\nand configuration
+
+Handler -> Handler : Execute element semantics
+
+opt Communication required
+    Handler -> Handler : Prepare command message
+    Handler -> Comm : send(message)
+    Comm -> Target : Deliver message
+
+    opt Synchronous response required
+        Target --> Comm : Response message
+        Comm --> Handler : receive()
+    end
+end
+
+opt Execution context must be updated
+    Handler -> Memory : Update variables, flags,\nstates, or configuration
+end
+
+opt Control-flow information is required
+    Handler -> Memory : Read identifiers or\ncontrol-flow data
+    Memory --> Handler : Target node reference or\ncomparison state
+end
+
+Handler --> Player : Return node reference\n(current or target)
+deactivate Handler
+
+Player -> Player : Transition to PLAY
+Player -> Player : Determine next execution step
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+
+title Constructor-Based Dependency Injection During Module Loading
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+
+skinparam sequence {
+    ParticipantBackgroundColor #F7F7F7
+    ParticipantBorderColor #303030
+    LifeLineBorderColor #505050
+    LifeLineBackgroundColor white
+    ArrowColor #202020
+    MessageSpacing 34
+}
+
+participant ModuleLoader as Loader
+participant CommunicatorFactory as Factory
+participant "Concrete\nCommunicator" as Concrete
+participant CommandHandler as Handler
+
+Loader -> Factory : create_communicator(\ncommMode)
+activate Factory
+
+Factory -> Concrete : Instantiate according\nto commMode (NULL, MQTT_PUB, ...)
+activate Concrete
+
+Concrete --> Factory : communicator instance
+deactivate Concrete
+
+Factory --> Loader : CommunicatorInterface
+deactivate Factory
+
+create Handler
+Loader -> Handler : CommandHandler(xml_node,\ncommunicator)
+
+note over Loader,Handler
+The ModuleLoader reads the communication configuration from the EvaML element, requests
+the appropriate communicator from the factory, and injects the CommunicatorInterface into the
+CommandHandler constructor.
+end note
+
+@enduml

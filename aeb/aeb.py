@@ -40,9 +40,9 @@ EMOTION_L4_POINTS = {
         "dominance": 0.35
     },
     "anger": {
-        "valence": -0.51,
-        "arousal": 0.59,
-        "dominance": 0.25
+        "valence": -0.43, # -0.51
+        "arousal": 0.67, # 0.59
+        "dominance": 0.34 # 0.25
     },
     "sadness": {
         "valence": -0.63,

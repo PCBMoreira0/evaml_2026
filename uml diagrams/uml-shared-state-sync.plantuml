@@ -1,0 +1,66 @@
+@startuml
+
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+
+skinparam sequence {
+    ParticipantBackgroundColor #F7F7F7
+    ParticipantBorderColor #303030
+    LifeLineBorderColor #505050
+    LifeLineBackgroundColor white
+    ArrowColor #202020
+    GroupBackgroundColor #FAFAFA
+    GroupBorderColor #505050
+
+    ' Approximately 20% more vertical spacing
+    MessageSpacing 40
+}
+
+participant SENSEI
+participant "RobotMemory" as Memory
+participant SharedStateSync as Sync
+queue "MQTT Broker" as Broker
+participant PULSE
+participant ROSE
+participant AEB
+
+== Initialization ==
+
+create Memory
+SENSEI -> Memory : RobotMemory()
+|||
+create Sync
+SENSEI -> Sync : SharedStateSync(Memory)
+Sync -> Sync : Store reference to Memory
+Sync -> Broker : connect()
+Broker --> Sync : connection acknowledged
+
+Sync -> Broker : subscribe(ROBOT_AFFECTIVE_STATE)
+Sync -> Broker : subscribe(USER_AFFECTIVE_STATE)
+Sync -> Broker : subscribe(ROBOT_BEHAVIOR_STATE)
+|||
+== User affective state update ==
+
+PULSE -> Broker : publish(USER_AFFECTIVE_STATE,\nJSON user VAD)
+Broker -> Sync : USER_AFFECTIVE_STATE\nJSON payload
+Sync -> Memory : set_user_affective_state(JSON)
+Memory -> Memory : Parse JSON and update system_vars
+|||
+== Robot affective state update ==
+
+ROSE -> Broker : publish(ROBOT_AFFECTIVE_STATE,\nJSON robot VAD)
+Broker -> Sync : ROBOT_AFFECTIVE_STATE\nJSON payload
+Sync -> Memory : set_robot_affective_state(JSON)
+Memory -> Memory : Parse JSON and update system_vars
+|||
+== Robot behavior state update ==
+AEB -> Broker : publish(ROBOT_BEHAVIOR_STATE,\nJSON behavior parameters)
+Broker -> Sync : ROBOT_BEHAVIOR_STATE\nJSON payload
+Sync -> Memory : set_robot_behavior_state(JSON)
+Memory -> Memory : Parse JSON and update system_vars
+|||
+
+@enduml

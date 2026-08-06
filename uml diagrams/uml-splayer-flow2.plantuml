@@ -1,0 +1,85 @@
+@startuml
+
+title Script Player Execution Flow
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+skinparam activity {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    DiamondBackgroundColor #EEEEEE
+    DiamondBorderColor #303030
+    ArrowColor #202020
+    StartColor #303030
+    EndColor #303030
+}
+
+start
+
+:Invoke play_next();
+
+if (Execution state is PLAY?) then (yes)
+
+    if (Current node reference is null?) then (yes)
+
+        if (Continuation stack is empty?) then (yes)
+            :Transition to IDLE;
+            :Terminate script execution;
+            stop
+        else (no)
+            :Pop continuation node\nfrom node_stack;
+            :Assign continuation node\nas current node;
+        endif
+
+    endif
+
+    :Classify current EvaML node;
+
+    if (Compound control node?) then (yes)
+
+        if (<switch>, <case>, or <default>?) then (yes)
+            :Retrieve CommandHandler\nfrom tab_modules;
+            :Delegate node processing;
+            :Evaluate switch/case state\nstored in RobotMemory;
+            :Select branch entry or\nnext alternative;
+
+        elseif (<goto>?) then (yes)
+            :Retrieve CommandHandler\nfrom tab_modules;
+            :Resolve target node;
+            :Clear node_stack;
+            :Reconstruct continuation path\nfrom target ancestors;
+            :Set current node to null;
+
+        elseif (<useMacro>?) then (yes)
+            :Push return node\nonto node_stack;
+            :Resolve referenced macro;
+            :Select first node\nof macro body;
+
+        elseif (<stop>?) then (yes)
+            :Transition to IDLE;
+            :Terminate script execution;
+            stop
+        endif
+
+    else (ordinary command)
+
+        :Retrieve CommandHandler\nfrom tab_modules;
+        :Transition to BLOCKED;
+        :Invoke node_process(node, RobotMemory);
+        :Transition to PLAY;
+        :Select next sibling node;
+
+    endif
+
+    :Return execution-step result;
+
+else (no)
+    :Reject play_next() invocation;
+endif
+
+stop
+
+@enduml

@@ -1,0 +1,103 @@
+@startuml
+allowmixing
+
+title Publish-Subscribe Communication in the Affective Layer
+
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+skinparam packageStyle rectangle
+
+skinparam component {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam database {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+}
+
+package "SENSEI" {
+
+    component "Command\nHandlers" as Handler
+
+    component "Shared State\nSync" as Sync
+
+    database "Robot Memory" as Memory
+
+    Sync --> Memory : updates
+}
+
+package "Affective Layer" {
+
+    component PULSE
+    component ROSE
+    component AEB
+}
+
+package "External Perception Sources" {
+
+    component FER
+    component TER
+    component SER
+    component GSR
+    component HR
+}
+
+queue "MQTT Broker" <<Publish-Subscribe>> as Broker
+
+FER --> Broker : PULSE/INPUT
+TER --> Broker : PULSE/INPUT
+SER --> Broker : PULSE/INPUT
+GSR --> Broker : PULSE/INPUT
+HR --> Broker : PULSE/INPUT
+
+Handler --> Broker : PERCEPTION
+Handler --> Broker : ROBOT_AFFECTIVE_PROFILE
+
+Broker --> PULSE : PERCEPTION
+Broker --> PULSE : PULSE/INPUT
+
+PULSE --> Broker : USER_AFFECTIVE_STATE
+
+Broker --> ROSE : USER_AFFECTIVE_STATE
+Broker --> ROSE : ROBOT_AFFECTIVE_PROFILE
+
+ROSE --> Broker : ROBOT_AFFECTIVE_STATE
+ROSE --> Broker : BASE_MOOD
+
+Broker --> AEB : ROBOT_AFFECTIVE_STATE
+Broker --> AEB : ROBOT_AFFECTIVE_PROFILE
+
+AEB --> Broker : ROBOT_BEHAVIOR_STATE
+
+Broker --> Sync : USER_AFFECTIVE_STATE
+Broker --> Sync : ROBOT_AFFECTIVE_STATE
+Broker --> Sync : ROBOT_BEHAVIOR_STATE
+
+note bottom of Broker
+All communication is performed through
+MQTT topics.
+
+Components are decoupled and interact
+only by publishing or subscribing
+to the broker.
+end note
+
+legend bottom
+
+-->   Publish
+Broker --> Component   Subscribe
+
+<<Publish-Subscribe>>
+MQTT message broker
+
+endlegend
+
+@enduml

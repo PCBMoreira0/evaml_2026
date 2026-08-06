@@ -1,0 +1,111 @@
+@startuml
+
+title Communication Strategy Configuration in SENSEI
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #707070
+}
+
+class "EvaML Element" as EvaMLElement {
+    commMode
+    pubTopic
+    subTopic
+}
+
+class ModuleLoader {
+    - comm_factory: CommunicatorFactory
+    + import_modules(xml_root)
+}
+
+class CommunicatorFactory {
+    + create_communicator(xml_node): CommunicatorInterface
+}
+
+interface CommunicatorInterface {
+    + send(**kwargs)
+    + receive(): dict
+}
+
+class NullCommunicator {
+    + send(**kwargs)
+    + receive(): dict
+}
+
+class PubMqttCommunicator {
+    - pub_topic
+    + send(**kwargs)
+    + receive(): dict
+}
+
+class PubSubMqttCommunicator {
+    - pub_topic
+    - sub_topic
+    - response_queue
+    + send(**kwargs)
+    + receive(): dict
+}
+
+class HttpCommunicator {
+    - base_url
+    + send(**kwargs)
+    + receive(): dict
+}
+
+class "Element CommandHandler" as CommandHandler {
+    - communicator: CommunicatorInterface
+    + node_process(xml_node, memory)
+}
+
+EvaMLElement ..> ModuleLoader : provides XML node\nand commMode
+
+ModuleLoader --> CommunicatorFactory : requests strategy
+ModuleLoader ..> CommandHandler : instantiates and\ninjects communicator
+
+CommandHandler o--> CommunicatorInterface : uses
+
+CommunicatorInterface <|.. NullCommunicator
+CommunicatorInterface <|.. PubMqttCommunicator
+CommunicatorInterface <|.. PubSubMqttCommunicator
+CommunicatorInterface <|.. HttpCommunicator
+
+CommunicatorFactory ..> NullCommunicator : <<creates>>
+CommunicatorFactory ..> PubMqttCommunicator : <<creates>>
+CommunicatorFactory ..> PubSubMqttCommunicator : <<creates>>
+CommunicatorFactory ..> HttpCommunicator : <<creates>>
+
+note right of EvaMLElement
+The XML Schema defines commMode
+for each executable EvaML element.
+
+Supported values:
+- NULL
+- MQTT_PUB
+- MQTT_PUB_SUB
+- HTTP
+end note
+
+note bottom of CommunicatorFactory
+The concrete strategy is selected
+from the commMode attribute.
+end note
+
+legend bottom
+  Solid line with hollow triangle: interface implementation
+  Dashed arrow: dependency or object creation
+  Open diamond: communication strategy used by CommandHandler
+endlegend
+
+@enduml

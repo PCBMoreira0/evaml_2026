@@ -1,0 +1,75 @@
+@startuml
+allowmixing
+
+title Command-Based Organization of EvaML Element Processing
+
+top to bottom direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype ortho
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #707070
+}
+
+abstract class BaseCommandHandler <<Command>> {
+    + node_process(xml_node, memory)
+}
+
+class "talk_module\nCommandHandler" as TalkHandler <<Concrete Command>>
+
+class "counter_module\nCommandHandler" as CounterHandler <<Concrete Command>>
+
+class "goto_module\nCommandHandler" as GotoHandler <<Concrete Command>>
+
+class "usemacro_module\nCommandHandler" as MacroHandler <<Concrete Command>>
+
+class "Script Player" as Player <<Invoker>>
+
+database "Robot Memory" as Memory
+
+BaseCommandHandler <|-- TalkHandler
+BaseCommandHandler <|-- CounterHandler
+BaseCommandHandler <|-- GotoHandler
+BaseCommandHandler <|-- MacroHandler
+
+Player ..> BaseCommandHandler : node_process()
+
+BaseCommandHandler --> Memory : read / update
+
+note right of BaseCommandHandler
+Common processing interface
+implemented by every EvaML
+command module.
+end note
+
+note right of Player
+The Script Player invokes
+CommandHandlers through the
+same operation regardless of
+the EvaML element.
+end note
+
+note bottom of GotoHandler
+Each concrete handler
+encapsulates the semantics
+of one EvaML element.
+end note
+
+legend bottom
+<<Command>>           Common abstraction for EvaML commands
+<<Concrete Command>>  One implementation per EvaML element
+<<Invoker>>           Script Player
+endlegend
+
+@enduml

@@ -1,3 +1,5 @@
+import time
+
 import argparse
 
 from script_engine import ScriptEngine
@@ -18,6 +20,9 @@ parser.add_argument(
     required=True,
     help="Execution mode"
 )
+
+
+time.sleep(3)
 
 args = parser.parse_args()
 

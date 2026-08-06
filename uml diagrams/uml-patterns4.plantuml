@@ -1,0 +1,73 @@
+@startuml
+allowmixing
+
+title Plugin Architecture in SENSEI
+
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+skinparam packageStyle rectangle
+
+skinparam component {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam package {
+    BackgroundColor white
+    BorderColor #505050
+}
+
+skinparam note {
+    BackgroundColor #FFFDE7
+    BorderColor #707070
+}
+
+artifact "EvaML Application\n(XML)" as EvaML
+
+component "ModuleLoader" as Loader
+
+package "robot_package\n<<Plugin Repository>>" as RobotPackage {
+
+    component "tag_module.py" as Module
+
+    component "CommandHandler" as HandlerClass
+}
+
+collections "tab_modules" as Registry
+
+EvaML --> Loader : used element tags
+
+Loader ..> Module : dynamically imports
+
+Module --> HandlerClass : provides
+
+Loader --> Registry : registers module and\nhandler instance
+
+Registry o--> HandlerClass : stores configured\ninstance
+
+note bottom of Loader
+For each EvaML element type,
+ModuleLoader derives the module name
+using the tag_module convention.
+end note
+
+note bottom of RobotPackage
+A new EvaML element can be added
+as an independent Python module
+without modifying the execution engine.
+end note
+
+legend bottom
+  <<Plugin Repository>>  Contains dynamically loadable modules
+  ..>                    Dynamic module import
+  -->                    Runtime processing or registration
+  o-->                   Stores a configured instance
+endlegend
+
+@enduml

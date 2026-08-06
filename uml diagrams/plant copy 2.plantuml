@@ -1,0 +1,168 @@
+@startuml
+allowmixing
+
+title Architectural Design Decisions in SENSEI
+
+top to bottom direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+skinparam packageStyle rectangle
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam database {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+}
+
+skinparam component {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+package "Core Execution Components" {
+
+    abstract class BaseCommandHandler {
+        + node_process()
+    }
+
+    class "Concrete\nCommandHandler" as Handler {
+        - communicator : CommunicatorInterface
+        + CommandHandler(xml_node,\ncommunicator : CommunicatorInterface)
+        + node_process()
+    }
+
+    database "Robot Memory" as Memory
+
+    class "Shared State Sync" as Sync
+
+    BaseCommandHandler <|-- Handler
+
+    Handler --> Memory : reads / updates
+    Sync --> Memory : synchronizes states
+}
+
+package "Communication Components" {
+
+    interface CommunicatorInterface <<Strategy>> {
+        + send()
+        + receive()
+    }
+
+    class NullCommunicator <<Null Object>>
+    class PubMqttCommunicator
+    class PubSubMqttCommunicator
+    class HttpCommunicator
+
+    class CommunicatorFactory <<Simple Factory>> {
+        + create_communicator()
+    }
+
+    CommunicatorInterface <|.. NullCommunicator
+    CommunicatorInterface <|.. PubMqttCommunicator
+    CommunicatorInterface <|.. PubSubMqttCommunicator
+    CommunicatorInterface <|.. HttpCommunicator
+
+    CommunicatorFactory ..> NullCommunicator : creates
+    CommunicatorFactory ..> PubMqttCommunicator : creates
+    CommunicatorFactory ..> PubSubMqttCommunicator : creates
+    CommunicatorFactory ..> HttpCommunicator : creates
+}
+
+class ModuleLoader
+
+package "Platform Resources" {
+
+    package "robot_package" <<Plugin>> {
+
+        class "XML Schemas" as Schemas
+        class "Command Modules" as Modules
+        class "Robot Profile" as Profile
+        class "Simulator\nComponents" as SimComponents
+    }
+}
+
+queue "MQTT Broker\n<<Publish-Subscribe>>" as Broker
+
+package "External Affective Services" {
+
+    component PULSE
+    component ROSE
+    component AEB
+}
+
+Handler --> CommunicatorInterface : injected dependency
+
+ModuleLoader --> CommunicatorFactory : requests strategy
+ModuleLoader ..> Handler : creates and injects\ncommunicator
+
+ModuleLoader ..> Modules : dynamically loads
+Schemas ..> Modules : defines elements
+Profile ..> Modules : provides platform\nconfiguration
+
+PubMqttCommunicator --> Broker : publishes
+PubSubMqttCommunicator --> Broker : publishes / subscribes
+
+PULSE --> Broker : publishes\nUSER_AFFECTIVE_STATE
+ROSE --> Broker : publishes\nROBOT_AFFECTIVE_STATE
+AEB --> Broker : publishes\nROBOT_BEHAVIOR_STATE
+
+Broker --> Sync : delivers subscribed\nstate messages
+
+note right of ModuleLoader
+Dependency Injection
+
+Creates each CommandHandler
+and supplies the selected
+communicator through its
+constructor.
+end note
+
+note bottom of Modules
+Plugin Architecture
+
+Command modules follow the
+tag_module naming convention
+and provide a CommandHandler.
+end note
+
+note right of Broker
+Distributed communication
+through MQTT topics.
+end note
+
+note left of Sync
+Receives externally generated
+affective and behavioral states
+and updates Robot Memory.
+end note
+
+note right of AEB
+PULSE, ROSE, and AEB are
+external to SENSEI and belong
+to the Affective Layer.
+end note
+
+legend bottom
+  <|--   Generalization: class inheritance
+  <|..   Realization: interface implementation
+  -->    Association: uses or stores a reference
+  ..>    Dependency: creates, configures, or loads
+
+  <<Strategy>>           Supports alternative communication mechanisms
+  <<Simple Factory>>     Creates communication strategies
+  <<Null Object>>        Represents modules without communication
+  <<Plugin>>             Supports dynamic runtime extension
+  <<Publish-Subscribe>>  Enables distributed message exchange
+endlegend
+
+@enduml

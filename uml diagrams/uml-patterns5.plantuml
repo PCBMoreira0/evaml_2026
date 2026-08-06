@@ -1,0 +1,67 @@
+@startuml
+allowmixing
+
+title Constructor-Based Dependency Injection in SENSEI
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam linetype polyline
+
+skinparam class {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+class ModuleLoader {
+    - communicator_factory : CommunicatorFactory
+    + import_modules(xml_root)
+}
+
+class CommunicatorFactory {
+    + create_communicator(xml_node) : CommunicatorInterface
+}
+
+interface CommunicatorInterface {
+    + send(parameters)
+    + receive()
+}
+
+class NullCommunicator
+class PubMqttCommunicator
+class PubSubMqttCommunicator
+class HttpCommunicator
+
+class "CommandHandler" as Handler {
+    - communicator : CommunicatorInterface
+    + CommandHandler(xml_node, communicator)
+    + node_process(xml_node, memory)
+}
+
+collections "tab_modules" as Registry
+
+CommunicatorInterface <|.. NullCommunicator
+CommunicatorInterface <|.. PubMqttCommunicator
+CommunicatorInterface <|.. PubSubMqttCommunicator
+CommunicatorInterface <|.. HttpCommunicator
+
+ModuleLoader --> CommunicatorFactory : requests communicator
+CommunicatorFactory ..> CommunicatorInterface : creates concrete\nimplementation
+
+ModuleLoader ..> Handler : creates and injects\ncommunicator
+Handler o--> CommunicatorInterface : stores dependency
+
+ModuleLoader --> Registry : registers configured\nhandler instance
+Registry o--> Handler : contains
+
+note right of Handler
+The communicator is supplied
+through the constructor.
+
+The handler does not create
+its own communication object.
+end note
+
+@enduml

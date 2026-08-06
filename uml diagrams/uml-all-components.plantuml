@@ -1,0 +1,117 @@
+@startuml
+
+title Extensible and Message-Oriented Organization of SENSEI
+
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam linetype polyline
+
+skinparam component {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    ArrowColor #202020
+}
+
+skinparam package {
+    BackgroundColor white
+    BorderColor #505050
+}
+
+skinparam database {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+}
+
+package "SENSEI" {
+
+    component "Script Execution\nEngine" as Engine
+
+    component "ModuleLoader" as Loader
+
+    component "Shared State Sync" as Sync
+
+    database "Robot Memory" as Memory
+
+    component "Command Handlers" as Handlers
+
+    Engine --> Loader : initializes
+    Loader --> Handlers : dynamically loads
+    Engine --> Handlers : delegates node processing
+
+    Engine <--> Memory : execution context
+    Handlers <--> Memory : read / update
+    Sync --> Memory : update states
+}
+
+package "robot_package" {
+
+    component "XML Schemas" as XSD
+
+    component "Command Modules" as Modules
+
+    component "Robot Profile" as Profile
+
+    package "Simulator Components" {
+
+        component "sim_audio" as SimAudio
+        component "sim_light" as SimLight
+        component "sim_tts_*" as SimTTS
+        component "sim_fred_robot\n(Unity)" as SimFred
+    }
+}
+
+queue "MQTT Broker" as Broker
+
+package "Affective Services" {
+
+    component PULSE
+    component ROSE
+    component AEB
+}
+
+package "Physical Platform" {
+
+    component "Robot-Side\nComponents" as RobotComponents
+    component "Physical Robot" as Robot
+}
+
+Loader ..> Modules : discovers and imports
+Modules ..> Handlers : provides implementations
+XSD ..> Modules : defines EvaML elements
+Profile ..> Handlers : platform topics\nand configuration
+
+Handlers --> Broker : publish commands
+
+Broker --> SimAudio : AUDIO / SPEECH
+Broker --> SimLight : LIGHT
+Broker --> SimTTS : TALK
+Broker --> SimFred : robot commands
+
+Broker --> RobotComponents : robot-base topics
+RobotComponents --> Robot : controls capabilities
+
+PULSE --> Broker : USER_AFFECTIVE_STATE
+ROSE --> Broker : ROBOT_AFFECTIVE_STATE
+AEB --> Broker : ROBOT_BEHAVIOR_STATE
+
+Broker --> Sync : subscribed states
+
+note bottom of Modules
+Plugin Architecture:
+modules follow the naming convention
+<tag>_module and provide a
+CommandHandler implementation.
+end note
+
+note bottom of Broker
+Publish-Subscribe:
+distributed components exchange
+commands, responses, and states
+through MQTT topics.
+end note
+
+@enduml

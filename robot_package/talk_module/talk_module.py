@@ -13,7 +13,7 @@ class CommandHandler(BaseCommandHandler):
 
     def __init__(self, xml_node, communicator_obj):
         
-        super().__init__(self, communicator_obj)
+        super().__init__(xml_node, communicator_obj)
 
 
     def node_process(self, xml_node, memory):

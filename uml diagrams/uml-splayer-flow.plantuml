@@ -1,0 +1,81 @@
+@startuml
+
+title Script Player Execution Flow
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+skinparam activity {
+    BackgroundColor #F7F7F7
+    BorderColor #303030
+    DiamondBackgroundColor #EEEEEE
+    DiamondBorderColor #303030
+    ArrowColor #202020
+    StartColor #303030
+    EndColor #303030
+}
+
+start
+
+:Invoke play_next();
+
+if (State = PLAY?) then (yes)
+
+    if (Current node is None?) then (yes)
+
+        if (Continuation stack empty?) then (yes)
+            :Set state to IDLE;
+            :End script;
+            stop
+        else (no)
+            :Pop continuation node;
+            :Set it as current node;
+        endif
+
+    endif
+
+    :Inspect current XML node;
+
+    if (Control-flow node?) then (yes)
+
+        if (switch / case / default?) then (yes)
+            :Evaluate branch conditions;
+            :Update execution path;
+
+        elseif (goto?) then (yes)
+            :Resolve target node;
+            :Rebuild continuation stack;
+            :Update execution path;
+
+        elseif (useMacro?) then (yes)
+            :Store return node;
+            :Resolve macro;
+            :Update execution path;
+
+        elseif (stop?) then (yes)
+            :Set state to IDLE;
+            :End script;
+            stop
+        endif
+
+    else (ordinary command)
+
+
+        :Set state to BLOCKED;
+        :Execute node_process();
+        :Set state to PLAY;
+        :Move to next sibling;
+
+    endif
+
+    :Return control to host application;
+
+else (no)
+    :Reject execution request;
+endif
+
+stop
+
+@enduml

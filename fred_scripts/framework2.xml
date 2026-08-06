@@ -10,182 +10,35 @@
     <robotAffectiveProfile profile="OPTIMISTIC" />
   </settings>
   <script>
+    <light id="BEGIN" state="ON" />
     <wait duration="1" />
-    <useMacro macro="AEB_EXECUTE" />
-    <wait duration="1" />
-    <mqtt pubTopic="expression">speech_on_2</mqtt>
-    <talk>Hi Jon!</talk>
-    <wait duration="1" />
-    <talk>How did you do on the test?</talk>
-    <mqtt pubTopic="expression">speech_off_2</mqtt>
-    <perception action="START" sources="TER"/>
+    <talk id="ROBOT_TALK">Hello, how are you?</talk>
+    <useMacro macro="START" />
+    <goto target="POINT1" />
     <listen />
-    <!-- Oh Fred, I didn't get a good grade. -->
-    <mqtt pubTopic="TER_TEXT">$</mqtt>
-    <perception action="END" />
-    <wait duration="1" />
-    <useMacro macro="AEB_EXECUTE" />
-    <wait duration="1" />
-    <switch var="aeb_affective_state">
-      <case op="contain" value="sadness">
-        <mqtt pubTopic="expression">speech_on_2</mqtt>
-        <talk>There are days that are truly exhausting; you definitely need to rest.</talk>
-        <mqtt pubTopic="expression">speech_off_1</mqtt>
-      </case>
-      <case op="contain" value="happiness">
-        <mqtt pubTopic="expression">speech_on_2</mqtt>
-        <talk>Hey, come on! Don't be sad—let's move forward!</talk>
-        <mqtt pubTopic="expression">speech_off_1</mqtt>
-      </case>
-    </switch>
-    <wait duration="1" />
-
-    <useMacro macro="AEB_EXECUTE" />
-    <wait duration="1" />
-    <mqtt pubTopic="expression">speech_on_2</mqtt>
-    <talk>But tell me one thing: how are you feeling today?</talk>
-    <mqtt pubTopic="expression">speech_off_2</mqtt>
-    <perception action="START" sources="TER"/>
-    <listen />
-    <!-- Someone knocked me down, and I got really angry. -->
-    <mqtt pubTopic="TER_TEXT">$</mqtt>
-    <perception action="END" />
-    <wait duration="1" />
-    <useMacro macro="AEB_EXECUTE" />
-    <wait duration="1" />
-    <switch var="aeb_affective_state"> 
-      <case op="exact" value="anger_l4">
-        <mqtt pubTopic="expression">speech_on_2</mqtt>
-        <talk>Wow, that's really bad! I hope you got your revenge.</talk> 
-        <mqtt pubTopic="expression">speech_off_2</mqtt>
-      </case>
-      <case op="contain" value="happiness">
-        <mqtt pubTopic="expression">speech_on_2</mqtt>
-        <talk>Calm down man! Jesus teaches us to forgive our enemies!</talk> 
-        <mqtt pubTopic="expression">speech_off_2</mqtt>
-      </case>
-    </switch>
-    <useMacro macro="AEB_EXECUTE" />
-    <!-- <debug operation="SHOW_SYSTEM_VARS" /> -->
-    <!-- <wait duration="1" />
-    <debug operation="SHOW_SYSTEM_VARS" />
-    <useMacro macro="AEB_EXECUTE" /> -->
-    <!-- <wait duration="3" />
-    <debug operation="SHOW_SYSTEM_VARS" />
-    <switch var="aeb_affective_state">
-      <case op="exact" value="happiness_l1">
-        <led animation="GREEN" />
-      </case>
-      <default>
-        <led animation="RED" />
-      </default>
-    </switch> -->
-    <!-- <wait duration="2" />
-    <perception action="START" sources="TER"/>
-    <mqtt pubTopic="TER_TEXT">I am so angry today!</mqtt>
-    <wait duration="2" />
-    <perception action="END" />
-    <wait duration="5" />
-    <perception action="START" sources="TER"/>
-    <mqtt pubTopic="TER_TEXT">I am so sad today!</mqtt>
-    <wait duration="2" />
-    <perception action="END" />
-    <wait duration="5" />
-    <perception action="START" sources="TER"/>
-    <mqtt pubTopic="TER_TEXT">Hello, how are you?</mqtt>
-    <wait duration="2" />
-    <perception action="END" />
-    <wait duration="5" />
-    <perception action="START" sources="TER"/>
-    <mqtt pubTopic="TER_TEXT">I am so happy!</mqtt>
-    <wait duration="2" />
-    <perception action="END" /> -->
+    <llm>$</llm>
+    <goto target="BEGIN" />
   </script>
   <macros>
-    <macro id="AEB_EXECUTE">
-      <switch var="aeb_affective_state">
-        <!-- ################################################################################################## -->
-        <!-- Neutral affective state ###########################################################################-->
-        <!-- ################################################################################################## -->
-        <case op="exact" value="neutral">
-          <evaEmotion emotion="NEUTRAL" />
-          <led animation="STOP" />
-          <pose type="NEUTRAL" />
-        </case>
-
-        <!-- ################################################################################################## -->
-        <!-- Happiness affective state ######################################################################## -->
-        <!-- ################################################################################################## -->
-        <case op="exact" value="happiness_l1">
-          <evaEmotion emotion="PLEASED" />
-          <led animation="HAPPY0" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="happiness_l2">
-          <evaEmotion emotion="PLEASED" />
-          <led animation="HAPPY1" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="happiness_l3">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY2" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="happiness_l4">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY2" />
-          <pose type="RIGHT_FOOT1" />
-        </case>
-        
-        <!-- ################################################################################################## -->
-        <!-- Anger affective state ######################################################################## -->
-        <!-- ################################################################################################## -->
-        <case op="exact" value="anger_l1">
-          <evaEmotion emotion="NEUTRAL" />
-          <led animation="ANGRY0" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="anger_l2">
-          <evaEmotion emotion="NEUTRAL" />
-          <led animation="ANGRY1" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="anger_l3">
-          <evaEmotion emotion="ANGRY" />
-          <led animation="ANGRY2" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="anger_l4">
-          <evaEmotion emotion="ANGRY2" />
-          <led animation="ANGRY2" />
-          <pose type="NEUTRAL" />
-        </case>
-
-        <!-- ################################################################################################## -->
-        <!-- Sadness affective state ######################################################################## -->
-        <!-- ################################################################################################## -->
-        <case op="exact" value="sadness_l1">
-          <evaEmotion emotion="SAD" />
-          <led animation="SAD0" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="sadness_l2">
-          <evaEmotion emotion="SAD" />
-          <led animation="SAD1" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="sadness_l3">
-          <evaEmotion emotion="SAD" />
-          <led animation="SAD2" />
-          <pose type="NEUTRAL" />
-        </case>
-        <case op="exact" value="sadness_l4">
-          <evaEmotion emotion="SAD" />
-          <led animation="SAD2" />
-          <pose type="SAD_FOOT_SLOW" />
-        </case>
-
-      </switch>
+    <macro id="START">
+      <led animation="GREEN" />
+      <light id="POINT1" state="ON" />
     </macro>
-  </macros>
+    <macro id="MACRO1">
+      <debug operation="PAUSE" />
+    </macro>
+    <macro id="MACRO2">
+      <random min="1" max="2" />
+    </macro>
+  <macro id="MACRO3">
+    <random min="1" max="2" />
+  </macro>
+<macro id="MACRO4">
+  <random min="1" max="2" />
+</macro>
+
+<macro id="MACRO5">
+  <random min="1" max="2" />
+</macro>
+</macros>
 </evaml>

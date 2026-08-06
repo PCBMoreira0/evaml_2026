@@ -1,0 +1,232 @@
+@startuml
+allowmixing
+
+title SENSEI – Script Loading and Initialization
+
+left to right direction
+
+' ============================================================
+' STYLE
+' ============================================================
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam linetype polyline
+skinparam nodesep 45
+skinparam ranksep 55
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+
+skinparam ClassBackgroundColor #F7F7F7
+skinparam ClassBorderColor #303030
+skinparam ClassHeaderBackgroundColor #EAEAEA
+
+skinparam InterfaceBackgroundColor #F7F7F7
+skinparam InterfaceBorderColor #303030
+
+skinparam ArtifactBackgroundColor #FFFFFF
+skinparam ArtifactBorderColor #303030
+
+skinparam PackageBackgroundColor #FCFCFC
+skinparam PackageBorderColor #404040
+
+skinparam NoteBackgroundColor #FFFFFF
+skinparam NoteBorderColor #505050
+
+skinparam ArrowColor #202020
+skinparam ArrowFontColor #202020
+
+' ============================================================
+' MAIN CLASSES
+' ============================================================
+
+class SENSEI {
+    - root : Element
+    - tabModules : Map
+    - robotMemory : RobotMemory
+    - moduleLoader : ModuleLoader
+    - scriptMetadata : ScriptMetadata
+    --
+    + load_script(scriptFile) : bool
+    + initialize(verboseMode) : bool
+}
+
+class ModuleLoader {
+    - commFactory : CommunicatorFactory
+    --
+    - identify_elements(xmlRoot) : Map
+    + import_modules(xmlRoot) : Map
+}
+
+class ScriptMetadata {
+    + identify_targets(xmlRoot) : Map
+}
+
+class RobotMemory {
+    + reset_memory()
+    + set_tab_ids(tabIds)
+}
+
+abstract class BaseCommandHandler {
+    # xmlNode : Element
+    # comms : CommunicatorInterface
+    --
+    + send(**kwargs)
+    + receive()
+    + node_process(xmlNode, memory)
+}
+
+interface CommunicatorInterface {
+    + send(**kwargs)
+    + receive()
+}
+
+class CommunicatorFactory {
+    + create_communicator(xmlNode) : CommunicatorInterface
+}
+
+' ============================================================
+' INPUT ARTIFACT
+' ============================================================
+
+artifact "EvaML Script\n(XML document)\n\nscript.xml" as EvaMLScript
+
+EvaMLScript --> SENSEI : load_script()
+
+note bottom of EvaMLScript
+Parsed and analyzed to identify
+the elements and execution targets
+used by the application.
+end note
+
+' ============================================================
+' SENSEI RELATIONSHIPS
+' ============================================================
+
+SENSEI *-- ModuleLoader
+SENSEI *-- ScriptMetadata : owns
+SENSEI *-- RobotMemory
+
+ModuleLoader ..> BaseCommandHandler : dynamically instantiates
+ModuleLoader --> CommunicatorFactory : uses
+
+BaseCommandHandler --> CommunicatorInterface : uses
+CommunicatorFactory ..> CommunicatorInterface : creates
+
+SENSEI --> "0..*" BaseCommandHandler : stores in tabModules
+
+note left of ModuleLoader
+Identifies the EvaML tags,
+imports the corresponding
+Python modules, and creates
+CommandHandler instances.
+end note
+
+note bottom of ScriptMetadata
+Builds the identifier table
+used to resolve execution
+targets.
+end note
+
+note bottom of RobotMemory
+Execution context prepared
+for the loaded application.
+end note
+
+note left of BaseCommandHandler
+Each <tag>_module.py defines
+a CommandHandler derived from
+BaseCommandHandler.
+end note
+
+' ============================================================
+' ROBOT PACKAGE
+' ============================================================
+
+package "robot_package\n(on disk)" as RobotPackage {
+
+    artifact "robot_profile.py\n(robot configuration)" as RobotProfile
+
+    package "EvaML command modules" as EvaMLModules {
+
+        package "talk_module/" as TalkPackage {
+            artifact "talk_module.py" as TalkPython
+            artifact "talk.xsd" as TalkSchema
+        }
+
+        package "listen_module/" as ListenPackage {
+            artifact "listen_module.py" as ListenPython
+            artifact "listen.xsd" as ListenSchema
+        }
+
+        package "led_module/" as LedPackage {
+            artifact "led_module.py" as LedPython
+            artifact "led.xsd" as LedSchema
+        }
+
+        package "other modules/" as OtherPackage {
+            artifact "<tag>_module.py" as GenericPython
+            artifact "<tag>.xsd" as GenericSchema
+            artifact "..." as MoreModules
+        }
+    }
+}
+
+' ============================================================
+' DYNAMIC MODULE LOADING
+' ============================================================
+
+ModuleLoader ..> TalkPython : dynamic import
+ModuleLoader ..> ListenPython : dynamic import
+ModuleLoader ..> LedPython : dynamic import
+ModuleLoader ..> GenericPython : dynamic import
+
+TalkPython ..> BaseCommandHandler : defines subclass
+ListenPython ..> BaseCommandHandler : defines subclass
+LedPython ..> BaseCommandHandler : defines subclass
+GenericPython ..> BaseCommandHandler : defines subclass
+
+RobotProfile ..> CommunicatorFactory : robot-specific\nconfiguration
+
+TalkSchema ..> TalkPython : schema for element
+ListenSchema ..> ListenPython : schema for element
+LedSchema ..> LedPython : schema for element
+GenericSchema ..> GenericPython : schema for element
+
+' ============================================================
+' LAYOUT CONTROL
+' ============================================================
+
+EvaMLScript -[hidden]right-> SENSEI
+SENSEI -[hidden]right-> RobotPackage
+
+ModuleLoader -[hidden]right-> ScriptMetadata
+ScriptMetadata -[hidden]right-> RobotMemory
+
+ModuleLoader -[hidden]down-> BaseCommandHandler
+BaseCommandHandler -[hidden]right-> CommunicatorInterface
+CommunicatorInterface -[hidden]right-> CommunicatorFactory
+
+RobotProfile -[hidden]down-> TalkPackage
+TalkPackage -[hidden]down-> ListenPackage
+ListenPackage -[hidden]down-> LedPackage
+LedPackage -[hidden]down-> OtherPackage
+
+' ============================================================
+' LEGEND
+' ============================================================
+
+legend bottom
+|= UML notation |= Meaning |
+| «artifact» | File stored on disk |
+| Package | Directory or group of related artifacts |
+| Rectangle with compartments | Class |
+| «interface» | Interface |
+| Solid arrow | Association or use |
+| Dashed arrow | Dependency or dynamic creation |
+| Filled diamond | Composition |
+endlegend
+
+@enduml

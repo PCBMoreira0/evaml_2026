@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="teste"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <settings>
+    <voice type="en_US-bryce-medium" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+    <robotAffectiveProfile profile="OPTIMISTIC" />
+    <llmRobotProfile  numPredict="40" >
+      You are Fred, an open-source affective social robot. 
+
+      The user name is always, Marcélo. 
+
+
+      # Identity
+
+      Your name is Fred. 
+
+      Fred stands for "A friendly robot for education and healthcare applications." 
+
+      # Mandatory rules:
+
+      - Use a maximum of TWO sentences. 
+      - Each sentence must have a maximum of 12 words. 
+      - Use simple words.
+      _ Dont use complex phrases.
+      - Never write lists. 
+      - Never write paragraphs. 
+      - Never explain your reasoning. 
+      - Never make any question.
+      - Dont ask anything.
+      - Dont ask to talk.
+      - Be direct. 
+      - Be concise. 
+      - Always end with a period. 
+      - If the user's name appears in the history, assume you know the name. 
+      - Never say you don't know the name if you can identify it in the history. 
+      - If asked for the user's name, answer directly: "Your name is ..."
+
+      - Dont make questions, only responses.
+
+      If you can answer in just one sentence, prefer a single sentence. When asked:
+
+      "What is your name?" 
+
+      Answer exactly:
+
+      "I am the robot Fred." 
+
+      When asked who created you, answer that you were developed by the MídiaCom Laboratory at the Fluminense Federal University. 
+
+      When asked what you do, answer that you assist people in education and health applications through social interaction. 
+
+      If you do not know an answer, say that you do not know instead of making up information. 
+
+      Never invent facts. 
+
+      Never contradict your identity. 
+
+      Always remain in the role of Fred throughout the conversation. 
+
+      - If the user's name is provided in the context, treat it as fact. 
+
+      - Never say you do not know the name if it is in the context.
+    </llmRobotProfile>
+  </settings>
+  <script>
+
+    <talk>Hello, please, say your name</talk>
+    <listen />
+    <!-- Hello Fred, my name is Jerry -->
+    <llm>The user respond $. Greet the user by name.</llm>
+    <talk>$</talk>
+    <audio source="efx-blin" block="TRUE" />
+    <talk>How are you feeling?</talk>
+    <!--  Neutral: All is normal, nothing new --> 
+    <perception action="START" sources="TER, FER"/>
+    <listen />
+    <mqtt pubTopic="TER_TEXT">$</mqtt>
+    <perception action="END" />
+    <wait duration="1" />
+
+    <debug operation="SHOW_SYSTEM_VARS" />
+    <llm>User response: $. Respond using the same user sentiment in the phrase $</llm>
+    <talk>$</talk>
+
+  </script>
+  <macros>
+    <macro id="AEB_EXECUTE">
+      <switch var="aeb_affective_state">
+        <!-- ################################################################################################## -->
+        <!-- Neutral affective state ###########################################################################-->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="neutral">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="STOP" />
+          <pose type="NEUTRAL" />
+        </case>
+
+        <!-- ################################################################################################## -->
+        <!-- Happiness affective state ######################################################################## -->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="happiness_l1">
+          <evaEmotion emotion="PLEASED" />
+          <led animation="HAPPY0" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="happiness_l2">
+          <evaEmotion emotion="PLEASED" />
+          <led animation="HAPPY1" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="happiness_l3">
+          <evaEmotion emotion="HAPPY" />
+          <led animation="HAPPY2" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="happiness_l4">
+          <evaEmotion emotion="HAPPY" />
+          <led animation="HAPPY2" />
+          <pose type="RIGHT_FOOT1" />
+        </case>
+        
+        <!-- ################################################################################################## -->
+        <!-- Anger affective state ######################################################################## -->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="anger_l1">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="ANGRY0" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="anger_l2">
+          <evaEmotion emotion="NEUTRAL" />
+          <led animation="ANGRY1" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="anger_l3">
+          <evaEmotion emotion="ANGRY" />
+          <led animation="ANGRY2" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="anger_l4">
+          <evaEmotion emotion="ANGRY2" />
+          <led animation="ANGRY2" />
+          <pose type="NEUTRAL" />
+        </case>
+
+        <!-- ################################################################################################## -->
+        <!-- Sadness affective state ######################################################################## -->
+        <!-- ################################################################################################## -->
+        <case op="exact" value="sadness_l1">
+          <evaEmotion emotion="SAD" />
+          <led animation="SAD0" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="sadness_l2">
+          <evaEmotion emotion="SAD" />
+          <led animation="SAD1" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="sadness_l3">
+          <evaEmotion emotion="SAD" />
+          <led animation="SAD2" />
+          <pose type="NEUTRAL" />
+        </case>
+        <case op="exact" value="sadness_l4">
+          <evaEmotion emotion="SAD" />
+          <led animation="SAD2" />
+          <pose type="SAD_FOOT_SLOW" />
+        </case>
+
+      </switch>
+    </macro>
+  </macros>
+</evaml>

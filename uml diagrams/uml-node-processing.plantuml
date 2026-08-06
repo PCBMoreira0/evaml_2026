@@ -1,0 +1,41 @@
+@startuml
+
+title EvaML Node Processing
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam sequence {
+    ParticipantBackgroundColor #F7F7F7
+    ParticipantBorderColor #303030
+    LifeLineBorderColor #505050
+    ArrowColor #202020
+}
+
+actor "Host" as Host
+participant "SENSEI" as Sensei
+collections "tab_modules" as Modules
+participant "CommandHandler" as Handler
+database "RobotMemory" as Memory
+
+Host -> Sensei : play_next()
+Sensei -> Sensei : Select current node
+Sensei -> Modules : Find handler by node tag
+Modules --> Sensei : Handler instance
+
+Sensei -> Sensei : state = BLOCKED
+Sensei -> Handler : node_process(node, Memory)
+activate Handler
+
+Handler -> Memory : Read/write runtime data
+Memory --> Handler : Runtime values
+
+Handler --> Sensei : Processed or target node
+deactivate Handler
+
+Sensei -> Sensei : state = PLAY
+Sensei -> Sensei : Determine next node
+Sensei --> Host : Execution step completed
+
+@enduml

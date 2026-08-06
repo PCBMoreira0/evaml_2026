@@ -1,0 +1,79 @@
+{
+  "artificialDelayMilliseconds": 1000,
+  "keepExistingTerminalsOpen": false,
+  "runOnStartup": false,
+  "terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "PARSER_SENSEI",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "VAD_MON",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "VAD_GEN",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "ROSE",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "PULSE",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "AEB",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "INPUT_TER",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "INPUT_FER",
+          "commands": ["source input_fer/venv/bin/activate"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "SIM_COMPONENTS",
+          "commands": ["source venv/bin/activate"]
+        }
+      ]
+    }
+  ]
+}

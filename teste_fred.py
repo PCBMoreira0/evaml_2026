@@ -2,7 +2,7 @@ from script_engine import ScriptEngine
 
 sp1 = ScriptEngine() # Empty state.
 
-if not (sp1.load_script("fred_scripts/teste_evaemotion_evaml.xml")): # If file was loaded, it is in a Not_Init state.
+if not (sp1.load_script("fred_scripts/fred_demo_evaml.xml")): # If file was loaded, it is in a Not_Init state.
     # We have a problem with the file. eva_scripts/tabuada_nova_evaml.xml
     exit(1)
 

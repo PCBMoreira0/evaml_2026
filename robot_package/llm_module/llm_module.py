@@ -12,6 +12,9 @@ from ollama import chat
 
 MODEL_LLM = "llama3.2:3b"
 
+# MODEL_LLM = "qwen2.5:3b"
+
+
 chat(
         model=MODEL_LLM,
         messages=[],

@@ -1,0 +1,133 @@
+@startuml
+
+title SENSEI – Script Loading and Initialization
+
+top to bottom direction
+
+' ============================================================
+' VISUAL STYLE
+' ============================================================
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 55
+skinparam ranksep 65
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+
+skinparam ClassBackgroundColor #F7F7F7
+skinparam ClassBorderColor #303030
+skinparam ClassHeaderBackgroundColor #EAEAEA
+
+skinparam InterfaceBackgroundColor #F7F7F7
+skinparam InterfaceBorderColor #303030
+
+skinparam ArrowColor #202020
+skinparam ArrowFontColor #202020
+
+' ============================================================
+' CLASSES
+' ============================================================
+
+class SENSEI {
+    - state : String
+    - root : Element
+    - tabModules : Map
+    - robotMemory : RobotMemory
+    - moduleLoader : ModuleLoader
+    - scriptMetadata : ScriptMetadata
+    - settingsNode : Element
+    - scriptNode : Element
+    --
+    + load_script(scriptFile) : bool
+    + initialize(verboseMode) : bool
+}
+
+class ModuleLoader {
+    - commFactory : CommunicatorFactory
+    --
+    - identify_elements(xmlRoot, verboseMode) : Map
+    + import_modules(xmlRoot, verboseMode) : Map
+}
+
+class ScriptMetadata {
+    + identify_targets(xmlRoot, verboseMode) : Map
+}
+
+class RobotMemory <<Execution Context>> {
+    + reset_memory()
+    + set_tab_ids(tabIds)
+}
+
+abstract class BaseCommandHandler {
+    # xmlNode : Element
+    # comms : CommunicatorInterface
+    --
+    + BaseCommandHandler(xmlNode, communicator)
+    + send(**kwargs)
+    + receive()
+    {abstract} + node_process(xmlNode, memory)
+}
+
+interface CommunicatorInterface {
+    + send(**kwargs)
+    + receive()
+}
+
+class CommunicatorFactory {
+    + create_communicator(xmlNode) : CommunicatorInterface
+}
+
+' ============================================================
+' SENSEI OWNED COMPONENTS
+' ============================================================
+
+SENSEI "1" *-- "1" ModuleLoader
+SENSEI "1" *-- "1" ScriptMetadata
+SENSEI "1" *-- "1" RobotMemory
+
+' ============================================================
+' INITIALIZATION RELATIONSHIPS
+' ============================================================
+
+ModuleLoader "1" *-- "1" CommunicatorFactory
+ModuleLoader ..> BaseCommandHandler : dynamically instantiates
+
+SENSEI "1" --> "0..*" BaseCommandHandler : stores in tabModules
+
+ScriptMetadata --> RobotMemory : stores identifier table
+
+' ============================================================
+' COMMAND HANDLER COMMUNICATION DEPENDENCY
+' ============================================================
+
+BaseCommandHandler --> "1" CommunicatorInterface : uses
+CommunicatorFactory ..> CommunicatorInterface : creates
+
+' ============================================================
+' LAYOUT CONTROL
+' ============================================================
+
+ModuleLoader -[hidden]right-> ScriptMetadata
+ScriptMetadata -[hidden]right-> RobotMemory
+
+ModuleLoader -[hidden]down-> BaseCommandHandler
+BaseCommandHandler -[hidden]right-> CommunicatorInterface
+CommunicatorInterface -[hidden]right-> CommunicatorFactory
+
+' ============================================================
+' LEGEND
+' ============================================================
+
+legend bottom
+|= UML notation |= Meaning |
+| Filled diamond | Composition / ownership |
+| Solid line | Association |
+| Dashed arrow | Dependency or dynamic creation |
+| 1 | Exactly one instance |
+| 0..* | Zero or more instances |
+endlegend
+
+@enduml

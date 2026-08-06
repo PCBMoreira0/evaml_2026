@@ -1,3 +1,5 @@
+# SENSEI source code
+
 import sys
 import os
 import time
