@@ -21,7 +21,7 @@ Revision: 2025/04/16
 		<xs:complexType mixed="true">
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB_SUB"/>
 			<xs:attribute name="pubTopic" type="xs:string" fixed="TALK"/>
-			<xs:attribute name="subTopic" type="xs:string" fixed="TALK_RESPONSE"/>
+			<xs:attribute name="subTopic" type="xs:string" fixed="state"/>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="voiceType" type="voiceType"/>
 		</xs:complexType>

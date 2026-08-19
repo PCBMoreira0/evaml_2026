@@ -1,0 +1,25 @@
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="pcb2" xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd">
+  
+  <settings>
+    <voice type="pt-BR_IsabelaV3Voice" commMode="NULL" />
+    <lightEffects mode="ON" commMode="NULL" />
+    <audioEffects mode="ON" commMode="NULL" vol="100%" />
+  </settings>
+  <script>
+    <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Olá, que bom te ver.</talk>
+    <audio source="song-take-on-me" block="TRUE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="state" />
+    <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+    <wait duration="2000" commMode="NULL" />
+    <userEmotion var="emo" commMode="MQTT_PUB_SUB" pubTopic="USEREMOTION" subTopic="USEREMOTION_RESPONSE" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">#emo</talk>
+    <qrRead var="resp" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">#resp</talk>
+    <wait duration="2000" commMode="NULL" />
+    <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    <listen var="nome" commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
+    <wait duration="2000" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito prazer, #nome!</talk>
+    <evaEmotion emotion="SURPRISE" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+  </script>
+</evaml>

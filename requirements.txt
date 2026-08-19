@@ -19,3 +19,4 @@ urllib3==2.5.0
 websocket-client==1.8.0
 wheel==0.45.1
 xmlschema==4.1.0
+numpy==2.5.2

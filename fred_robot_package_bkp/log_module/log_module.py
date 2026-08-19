@@ -8,7 +8,7 @@ import config  # Module with network device configurations.
 
 sys.path.insert(0, "../")
 
-import robot_profile  # Module with network device configurations.
+import robot_package.robot_profile as robot_profile  # Module with network device configurations.
 
 robot_topic_base = robot_profile.ROBOT_TOPIC_BASE
 

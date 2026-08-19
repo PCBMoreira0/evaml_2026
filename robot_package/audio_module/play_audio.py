@@ -37,7 +37,7 @@ class LinuxPlayAudio(PlayAudioBase):
 
 # Implementação para Windows
 class WindowsPlayAudio(PlayAudioBase):
-    def play(self, xml_node, file_name):
+    def play(self, xml_node, file_name, block):
         print("Executando o método 'play' usando a classe Windows... (Falta implementar!!!)")
 
 

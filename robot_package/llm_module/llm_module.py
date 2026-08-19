@@ -4,7 +4,7 @@ import re
 
 import config # Module with network device configurations.
 
-import robot_profile  # Module with network device configurations.
+import robot_package.robot_profile as robot_profile  # Module with network device configurations.
 
 from base_command_handler import BaseCommandHandler
 

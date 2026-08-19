@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaml
+  name="pcb2"
+  xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <settings>
+    <voice type="pt-BR_IsabelaV3Voice" />
+    <lightEffects mode="ON" />
+    <audioEffects mode="ON" />
+  </settings>
+  <script>
+    <evaEmotion emotion="HAPPY" />
+    <talk>Olá, que bom te ver.</talk>
+    <audio source="song-take-on-me" block="TRUE" />
+    <motion head="YES"/>
+    <wait duration="2000" />
+    <userEmotion var="emo"/>
+    <talk>#emo</talk>
+    <qrRead var="resp"/>
+    <talk>#resp</talk>
+    <wait duration="2000" />
+    <evaEmotion emotion="SAD" />
+    <listen var="nome"/>
+    <wait duration="2000" />
+    <talk>Muito prazer, #nome!</talk>
+    <evaEmotion emotion="SURPRISE" />
+  </script>
+</evaml>

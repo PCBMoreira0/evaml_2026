@@ -17,7 +17,7 @@ from ibm_watson import TextToSpeechV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson import ApiException
 
-import robot_profile  # Module with network device configurations.
+import robot_package.robot_profile as robot_profile  # Module with network device configurations.
 
 
 robot_topic_base = robot_profile.ROBOT_TOPIC_BASE

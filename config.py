@@ -6,9 +6,6 @@ ROBOT_PACKAGE_FOLDER    = 'robot_package' # Directory with robot modules
 
 TERMINAL_BASE_TOPIC    = 'TERMINAL' 
 
-# SIMULATOR_BASE_TOPIC    = 'SIMULATOR'
-# TERMINAL_TOPIC_BASE    = 'TERMINAL'
-
 # Robot Affective State Topic
 ROBOT_AFFECTIVE_STATE_TOPIC = 'ROBOT_AFFECTIVE_STATE'
 

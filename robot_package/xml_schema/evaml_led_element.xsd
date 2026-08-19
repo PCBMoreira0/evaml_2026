@@ -20,7 +20,7 @@ Revision: 2025/04/16
 		<xs:complexType>
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
             <!-- FRED uses lowercase in topics -->
-			<xs:attribute name="pubTopic" type="xs:string" fixed="leds"/>
+			<xs:attribute name="pubTopic" type="xs:string" fixed="LEDS"/>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="animation" type="ledAnimationType" use="required"/>
 		</xs:complexType>

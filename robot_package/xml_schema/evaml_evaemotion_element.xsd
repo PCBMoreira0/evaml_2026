@@ -20,7 +20,7 @@ Revision: 2025/04/16
 	<xs:element name="evaEmotion">
 		<xs:complexType >
 			<xs:attribute name="commMode" type="xs:string" fixed="MQTT_PUB"/>
-			<xs:attribute name="pubTopic" type="xs:string" fixed="expression"/>
+			<xs:attribute name="pubTopic" type="xs:string" fixed="EVAEMOTION"/>
 			<xs:attribute name="id" type="idType"/>
 			<xs:attribute name="emotion" type="evaEmotionType" use="required"/>
 		</xs:complexType>
@@ -30,7 +30,7 @@ Revision: 2025/04/16
 	<xs:simpleType name="evaEmotionType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="GREETINGS"/>
-			<xs:enumeration value="IN_LOVE"/>
+			<xs:enumeration value="INLOVE"/>
 			<xs:enumeration value="BROKEN"/>
 			<xs:enumeration value="NEUTRAL"/>
 			<xs:enumeration value="PLEASED"/>
@@ -38,8 +38,9 @@ Revision: 2025/04/16
 			<xs:enumeration value="SAD"/>
 			<xs:enumeration value="ANGRY"/>
 			<xs:enumeration value="ANGRY2"/>
-			<xs:enumeration value="SURPRISED"/>
-			<xs:enumeration value="AFRAID"/>
+			<xs:enumeration value="SURPRISE"/>
+			<xs:enumeration value="FEAR"/>
+			<xs:enumeration value="DISGUST"/>
 			<xs:enumeration value="SPEECH_ON_1"/>
 			<xs:enumeration value="SPEECH_OFF_1"/>
 			<xs:enumeration value="SPEECH_ON_2"/>

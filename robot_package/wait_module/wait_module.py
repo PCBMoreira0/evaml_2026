@@ -15,34 +15,30 @@ class CommandHandler(BaseCommandHandler):
 
         duration = xml_node.attrib["duration"]
 
-        seconds = int(duration)
+        duration_ms = int(duration)  # duração em milissegundos
 
-        # Time in seconds
-        tempo_total = int(seconds)
+        intervalo = 100  # atualização a cada 100 ms
+        total_passos = duration_ms // intervalo
 
-        # Barra de progresso personalizada
         with Progress(
-            TextColumn("[b white]STATE:[/] [b white]Waiting [/]for [b white]" + str(seconds) + "[/] seconds. 🕒"),
+            TextColumn(f"[b white]State:[/] [b white]Waiting[/] for [b white]{duration_ms}[/] ms. 🕒"),
             BarColumn(bar_width=20),
             TextColumn("[bold cyan]{task.fields[tempo]}")
         ) as progress:
-            
-            # Adicionar tarefa
-            task = progress.add_task("", total=tempo_total, tempo="--:--")
-            
-            # Countdown
-            for segundos_restantes in range(tempo_total, -1, -1):
-                # Format the remaining time
-                minutos = segundos_restantes // 60
-                segundos = segundos_restantes % 60
-                tempo_str = f"{minutos:02d}:{segundos:02d}"
-                
-                # Update the bar and time field
-                progresso_atual = tempo_total - segundos_restantes
-                progress.update(task, completed=progresso_atual, tempo=tempo_str)
-                
-                # Wait 1 second, but only if it is not the last value
-                if segundos_restantes > 0:
-                    time.sleep(1)
-
+        
+            task = progress.add_task("", total=total_passos, tempo="00:00.000")
+        
+            for restante in range(duration_ms, -1, -intervalo):
+                minutos = restante // 60000
+                segundos = (restante % 60000) // 1000
+                milissegundos = restante % 1000
+        
+                tempo_str = f"{minutos:02d}:{segundos:02d}.{milissegundos:03d}"
+        
+                progresso = (duration_ms - restante) // intervalo
+                progress.update(task, completed=progresso, tempo=tempo_str)
+        
+                if restante > 0:
+                    time.sleep(intervalo / 1000)
+        
         return xml_node # It returns the same node

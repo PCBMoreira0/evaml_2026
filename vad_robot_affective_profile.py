@@ -15,7 +15,7 @@ sys.path.append(parent_dir)
 sys.path.append(os.path.join(os.getcwd(), "robot_package"))
 
 import config
-import robot_profile
+import robot_package.robot_profile as robot_profile
 
 
 # --- CONFIGURAÇÃO MQTT ---

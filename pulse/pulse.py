@@ -24,7 +24,7 @@ if str(ROBOT_PACKAGE_DIR) not in sys.path:
     sys.path.append(str(ROBOT_PACKAGE_DIR))
 
 import config
-import robot_profile
+import robot_package.robot_profile as robot_profile
 
 # Adjust these imports to match the actual names and locations of your files.
 from confidence_method import ConfidenceMethod

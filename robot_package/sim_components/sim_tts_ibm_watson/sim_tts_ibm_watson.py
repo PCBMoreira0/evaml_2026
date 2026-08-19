@@ -31,7 +31,7 @@ sys.path.append(parent_dir)
 
 import config # Module with network device configurations.
 
-import robot_profile
+import robot_package.robot_profile as robot_profile
 
 broker = config.MQTT_BROKER_ADRESS # Broker address.
 port = config.MQTT_PORT # Broker Port.

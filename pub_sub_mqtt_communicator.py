@@ -4,7 +4,7 @@ from communicator_interface import CommunicatorInterface # Supondo a interface e
 
 import config
 
-import robot_profile
+import robot_package.robot_profile as robot_profile
 
 # 
 class PubSubMqttComunicator(CommunicatorInterface):
@@ -53,11 +53,13 @@ class PubSubMqttComunicator(CommunicatorInterface):
         else:
             message = "SERVICE_REQUEST"
 
-        if kwargs["topic_base"]:
+        if "topic_base" in kwargs:
             self.topic_base = kwargs["topic_base"] + "/"
+        if "pub_topic" in kwargs:
+            self.client.publish(self.topic_base + kwargs['pub_topic'], message)
+        else:
+            self.client.publish(self.topic_base + self.pub_topic, message)
 
-        
-        self.client.publish(self.topic_base + self.pub_topic, message)
         print(f"OneWay MQTT: Enviando comando unidirecional -> {message}")
 
     def receive(self) -> dict:

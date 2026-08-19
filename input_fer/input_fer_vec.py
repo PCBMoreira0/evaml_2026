@@ -18,7 +18,7 @@ import config  # Module with network device configurations.
 
 sys.path.append(os.getcwd() + "/" + "robot_package/")
 
-import robot_profile
+import robot_package.robot_profile as robot_profile
 
 # 1. Configurações de ambiente para limpar o terminal de vez
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
