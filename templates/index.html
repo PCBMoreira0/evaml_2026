@@ -110,7 +110,8 @@
         </div>
         <div class="row" style="margin-top:10px">
           <select id="mode">
-            <option>terminal</option><option>robot</option>
+            <option>simulator</option><option>terminal</option>
+            <option>terminal-plus</option><option>robot</option>
           </select>
           <button id="start" class="primary">Iniciar</button>
         </div>
@@ -158,7 +159,7 @@
 <script>
 const $ = id => document.getElementById(id);
 let auto = false, waiting = false;
-let upcomingTag = null, currentTag = null;
+let upcomingTag = null, currentTag = null, mode = null;
 
 async function call(url, body){
   const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'},
@@ -192,6 +193,7 @@ function render(s){
 
   upcomingTag = s.upcoming ? s.upcoming.tag : null;
   currentTag = s.current ? s.current.tag : null;
+  mode = s.mode;
 
   const playing = s.state === 'PLAY';
   $('step').disabled = $('reset').disabled = !playing || waiting;
@@ -202,11 +204,16 @@ function render(s){
 }
 
 // Comandos que, no modo terminal, pedem um valor digitado pelo usuário.
+// Nos modos simulator/robot esses valores chegam por MQTT, então o campo não aparece.
 const INPUT_TAGS = {
   listen:      {legend: '🎤 o robô está ouvindo',    placeholder: 'Resposta do usuário'},
   qrRead:      {legend: '🔳 leitura de QR code',      placeholder: 'Conteúdo do QR code'},
   userEmotion: {legend: '🙂 emoção do usuário',       placeholder: 'Emoção detectada'},
 };
+
+function needsTypedInput(tag){
+  return !!INPUT_TAGS[tag] && (mode === 'terminal' || mode === 'terminal-plus');
+}
 
 function enterWaiting(tag){
   waiting = true;
@@ -223,19 +230,19 @@ function exitWaiting(){
 }
 
 async function doStep(){
-  const tag = upcomingTag;
-  if (INPUT_TAGS[tag]) enterWaiting(tag);
-  const s = await call('/api/step');
-  if (INPUT_TAGS[tag]) exitWaiting();
+  const tag = upcomingTag, typed = needsTypedInput(tag);
+  if (typed) enterWaiting(tag);
+  const s = await call('/api/step');   // fica bloqueado até a entrada chegar
+  if (typed) exitWaiting();
   render(s);
   return s;
 }
 
 async function doRepeat(){
-  const tag = currentTag;
-  if (INPUT_TAGS[tag]) enterWaiting(tag);
+  const tag = currentTag, typed = needsTypedInput(tag);
+  if (typed) enterWaiting(tag);
   const s = await call('/api/repeat');
-  if (INPUT_TAGS[tag]) exitWaiting();
+  if (typed) exitWaiting();
   render(s);
 }
 
@@ -258,10 +265,10 @@ $('auto').onclick = async () => {
   $('auto').classList.toggle('on', auto);
   $('auto').textContent = auto ? 'Pausar automático' : 'Modo automático';
   while (auto){
+    // Em um comando de entrada, o doStep fica aguardando o valor (digitado no
+    // modo terminal, ou vindo do MQTT nos demais) e o automático segue depois.
     const s = await doStep();
     if (s.state !== 'PLAY' || s.error) { auto = false; break; }
-    // Se o próximo passo pedir entrada do usuário, paramos o automático.
-    if (INPUT_TAGS[upcomingTag]) { auto = false; break; }
     await new Promise(r => setTimeout(r, (parseFloat($('delay').value) || 0) * 1000));
   }
   $('auto').classList.remove('on');
