@@ -1,6 +1,33 @@
 # Todos os valores na memória do robô são armazenados como strings, inclusive as representações de vetores VAD.
 # Sendo de responsabildade de quem usa essas variáveis a conversão para o tipo adequado.
 import json
+import copy
+
+from lxml import etree as ET
+
+
+def _clone(value):
+    """Cópia profunda "consciente de XML".
+
+    Nós lxml NUNCA são copiados: guardamos a referência original, pois um
+    deepcopy de um Element cria uma subárvore destacada e quebraria goto,
+    useMacro e a navegação por getnext()/getparent().
+    """
+    if isinstance(value, ET._Element):
+        return value
+    if isinstance(value, list):
+        return [_clone(v) for v in value]
+    if isinstance(value, tuple):
+        return tuple(_clone(v) for v in value)
+    if isinstance(value, dict):
+        return {k: _clone(v) for k, v in value.items()}
+    if isinstance(value, (set, frozenset)):
+        return type(value)(_clone(v) for v in value)
+    try:
+        return copy.deepcopy(value)
+    except Exception:
+        return value
+
 
 class RobotMemory(): # 
     def __init__(self):
@@ -280,6 +307,23 @@ class RobotMemory(): #
         return self.llm_vars["llm_init"]
 
 
+    # Snapshot / Restore  ------------------------------------------------
+    # Usados pelo ScriptEngine para implementar previous() (retrocesso).
+    def snapshot(self):
+        """Devolve uma cópia de todo o estado da memória.
+
+        Percorre __dict__, então atributos criados depois (default_voice,
+        default_voice_pitch_shift, etc.) entram automaticamente.
+        """
+        return {k: _clone(v) for k, v in self.__dict__.items()}
+
+    def restore(self, snap):
+        """Repõe a memória exatamente como estava no snapshot."""
+        self.__dict__.clear()
+        for k, v in snap.items():
+            self.__dict__[k] = _clone(v)
+
+
     def reset_memory(self): # 
         # 
         self.var_dollar = []
@@ -318,5 +362,3 @@ class RobotMemory(): #
 
         self.llm_vars = {}
         self.llm_vars["llm_init"] = False
-
-

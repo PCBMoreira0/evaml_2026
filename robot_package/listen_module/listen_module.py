@@ -44,7 +44,6 @@ class CommandHandler(BaseCommandHandler):
                     end="",
                 )
                 user_answer = console.input("[b white on green blink] > [/] ")
-                memory.var_dollar.append([user_answer, "<listen>"])
                 memory.setDollar([user_answer, "<listen>"])
             else:
                 var_name = xml_node.get("var")
@@ -57,7 +56,6 @@ class CommandHandler(BaseCommandHandler):
                     end="",
                 )
                 user_answer = console.input("[b white on green blink] > [/] ")
-                memory.vars[var_name] = user_answer
                 memory.setVar(var_name, user_answer)
 
         elif base_topic == robot_profile.ROBOT_BASE_TOPIC:

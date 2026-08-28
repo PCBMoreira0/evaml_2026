@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EVA — console de execução</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --panel:#dfe5ea; --ink:#16202b; --ink-soft:#5b6b7a;
+    --signal:#b4610f; --live:#1f7a4d; --line:#a9b6c0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--panel); color:var(--ink);
+       font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:14px; line-height:1.5}
+  .wrap{max-width:1240px; margin:0 auto; padding:22px 20px 40px}
+  h1{font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:24px; letter-spacing:-.02em; margin:0 0 16px}
+  .label{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft)}
+
+  .layout{display:grid; grid-template-columns:400px 1fr; gap:18px; align-items:start}
+  @media (max-width:840px){ .layout{grid-template-columns:1fr} }
+
+  .now{border:1px solid var(--line); border-left:4px solid var(--live); background:#eef2f5;
+       border-radius:3px; padding:16px 18px; margin-bottom:16px}
+  .node{font-family:"Space Grotesk",sans-serif; font-weight:700; font-size:26px; margin:5px 0 2px; word-break:break-word}
+  .node .br{color:var(--ink-soft); font-weight:500}
+  .node-text{color:var(--ink-soft); font-size:13px; min-height:18px}
+  .next-line{margin-top:12px; padding-top:12px; border-top:1px dashed var(--line); font-size:13px; color:var(--ink-soft)}
+  .next-line b{color:var(--ink); font-weight:600}
+  .meta{display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:12px}
+  .dot{display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--ink-soft); margin-right:6px; vertical-align:1px}
+  .dot.play{background:var(--live); box-shadow:0 0 0 3px rgba(31,122,77,.18)}
+
+  fieldset{border:1px solid var(--line); border-radius:3px; padding:14px 16px; margin:0 0 16px; background:#eef2f5}
+  legend{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); padding:0 6px}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  select,input[type=text]{font:inherit; padding:8px 10px; border:1px solid var(--line);
+       border-radius:3px; background:#fff; color:var(--ink); min-width:0}
+  button{font-family:"Space Grotesk",sans-serif; font-weight:500; font-size:14px; padding:9px 16px;
+       border:1px solid var(--ink); border-radius:3px; background:#fff; color:var(--ink); cursor:pointer}
+  button:hover:not(:disabled){background:var(--ink); color:#eef2f5}
+  button:disabled{opacity:.35; cursor:not-allowed}
+  button.primary{background:var(--ink); color:#eef2f5}
+  button.on{background:var(--live); border-color:var(--live); color:#fff}
+  :focus-visible{outline:2px solid var(--signal); outline-offset:2px}
+
+  #listenBox{border-color:var(--signal); background:#f7ece2}
+  #listenBox[hidden]{display:none}
+  #listenBox legend{color:var(--signal)}
+
+  .err{border:1px solid var(--signal); background:#f7ece2; color:#7d420a; padding:10px 14px;
+       border-radius:3px; margin-bottom:16px; font-size:13px}
+  .err[hidden]{display:none}
+
+  .logcol{position:sticky; top:20px}
+  .logbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
+  #log{background:#101a24; color:#d6e0e8; border-radius:3px; padding:16px 18px;
+       height:calc(100vh - 90px); overflow:auto; white-space:pre-wrap; word-break:break-word;
+       font-size:12.5px; line-height:1.55}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>EVA · console de execução</h1>
+  <div class="err" id="err" hidden></div>
+
+  <div class="layout">
+    <div>
+      <div class="now" id="now">
+        <div class="label">você está em</div>
+        <div class="node" id="nextNode"><span class="br">—</span></div>
+        <div class="node-text" id="nextText"></div>
+        <div class="next-line" id="execLine" hidden>acabou de executar: <b id="execTag">—</b> <span id="execText"></span></div>
+        <div class="meta">
+          <div><span class="dot" id="dot"></span><b id="state">NO_SCRIPT</b></div>
+          <div>histórico <b id="hist">0</b></div>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>script</legend>
+        <div class="row">
+          <select id="scripts" style="flex:1"></select>
+          <button id="load">Carregar</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <select id="mode">
+            <option>simulator</option><option>terminal</option>
+            <option>terminal-plus</option><option>robot</option>
+          </select>
+          <button id="start" class="primary">Iniciar</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>execução</legend>
+        <div class="row">
+          <button id="step" class="primary">Avançar ▸</button>
+          <button id="repeat">Repetir ↻</button>
+          <button id="back">Voltar ◂</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button id="auto">Modo automático</button>
+          <label style="font-size:12px; color:var(--ink-soft)">
+            intervalo <input type="text" id="delay" value="1.0" style="width:56px; text-align:center"> s
+          </label>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button id="reset">Voltar ao início</button>
+        </div>
+      </fieldset>
+
+      <fieldset id="listenBox" hidden>
+        <legend>🎤 o robô está ouvindo</legend>
+        <div class="row">
+          <input type="text" id="answer" placeholder="Resposta do usuário" autocomplete="off" style="flex:1">
+          <button id="send" class="primary">Enviar</button>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="logcol">
+      <div class="logbar">
+        <span class="label">saída do player</span>
+        <button id="clear" style="padding:4px 10px; font-size:12px">Limpar tela</button>
+      </div>
+      <div id="log"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let auto = false, waiting = false;
+let lastUpcomingTag = null, lastExecutedTag = null, hasJustExecuted = false;
+
+async function call(url, body){
+  const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'},
+                              body: JSON.stringify(body || {})});
+  return r.json();
+}
+
+function nodeHTML(n){
+  return n ? '<span class="br">&lt;</span>' + n.tag + '<span class="br">&gt;</span>' : '<span class="br">—</span>';
+}
+
+function render(s){
+  if (s.log && s.log.length){
+    $('log').textContent += s.log.join('\n') + '\n';
+    $('log').scrollTop = $('log').scrollHeight;
+  }
+  $('state').textContent = s.state;
+  $('hist').textContent = s.history;
+  $('dot').className = 'dot' + (s.state === 'PLAY' ? ' play' : '');
+
+  // "Você está em" = o nó que vai rodar na próxima vez que Avançar for clicado.
+  // Isso é sempre verdadeiro, tenha o cursor chegado ali avançando ou voltando.
+  $('nextNode').innerHTML = nodeHTML(s.upcoming);
+  $('nextText').textContent = s.upcoming ? (s.upcoming.id ? 'id: ' + s.upcoming.id + '   ' : '') + (s.upcoming.text || '') : '';
+
+  $('execLine').hidden = !s.executed;
+  if (s.executed){
+    $('execTag').textContent = '<' + s.executed.tag + '>';
+    $('execText').textContent = s.executed.text || '';
+  }
+
+  $('err').hidden = !s.error;
+  $('err').textContent = s.error || '';
+
+  lastUpcomingTag = s.upcoming ? s.upcoming.tag : null;
+  lastExecutedTag = s.executed ? s.executed.tag : null;
+  hasJustExecuted = !!s.executed;
+
+  const playing = s.state === 'PLAY';
+  $('step').disabled = $('reset').disabled = !playing || waiting;
+  // Repetir só faz sentido logo depois de um passo real (step/repeat). Depois de
+  // "Voltar" o cursor já está posicionado no nó certo — use Avançar, não Repetir.
+  $('repeat').disabled = s.history === 0 || waiting || !hasJustExecuted;
+  $('back').disabled = s.history === 0 || waiting;
+  $('auto').disabled = !playing;
+  $('start').disabled = s.state !== 'IDLE';
+}
+
+function enterWaiting(){
+  waiting = true;
+  $('listenBox').hidden = false;
+  $('answer').focus();
+  $('step').disabled = $('repeat').disabled = $('back').disabled = $('reset').disabled = true;
+}
+function exitWaiting(){
+  waiting = false;
+  $('listenBox').hidden = true;
+}
+
+async function doStep(){
+  const willListen = lastUpcomingTag === 'listen';
+  if (willListen) enterWaiting();
+  const s = await call('/api/step');
+  if (willListen) exitWaiting();
+  render(s);
+  return s;
+}
+
+async function doRepeat(){
+  const willListen = lastExecutedTag === 'listen';
+  if (willListen) enterWaiting();
+  const s = await call('/api/repeat');
+  if (willListen) exitWaiting();
+  render(s);
+}
+
+$('load').onclick = () => call('/api/load', {script_file: $('scripts').value}).then(render);
+$('start').onclick = () => call('/api/start', {mode: $('mode').value}).then(render);
+$('step').onclick = doStep;
+$('repeat').onclick = doRepeat;
+$('back').onclick = () => call('/api/back').then(render);
+$('reset').onclick = () => call('/api/reset').then(render);
+$('clear').onclick = () => { $('log').textContent = ''; };
+
+fetch('/api/scripts').then(r => r.json()).then(({scripts}) => {
+  $('scripts').innerHTML = scripts.length
+    ? scripts.map(f => '<option>' + f + '</option>').join('')
+    : '<option value="">nenhum .xml em eva_scripts/</option>';
+});
+
+$('auto').onclick = async () => {
+  auto = !auto;
+  $('auto').classList.toggle('on', auto);
+  $('auto').textContent = auto ? 'Pausar automático' : 'Modo automático';
+  while (auto){
+    const s = await doStep();
+    if (s.state !== 'PLAY' || s.error) { auto = false; break; }
+    // Se o próximo passo for um listen, paramos o automático para o usuário responder.
+    if (lastUpcomingTag === 'listen') { auto = false; break; }
+    await new Promise(r => setTimeout(r, (parseFloat($('delay').value) || 0) * 1000));
+  }
+  $('auto').classList.remove('on');
+  $('auto').textContent = 'Modo automático';
+};
+
+function send(){ call('/api/input', {text: $('answer').value}); $('answer').value = ''; }
+$('send').onclick = send;
+$('answer').addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+</script>
+</body>
+</html>

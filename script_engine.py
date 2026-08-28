@@ -47,6 +47,11 @@ class ScriptEngine:
         self.__root = None # Elemento root do arquivo XML
         self.__moduleloader = ModuleLoader()
         self.__scriptmetadata = ScriptMetadata()
+        # Histórico de estados para permitir o retrocesso (previous()).
+        # Cada item é um dicionário com o nó corrente, o estado do player e um
+        # snapshot completo da RobotMemory (inclui node_stack, vars, $, etc.).
+        self.__history = []
+        self.__history_limit = 500 # Profundidade máxima do "undo".
 
     # get the player state
     def get_state(self):
@@ -116,6 +121,9 @@ class ScriptEngine:
         # Points to the first node of the <script> section
         self.node = self.script_node[0] # First node of the <script> section
         self.__state = "PLAY"
+        # O histórico só cobre a seção <script>: o retrocesso não deve
+        # desfazer a execução das <settings>.
+        self.__history = []
         console.rule("🤖 [red reverse b]  Executing the script: " + self.script_file + "  [/] 🤖\n")
 
 
@@ -125,6 +133,11 @@ class ScriptEngine:
         if self.__state != "PLAY":
             print('The Player is not in the "PLAY" state and cannot be reset.')
             return False
+
+        # Grava o estado ANTES de executar o passo, para que previous() possa
+        # voltar exatamente ao ponto em que este nó ainda não foi executado.
+        self.__push_history()
+
         # Iterative version of the player. Now the XML is read iteratively, without recursion.
         if self.node == None: # None means the end of a level, where there is no longer a sibling node.
             if len(self.__robot_memory.get_node_stack()) != 0: # If there is an element in the stack.
@@ -239,6 +252,50 @@ class ScriptEngine:
 
 
 
+    # ------------------------------------------------------------------
+    # Retrocesso (undo) da execução
+    # ------------------------------------------------------------------
+    def __push_history(self):
+        """Empilha um snapshot do estado corrente do player."""
+        self.__history.append({
+            "node": self.node,                          # referência lxml (não copiar!)
+            "state": self.__state,
+            "memory": self.__robot_memory.snapshot(),   # cópia de toda a memória
+        })
+        if len(self.__history) > self.__history_limit:
+            self.__history.pop(0) # Descarta o passo mais antigo.
+
+    def history_size(self):
+        """Quantos passos ainda é possível retroceder."""
+        return len(self.__history)
+
+    def clear_history(self):
+        self.__history = []
+
+    def previous(self, steps=1):
+        """Retrocede a execução em 'steps' chamadas de play_next().
+
+        Restaura o nó corrente, o estado do player e TODA a memória do robô
+        (vars, $, node_stack, op_switch, flag_case, estados afetivos, llm_vars...).
+        Depois de previous(), a próxima chamada a play_next() reexecuta o
+        mesmo nó, com o mesmo estado de entrada.
+        """
+        if steps < 1:
+            return False
+
+        if len(self.__history) < steps:
+            print("[b yellow]Não há histórico suficiente para retroceder " + str(steps) + " passo(s). Disponível: " + str(len(self.__history)) + ".[/]")
+            return False
+
+        for _ in range(steps):
+            snap = self.__history.pop()
+
+        self.node = snap["node"]
+        self.__state = snap["state"]
+        self.__robot_memory.restore(snap["memory"])
+        return True
+
+
     # Allows play to return to the beginning of the script, resetting memory without resetting the ID table.   
     def reset(self):
         if self.__state != "PLAY":
@@ -247,4 +304,5 @@ class ScriptEngine:
         self.__state  = "IDLE"
         self.node = self.script_node[0] # First node of the script.
         self.__robot_memory.reset_memory()
+        self.__history = [] # O histórico de retrocesso perde o sentido após um reset.
         return True
