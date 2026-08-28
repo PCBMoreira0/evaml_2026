@@ -47,6 +47,7 @@ class CommandHandler(BaseCommandHandler):
                         block=True,
                     )
                 except FileNotFoundError as e:
+                    print(e)
                     print(
                         '[b white on red blink] FATAL ERROR [/]: [b yellow reverse] There was a problem playing the audio file [/]: [b wh"'
                         + xml_node.get("source")

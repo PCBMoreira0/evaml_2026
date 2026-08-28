@@ -125,9 +125,7 @@ class CommandHandler(BaseCommandHandler):
                 '[b white]State:[/] The Robot is [b blue]speaking[/] the sentence: [b white]"[/]',
                 end="",
             )
-            for c in text_to_speech[ind_random]:
-                print("[b white]" + c + "[/]", end="")
-                time.sleep(0.02)
+            print("[b white]" + text_to_speech[ind_random])
             print('[b white]"')
 
         elif base_topic == robot_profile.ROBOT_BASE_TOPIC:

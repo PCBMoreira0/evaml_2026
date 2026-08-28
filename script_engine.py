@@ -269,6 +269,15 @@ class ScriptEngine:
         """Quantos passos ainda é possível retroceder."""
         return len(self.__history)
 
+    def executed_node(self, back=0):
+        """Nó executado no passo mais recente (back=0), no anterior (back=1), etc.
+
+        O histórico guarda, em cada passo, o nó que estava prestes a ser
+        executado. Logo, o topo da pilha é justamente o "comando atual".
+        """
+        index = len(self.__history) - 1 - back
+        return self.__history[index]["node"] if index >= 0 else None
+
     def clear_history(self):
         self.__history = []
 

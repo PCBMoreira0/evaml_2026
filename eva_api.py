@@ -69,12 +69,15 @@ def node_info(node):
     return {"tag": node.tag, "text": (node.text or "").strip()[:80], "id": node.get("id")}
 
 
-def result(executed=None, error=None):
-    upcoming = node_info(getattr(engine, "node", None)) if engine else None
+def result(error=None):
+    # previous  -> penúltimo nó executado
+    # current   -> último nó executado (é o que "Repetir" reexecuta)
+    # upcoming  -> nó apontado pelo cursor (é o que "Avançar" executa)
     return jsonify({
         "state": engine.get_state() if engine else "NO_SCRIPT",
-        "executed": executed,   # o nó que acabou de rodar (None se nada rodou nesta chamada)
-        "upcoming": upcoming,   # o nó que vai rodar na próxima vez que "avançar" for clicado
+        "previous": node_info(engine.executed_node(1)) if engine else None,
+        "current": node_info(engine.executed_node(0)) if engine else None,
+        "upcoming": node_info(getattr(engine, "node", None)) if engine else None,
         "history": engine.history_size() if engine else 0,
         "log": log.drain(),
         "error": error,
@@ -114,18 +117,16 @@ def start():
 
 @app.post("/api/step")
 def step():
-    executed = node_info(engine.node)
     engine.play_next()
-    return result(executed=executed)
+    return result()
 
 
 @app.post("/api/repeat")
 def repeat():
     if not engine.previous():
-        return result(error="Não há comando anterior para repetir.")
-    executed = node_info(engine.node)
+        return result(error="Não há comando para repetir.")
     engine.play_next()
-    return result(executed=executed)
+    return result()
 
 
 @app.post("/api/back")
