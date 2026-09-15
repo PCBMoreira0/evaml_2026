@@ -68,9 +68,25 @@
 
   .logcol{position:sticky; top:20px}
   .logbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
+  .tabs{display:flex; gap:6px}
+  .tab{font-family:inherit; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+       padding:5px 12px; border:1px solid var(--line); background:transparent; color:var(--ink-soft)}
+  .tab.on{background:var(--ink); border-color:var(--ink); color:#eef2f5}
   #log{background:#101a24; color:#d6e0e8; border-radius:3px; padding:16px 18px;
        height:calc(100vh - 90px); overflow:auto; white-space:pre-wrap; word-break:break-word;
        font-size:12.5px; line-height:1.55}
+  #log[hidden], .pane[hidden]{display:none}
+  .pane{background:#eef2f5; border:1px solid var(--line); border-radius:3px; padding:16px 18px;
+        height:calc(100vh - 90px); overflow:auto}
+  #logTable{border-collapse:collapse; width:100%; font-size:13px}
+  #logTable td{padding:6px 10px 6px 0; border-bottom:1px solid var(--line)}
+  #logTable td.num{text-align:right; color:var(--ink-soft); white-space:nowrap}
+  .muted{color:var(--ink-soft)}
+  .dirhint{font-size:12px; color:var(--ink-soft); margin-top:8px; word-break:break-all}
+  .dirhint b{color:var(--ink); font-weight:600}
+  .rec{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px;
+       background:var(--ink-soft)}
+  .rec.on{background:#c0392b; box-shadow:0 0 0 3px rgba(192,57,43,.18)}
 </style>
 </head>
 <body>
@@ -127,7 +143,7 @@
         <div class="row" style="margin-top:10px">
           <button id="auto">Modo automático</button>
           <label style="font-size:12px; color:var(--ink-soft)">
-            intervalo <input type="text" id="delay" value="1.0" style="width:56px; text-align:center"> s
+            intervalo <input type="text" id="delay" value="0" style="width:56px; text-align:center"> s
           </label>
         </div>
         <div class="row" style="margin-top:10px">
@@ -148,10 +164,28 @@
 
     <div class="logcol">
       <div class="logbar">
-        <span class="label">saída do player</span>
+        <div class="tabs">
+          <button class="tab on" id="tabOut">saída do player</button>
+          <button class="tab" id="tabLogs">logs (csv)</button>
+        </div>
         <button id="clear" style="padding:4px 10px; font-size:12px">Limpar tela</button>
       </div>
+
       <div id="log"></div>
+
+      <div id="logsPane" class="pane" hidden>
+        <div class="row">
+          <input type="text" id="logDir" value="logs" placeholder="logs, ~/Documentos/eva ou /caminho/absoluto" style="flex:1">
+          <button id="logToggle" class="primary">Ativar gravação</button>
+        </div>
+        <div id="dirPreview" class="dirhint">—</div>
+        <div class="label" style="margin:18px 0 8px">estado</div>
+        <div id="logState">gravação desligada</div>
+        <div class="label" style="margin:18px 0 8px">logs recebidos
+          <button id="logRefresh" style="padding:2px 8px; font-size:11px; margin-left:8px">Atualizar</button>
+        </div>
+        <table id="logTable"><tbody><tr><td class="muted">nenhum log recebido ainda</td></tr></tbody></table>
+      </div>
     </div>
   </div>
 </div>
@@ -190,6 +224,8 @@ function render(s){
 
   $('err').hidden = !s.error;
   $('err').textContent = s.error || '';
+
+  if (s.collector) renderLogs(s.collector);   // vem junto de cada passo, sem polling
 
   upcomingTag = s.upcoming ? s.upcoming.tag : null;
   currentTag = s.current ? s.current.tag : null;
@@ -278,6 +314,67 @@ $('auto').onclick = async () => {
 function send(){ call('/api/input', {text: $('answer').value}); $('answer').value = ''; }
 $('send').onclick = send;
 $('answer').addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+
+// ----- Abas e gravação de logs -----
+let recording = false;
+
+function showTab(logs){
+  $('tabOut').classList.toggle('on', !logs);
+  $('tabLogs').classList.toggle('on', logs);
+  $('log').hidden = logs;
+  $('logsPane').hidden = !logs;
+  $('clear').style.visibility = logs ? 'hidden' : 'visible';
+  if (logs){ refreshLogs(); previewDir(); }
+}
+$('tabOut').onclick = () => showTab(false);
+$('tabLogs').onclick = () => showTab(true);
+
+function renderLogs(s){
+  recording = !!s.running;
+  $('logToggle').textContent = recording ? 'Parar gravação' : 'Ativar gravação';
+  $('logToggle').classList.toggle('on', recording);
+  $('logDir').disabled = recording;
+  $('logState').innerHTML = s.error
+    ? '<span class="rec"></span><span style="color:#7d420a">' + s.error + '</span>'
+    : '<span class="rec' + (recording ? ' on' : '') + '"></span>' +
+      (recording ? 'gravando em <b>' + s.output_dir + '/</b> · tópico ' + s.topic
+                 : 'gravação desligada');
+
+  const rows = (s.logs || []).map(l =>
+    '<tr><td>' + l.name + '.csv</td>' +
+    '<td class="num">' + l.rows + ' linhas</td>' +
+    '<td class="num">' + (l.state === 'finished' ? 'finalizado' : 'ativo') +
+      (l.pending ? ' · ' + l.pending + ' pend.' : '') + '</td></tr>').join('');
+  $('logTable').innerHTML = '<tbody>' +
+    (rows || '<tr><td class="muted">nenhum log recebido ainda</td></tr>') + '</tbody>';
+}
+
+async function refreshLogs(){
+  try { renderLogs(await (await fetch('/api/log/status')).json()); } catch {}
+}
+
+async function previewDir(){
+  try {
+    const p = await (await fetch('/api/log/path?dir=' + encodeURIComponent($('logDir').value))).json();
+    const note = !p.writable ? 'sem permissão de escrita'
+               : p.exists ? 'pasta existente, ' + p.csv + ' csv dentro'
+               : 'a pasta será criada';
+    $('dirPreview').innerHTML = 'Os CSVs vão para <b>' + p.path + '</b> — ' + note;
+    $('logToggle').disabled = !p.writable && !recording;
+  } catch {}
+}
+$('logDir').addEventListener('input', previewDir);
+$('logRefresh').onclick = refreshLogs;
+
+$('logToggle').onclick = async () => {
+  const s = recording
+    ? await call('/api/log/stop')
+    : await call('/api/log/start', {output_dir: $('logDir').value || 'logs'});
+  renderLogs(s);
+  previewDir();
+};
+
+showTab(false);
 </script>
 </body>
 </html>

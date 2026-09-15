@@ -58,9 +58,12 @@ sys.stdout = log
 sys.stdin = web_stdin
 
 from script_engine import ScriptEngine  # importado após a troca do stdout
+from log_collector import LogCollector
 
 app = Flask(__name__)
 engine = None
+mode = None
+collector = None
 
 
 def node_info(node):
@@ -75,11 +78,13 @@ def result(error=None):
     # upcoming  -> nó apontado pelo cursor (é o que "Avançar" executa)
     return jsonify({
         "state": engine.get_state() if engine else "NO_SCRIPT",
+        "mode": mode,
         "previous": node_info(engine.executed_node(1)) if engine else None,
         "current": node_info(engine.executed_node(0)) if engine else None,
         "upcoming": node_info(getattr(engine, "node", None)) if engine else None,
         "history": engine.history_size() if engine else 0,
         "log": log.drain(),
+        "collector": collector.status() if collector else {"running": False, "logs": []},
         "error": error,
     })
 
@@ -92,7 +97,8 @@ def index():
 @app.get("/api/scripts")
 def list_scripts():
     try:
-        files = sorted(f for f in os.listdir(SCRIPTS_DIR) if f.endswith(".xml"))
+        files = sorted(f for f in os.listdir(SCRIPTS_DIR)
+                       if f.endswith(".xml") and "_evaml" in f)
     except OSError:
         files = []
     return jsonify({"scripts": files})
@@ -100,8 +106,9 @@ def list_scripts():
 
 @app.post("/api/load")
 def load():
-    global engine
+    global engine, mode
     engine = ScriptEngine()
+    mode = None
     if not engine.load_script(os.path.join(SCRIPTS_DIR, request.json["script_file"])):
         engine = None
         return result(error="Não foi possível ler o arquivo.")
@@ -111,7 +118,12 @@ def load():
 
 @app.post("/api/start")
 def start():
-    engine.start_script(request.json.get("mode", "simulator"))
+    global mode
+    mode = request.json.get("mode", "terminal")
+    # Descarta entradas digitadas que sobraram de uma execução anterior.
+    while not web_stdin.q.empty():
+        web_stdin.q.get_nowait()
+    engine.start_script(mode)
     return result()
 
 
@@ -146,6 +158,56 @@ def reset():
 def send_input():
     web_stdin.q.put(request.json.get("text", ""))
     return jsonify({"ok": True})
+
+
+def resolve_dir(raw):
+    """Aceita caminho relativo ao projeto, absoluto ou com '~'."""
+    return os.path.abspath(os.path.expanduser(raw or "logs"))
+
+
+@app.get("/api/log/path")
+def log_path():
+    """Resolve o caminho digitado, para a interface mostrar onde vai gravar."""
+    path = resolve_dir(request.args.get("dir"))
+    exists = os.path.isdir(path)
+    # Se ainda não existe, o que importa é poder escrever na pasta-mãe existente
+    # mais próxima, que é onde o makedirs vai atuar.
+    probe = path
+    while not os.path.isdir(probe) and os.path.dirname(probe) != probe:
+        probe = os.path.dirname(probe)
+    return jsonify({
+        "path": path,
+        "exists": exists,
+        "writable": os.access(probe, os.W_OK),
+        "csv": len([f for f in os.listdir(path) if f.endswith(".csv")]) if exists else 0,
+    })
+
+
+@app.get("/api/log/status")
+def log_status():
+    return jsonify(collector.status() if collector else {"running": False, "logs": []})
+
+
+@app.post("/api/log/start")
+def log_start():
+    global collector
+    if collector and collector.running:
+        collector.stop()
+    try:
+        collector = LogCollector(output_dir=resolve_dir(request.json.get("output_dir")))
+        collector.start()
+    except Exception as exc:
+        collector = None
+        return jsonify({"running": False, "logs": [],
+                        "error": type(exc).__name__ + ": " + str(exc)})
+    return jsonify(collector.status())
+
+
+@app.post("/api/log/stop")
+def log_stop():
+    if collector:
+        collector.stop()
+    return jsonify(collector.status() if collector else {"running": False, "logs": []})
 
 
 @app.errorhandler(Exception)
