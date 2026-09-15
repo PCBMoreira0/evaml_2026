@@ -1,0 +1,731 @@
+<evaml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="teste_pscicologia" xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd">
+
+  <settings>
+    <voice type="pt-BR_IsabelaV3Voice" commMode="NULL" />
+    <lightEffects mode="ON" commMode="NULL" />
+    <audioEffects mode="ON" commMode="NULL" vol="100%" />
+  </settings>
+
+  <script>
+    <counter var="erro" op="=" value="1" commMode="NULL" />
+    <counter var="acerto" op="=" value="0" commMode="NULL" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Olá, eu sou EVA, qual é o seu nome?</talk>
+    <listen var="nome" commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Olá,
+      #nome! Tudo bem com você? Hoje vamos fazer uma brincadeira de perguntas e respostas sobre as
+      suas emoções.</talk>
+    <led animation="HAPPY" id="retorno" commMode="MQTT_PUB" pubTopic="LEDS" />
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Agora vou explicar como irá funcionar o jogo.</talk>
+    <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Eu
+      vou fazer uma pergunta, e você irá apresentar o cartão que você acha que é a resposta.</talk>
+    <counter var="pontuacao" op="=" value="0" commMode="NULL" />
+    <counter var="pergunta1" op="=" value="1" commMode="NULL" />
+    <counter var="pergunta2" op="=" value="2" commMode="NULL" />
+    <counter var="pergunta3" op="=" value="3" commMode="NULL" />
+    <counter var="pergunta4" op="=" value="4" commMode="NULL" />
+    <counter var="pergunta5" op="=" value="5" commMode="NULL" />
+    <counter var="pergunta6" op="=" value="6" commMode="NULL" />
+    <counter var="pergunta7" op="=" value="7" commMode="NULL" />
+    <counter var="pergunta8" op="=" value="8" commMode="NULL" />
+    <counter var="pergunta9" op="=" value="9" commMode="NULL" />
+    <counter var="pergunta10" op="=" value="10" commMode="NULL" />
+    <counter var="pergunta11" op="=" value="11" commMode="NULL" />
+    <counter var="pergunta12" op="=" value="12" commMode="NULL" />
+    <counter var="pergunta13" op="=" value="13" commMode="NULL" />
+    <counter var="pergunta14" op="=" value="14" commMode="NULL" />
+    <counter var="pergunta15" op="=" value="15" commMode="NULL" />
+    <counter var="pergunta16" op="=" value="16" commMode="NULL" />
+    <counter var="pergunta17" op="=" value="17" commMode="NULL" />
+    
+    <counter var="ITERATION_VAR1" op="=" value="1" /><switch id="LOOP_ID1_ITERATION_VAR1" var="ITERATION_VAR1"><case op="lte" value="5"><random min="1" max="10" var="sorteio" id="volta" commMode="NULL" />
+    <switch var="sorteio" commMode="NULL">
+      <case op="eq" value="1" commMode="NULL">
+        <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+        <switch var="pergunta1" commMode="NULL">
+          <case op="eq" value="1" commMode="NULL">
+            <useMacro macro="pergunta1" commMode="NULL" />
+             <counter var="pergunta1" op="=" value="0" commMode="NULL" />
+          </case>
+          <case op="eq" value="0" commMode="NULL">
+            <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+            <goto target="volta" commMode="NULL" />
+          </case>
+        </switch>
+        </case>
+      <case op="eq" value="2" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+        <switch var="pergunta2" commMode="NULL">
+          <case op="eq" value="2" commMode="NULL">
+            <useMacro macro="pergunta2" commMode="NULL" />
+            <counter var="pergunta2" op="=" value="0" commMode="NULL" />
+          </case>
+          <case op="eq" value="0" commMode="NULL">
+          <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <goto target="volta" commMode="NULL" />
+          </case>
+        </switch>
+      </case>
+      <case op="eq" value="3" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+        <switch var="pergunta3" commMode="NULL">
+            <case op="eq" value="3" commMode="NULL">
+                <useMacro macro="pergunta3" commMode="NULL" />
+                <counter var="pergunta3" op="=" value="0" commMode="NULL" />
+            </case>
+            <case op="eq" value="0" commMode="NULL">
+            <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+            <goto target="volta" commMode="NULL" />
+            
+            </case>
+        </switch>
+      
+      </case>
+
+      <case op="eq" value="4" commMode="NULL">
+        <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+        <switch var="pergunta4" commMode="NULL">
+        <case op="eq" value="4" commMode="NULL">
+        <useMacro macro="pergunta4" commMode="NULL" />
+        <counter var="pergunta4" op="=" value="0" commMode="NULL" />
+        
+        </case>
+        <case op="eq" value="0" commMode="NULL">
+        <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+        <goto target="volta" commMode="NULL" />
+        
+        </case>
+        
+        </switch>
+      
+      </case>
+
+      <case op="eq" value="5" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <switch var="pergunta5" commMode="NULL">
+      <case op="eq" value="5" commMode="NULL">
+      <useMacro macro="pergunta5" commMode="NULL" />
+      <counter var="pergunta5" op="=" value="0" commMode="NULL" />
+      
+      </case>
+      <case op="eq" value="0" commMode="NULL">
+      <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <goto target="volta" commMode="NULL" />
+      
+      </case>
+      
+      </switch>
+      
+      </case>
+
+      <case op="eq" value="6" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <switch var="pergunta6" commMode="NULL">
+      <case op="eq" value="6" commMode="NULL">
+      <useMacro macro="pergunta6" commMode="NULL" />
+      <counter var="pergunta6" op="=" value="0" commMode="NULL" />
+      </case>
+
+
+      <case op="eq" value="0" commMode="NULL">
+      <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <goto target="volta" commMode="NULL" />
+      
+      </case>
+      </switch>
+
+      </case>
+
+      <case op="eq" value="7" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <switch var="pergunta7" commMode="NULL">
+      <case op="eq" value="7" commMode="NULL">
+      <useMacro macro="pergunta7" commMode="NULL" />
+      <counter var="pergunta7" op="=" value="0" commMode="NULL" />
+      </case>
+
+
+      <case op="eq" value="0" commMode="NULL">
+      <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <goto target="volta" commMode="NULL" />
+      
+      </case>
+      </switch>
+
+      </case>
+
+      <case op="eq" value="8" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <switch var="pergunta8" commMode="NULL">
+      <case op="eq" value="8" commMode="NULL">
+      <useMacro macro="pergunta8" commMode="NULL" />
+      <counter var="pergunta8" op="=" value="0" commMode="NULL" />
+      </case>
+
+
+      <case op="eq" value="0" commMode="NULL">
+      <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <goto target="volta" commMode="NULL" />
+      
+      </case>
+      </switch>
+
+      </case>
+
+      <case op="eq" value="9" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <switch var="pergunta9" commMode="NULL">
+      <case op="eq" value="9" commMode="NULL">
+      <useMacro macro="pergunta9" commMode="NULL" />
+      <counter var="pergunta9" op="=" value="0" commMode="NULL" />
+      </case>
+
+
+      <case op="eq" value="0" commMode="NULL">
+      <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <goto target="volta" commMode="NULL" />
+      
+      </case>
+      </switch>
+
+      </case>
+
+      <case op="eq" value="10" commMode="NULL">
+      <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <switch var="pergunta10" commMode="NULL">
+      <case op="eq" value="10" commMode="NULL">
+      <useMacro macro="pergunta10" commMode="NULL" />
+      <counter var="pergunta10" op="=" value="0" commMode="NULL" />
+      </case>
+
+
+      <case op="eq" value="0" commMode="NULL">
+      <led animation="SAD" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <goto target="volta" commMode="NULL" />
+      
+      </case>
+      </switch>
+
+      </case>
+
+      </switch>
+      
+    <counter var="ITERATION_VAR1" op="+" value="1" /><goto target="LOOP_ID1_ITERATION_VAR1" /></case></switch><talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">foi
+      legal jogar com você até a próxima!</talk>
+    <audio source="efx-mario-end-03" block="TRUE" commMode="MQTT_PUB_SUB" pubTopic="AUDIO" subTopic="state" />
+    <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">~</log>
+    <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+    </script>
+  <macros commMode="NULL">
+    <macro id="pergunta1" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">Como você se sente quando ganha um presente?</log>
+      <led animation="HAPPY" id="novamente" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state"> Como você se sente quando ganha um presente? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Feliz, Triste ou com Raiva?</talk>
+      <qrRead var="resposta1" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta1" commMode="NULL">
+        <case op="exact" value="feliz" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta1</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta1</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <goto target="novamente" commMode="NULL" />
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </default>
+
+
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+    <macro id="pergunta2" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">Se alguém pega o seu brinquedo sem pedir, o que você sente?</log>
+      <led animation="HAPPY" id="volt" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Se alguém pega o seu brinquedo sem pedir, o que você sente?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Raiva, Medo ou Feliz</talk>
+      <qrRead var="resposta2" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta2" commMode="NULL">
+        <case op="exact" value="raiva" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta2</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+
+        </case>
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta2</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <goto target="volt" commMode="NULL" />
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </default>
+
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+
+    </macro>
+
+    <macro id="pergunta3" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">O que você sente quando está brincando com seu amigo?</log>
+      <led animation="HAPPY" id="v" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sente quando está brincando com seu amigo?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Triste, Feliz ou Nojo?</talk>
+      <qrRead var="resposta3" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta3" commMode="NULL">
+        <case op="exact" value="Feliz" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta3</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta3</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="v" commMode="NULL" />
+
+        </default>
+
+
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+
+    </macro>
+
+    <macro id="pergunta4" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">O que você sente quando algum colega pega seu lugar na fila do lanche?</log>
+      <led animation="HAPPY" id="vol" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sente quando algum colega pega seu lugar na fila do lanche?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Nojo, Raiva ou Feliz?</talk>
+      <qrRead var="resposta4" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta4" commMode="NULL">
+        <case op="exact" value="Raiva" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta4</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta4</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <goto target="vol" commMode="NULL" />
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </default>
+
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+
+    </macro>
+
+    <macro id="pergunta5" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">Se alguém pega uma barata na rua e diz que vai jogá-la em você. O que
+        você sentiria?</log>
+      <led animation="HAPPY" id="vo" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Se alguém pega uma barata na rua e diz que vai jogá-la em você. O que você sentiria?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Feliz, Surpresa ou nojo?</talk>
+      <qrRead var="resposta5" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta5" commMode="NULL">
+        <case op="exact" value="nojo" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta5</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta5</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="vo" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+
+    <macro id="pergunta6" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">Qual emoção você sentiria se entrasse um leão no meio da aula de
+        matemática?</log>
+      <led animation="HAPPY" id="retorn" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Qual emoção você sentiria se entrasse um leão no meio da aula de matemática? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">triste , Surpresa ou feliz?</talk>
+      <qrRead var="resposta6" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta6" commMode="NULL">
+        <case op="exact" value="surpresa" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta6</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta6</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="retorn" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+    <macro id="pergunta7" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">O que você sente quando está vendo um filme assustador?</log>
+      <led animation="HAPPY" id="retor" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sente quando está vendo um filme assustador? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">raiva, Medo ou nojo?</talk>
+      <qrRead var="resposta7" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta7" commMode="NULL">
+        <case op="exact" value="medo" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta7</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta7</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="retor" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+
+    <macro id="pergunta8" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">O que você sentiria se seu melhor amigo se mudasse para outro país?</log>
+      <led animation="HAPPY" id="reto" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sentiria se seu melhor amigo se mudasse para outro país? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Nojo , Feliz ou Triste?</talk>
+      <qrRead var="resposta8" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta8" commMode="NULL">
+        <case op="exact" value="triste" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta8</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta8</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="reto" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+    <macro id="pergunta9" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">O que você sente quando recebe seu prato favorito?</log>
+      <led animation="HAPPY" id="ret" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sente quando recebe seu prato favorito? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">feliz , triste ou Medo?</talk>
+      <qrRead var="resposta9" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta9" commMode="NULL">
+        <case op="exact" value="feliz" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta9</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta9</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="ret" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+    <macro id="pergunta10" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">Quando você recebe uma nota muito baixa em uma prova, o que você sente?</log>
+      <led animation="HAPPY" id="re" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Quando você recebe uma nota muito baixa em uma prova, o que você sente?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">feliz , triste ou nojo?</talk>
+      <qrRead var="resposta10" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta10" commMode="NULL">
+        <case op="exact" value="triste" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta10</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta10</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="re" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+    <macro id="pergunta11" commMode="NULL">
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">Quando você vai lanchar e percebe que o seu lanche está estragado. O
+        que você sente? </log>
+      <led animation="HAPPY" id="r" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Quando você vai lanchar e percebe que o seu lanche está estragado. O que você sente? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">nojo , medo ou feliz?</talk>
+      <qrRead var="resposta11" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta11" commMode="NULL">
+        <case op="exact" value="nojo" commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta11</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#acerto</log>
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#resposta11</log>
+          <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">#erro</log>
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="r" commMode="NULL" />
+        </default>
+      </switch>
+      <log name="logterapia" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+    </macro>
+
+
+    <macro id="pergunta12" commMode="NULL">
+      <led animation="HAPPY" id="y" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Se você está tendo aula e tudo é interrompido para comemoração do aniversário da sua
+        professora, o que você sente?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">feliz , triste ou surpresa?</talk>
+      <qrRead var="resposta12" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta12" commMode="NULL">
+        <case op="exact" value="surpreso" commMode="NULL">
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="y" commMode="NULL" />
+        </default>
+      </switch>
+    </macro>
+
+
+    <macro id="pergunta13" commMode="NULL">
+      <led animation="HAPPY" id="z" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Quando você está passeando na rua e vê alguém vomitando, o que você sente? </talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Nojo, feliz ou surpresa?</talk>
+      <qrRead var="resposta13" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta13" commMode="NULL">
+        <case op="exact" value="Nojo" commMode="NULL">
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="z" commMode="NULL" />
+        </default>
+      </switch>
+    </macro>
+
+    <macro id="pergunta14" commMode="NULL">
+      <led animation="HAPPY" id="x" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sente quando vai fazer uma prova de uma matéria que você acha muito difícil?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">feliz , medo ou nojo?</talk>
+      <qrRead var="resposta14" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta14" commMode="NULL">
+        <case op="exact" value="medo" commMode="NULL">
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="x" commMode="NULL" />
+        </default>
+      </switch>
+    </macro>
+
+
+    <macro id="pergunta15" commMode="NULL">
+      <led animation="HAPPY" id="w" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sentiria se o alarme de incêndio da sua escola tocasse?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">feliz , surpresa ou triste?</talk>
+      <qrRead var="resposta15" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta15" commMode="NULL">
+        <case op="exact" value="surpreso" commMode="NULL">
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="w" commMode="NULL" />
+        </default>
+      </switch>
+    </macro>
+
+
+    <macro id="pergunta16" commMode="NULL">
+      <led animation="HAPPY" id="s" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Como você se sente quando alguém te dá um abraço?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">feliz, triste ou Raiva?</talk>
+      <qrRead var="resposta16" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta16" commMode="NULL">
+        <case op="exact" value="feliz" commMode="NULL">
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="s" commMode="NULL" />
+        </default>
+      </switch>
+    </macro>
+
+
+    <macro id="pergunta17" commMode="NULL">
+      <led animation="HAPPY" id="k" commMode="MQTT_PUB" pubTopic="LEDS" />
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">O que você sente quando vê um inseto estranho se aproximando?</talk>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Nojo , raiva ou Feliz?</talk>
+      <qrRead var="resposta17" commMode="MQTT_PUB_SUB" pubTopic="QRREAD" subTopic="QRREAD_RESPONSE" />
+      <switch var="resposta17" commMode="NULL">
+        <case op="exact" value="Nojo" commMode="NULL">
+          <evaEmotion emotion="HAPPY" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="HAPPY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="YES" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Muito bem!/Resposta correta!/Acertou!</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+        </case>
+
+        <default commMode="NULL">
+          <evaEmotion emotion="SAD" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <led animation="ANGRY" commMode="MQTT_PUB" pubTopic="LEDS" />
+          <motion head="NO" commMode="MQTT_PUB" pubTopic="MOTION" />
+          <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+          <evaEmotion emotion="NEUTRAL" commMode="MQTT_PUB" pubTopic="EVAEMOTION" />
+          <goto target="k" commMode="NULL" />
+        </default>
+      </switch>
+    </macro>
+  </macros>
+</evaml>

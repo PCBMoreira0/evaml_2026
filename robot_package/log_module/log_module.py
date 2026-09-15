@@ -1,6 +1,7 @@
 from rich import print
 
 import re
+from datetime import datetime
 
 from base_command_handler import BaseCommandHandler
 
@@ -71,7 +72,7 @@ class CommandHandler(BaseCommandHandler):
         print('[b white ]STATE[/]:[b white] Sending [/]to the log ([b white]' + xml_node.get("name") + '[/]), with sequence number ' + str(log_seq_number) + ', the text [b white]"' + texto.strip() + '"[/].')
 
         # Strip is used to remove \n from texts that may come from xml.
-        log_text = xml_node.get("name") + "_" + str(log_seq_number) + '_' + texto.strip()
+        log_text = xml_node.get("name") + "_" + str(log_seq_number) + '_' + texto.strip() + '|' + datetime.now().strftime('%d/%m/%Y %H:%M:%S')
 
 
         base_topic = memory.get_base_topic()
