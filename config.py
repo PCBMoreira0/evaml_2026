@@ -2,6 +2,14 @@
 MQTT_BROKER_ADRESS      = '127.0.0.1' # Acer Laptop IP address # Ip adress (Fred router) 192.168.99.100
 MQTT_PORT               = 1883
 
+# Tempo máximo (s) que um comando MQTT_PUB_SUB espera pela resposta do robô. None = espera para sempre.
+MQTT_RESPONSE_TIMEOUT   = 60
+# Exceções por tópico de resposta (subTopic). Ex.: um <audio block="TRUE"> pode tocar uma música inteira.
+MQTT_RESPONSE_TIMEOUTS  = {
+    "AUDIO_RESPONSE": 600,
+    "LISTEN_RESPONSE": 120,
+}
+
 ROBOT_PACKAGE_FOLDER    = 'robot_package' # Directory with robot modules
 
 TERMINAL_BASE_TOPIC    = 'TERMINAL' 

@@ -4,6 +4,7 @@
 #   pip install flask
 #   python eva_api.py   ->   http://127.0.0.1:5000
 
+import functools
 import os
 import queue
 import sys
@@ -40,13 +41,19 @@ class LogCapture:
             return lines
 
 
+CANCEL = object() # Colocado na fila do WebStdin para interromper um console.input() em espera.
+
+
 # stdin alimentado pela página: o console.input() do <listen> espera aqui.
 class WebStdin:
     def __init__(self):
         self.q = queue.Queue()
 
     def readline(self, *args):
-        return self.q.get() + "\n"
+        text = self.q.get()
+        if text is CANCEL:
+            raise ResponseCancelled("Entrada interrompida pelo usuário.")
+        return text + "\n"
 
     def isatty(self):
         return False
@@ -59,11 +66,64 @@ sys.stdin = web_stdin
 
 from script_engine import ScriptEngine  # importado após a troca do stdout
 from log_collector import LogCollector
+from pub_sub_mqtt_communicator import ResponseCancelled
 
 app = Flask(__name__)
 engine = None
 mode = None
 collector = None
+
+# Só uma operação sobre o engine por vez. Enquanto um passo espera o robô (talk, audio...),
+# outros pedidos (Avançar, Voltar, Repetir...) são recusados em vez de mexer no engine no meio do passo.
+busy = threading.Lock()
+
+
+def exclusive(view):
+    @functools.wraps(view)
+    def wrapper(*args, **kwargs):
+        if not busy.acquire(blocking=False):
+            return result(error="Ocupado: aguarde o comando em andamento terminar."), 409
+        try:
+            return view(*args, **kwargs)
+        finally:
+            busy.release()
+    return wrapper
+
+
+def interrupting(view):
+    """Como exclusive, mas em vez de recusar, interrompe o passo em andamento (ex.: esperando o QR code)."""
+    @functools.wraps(view)
+    def wrapper(*args, **kwargs):
+        # Repete o cancelamento até o passo liberar a trava (cobre a corrida com um send() que ainda
+        # não chegou ao receive()). Comandos sem espera cancelável, como <wait>, apenas terminam.
+        while not busy.acquire(timeout=0.2):
+            cancel_waits()
+        try:
+            while not web_stdin.q.empty(): # Descarta marcas CANCEL que sobraram.
+                web_stdin.q.get_nowait()
+            return view(*args, **kwargs)
+        finally:
+            busy.release()
+    return wrapper
+
+
+def cancel_waits():
+    web_stdin.q.put(CANCEL)
+    for entry in (getattr(engine, "tab_modules", None) or {}).values():
+        comms = getattr(entry[-1], "comms", None)
+        if hasattr(comms, "cancel"):
+            comms.cancel()
+
+
+def run_step():
+    """Executa um passo. Se ele falhar (timeout, interrupção...), desfaz o passo para o engine
+    não ficar em "BLOCKED": o próximo Avançar tenta o mesmo comando de novo."""
+    try:
+        engine.play_next()
+    except Exception as exc:
+        engine.previous()
+        return result(error=type(exc).__name__ + ": " + str(exc))
+    return result()
 
 
 def node_info(node):
@@ -105,6 +165,7 @@ def list_scripts():
 
 
 @app.post("/api/load")
+@exclusive
 def load():
     global engine, mode
     engine = ScriptEngine()
@@ -117,6 +178,7 @@ def load():
 
 
 @app.post("/api/start")
+@exclusive
 def start():
     global mode
     mode = request.json.get("mode", "terminal")
@@ -128,20 +190,21 @@ def start():
 
 
 @app.post("/api/step")
+@exclusive
 def step():
-    engine.play_next()
-    return result()
+    return run_step()
 
 
 @app.post("/api/repeat")
+@exclusive
 def repeat():
     if not engine.previous():
         return result(error="Não há comando para repetir.")
-    engine.play_next()
-    return result()
+    return run_step()
 
 
 @app.post("/api/back")
+@interrupting
 def back():
     if not engine.previous():
         return result(error="Não há histórico para voltar.")
@@ -149,6 +212,7 @@ def back():
 
 
 @app.post("/api/reset")
+@interrupting
 def reset():
     engine.reset()
     return result()

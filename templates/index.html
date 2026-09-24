@@ -214,6 +214,8 @@ function render(s){
     $('log').textContent += s.log.join('\n') + '\n';
     $('log').scrollTop = $('log').scrollHeight;
   }
+  // Passo interrompido por Voltar/Voltar ao início: o estado novo vem da resposta deles.
+  if (s.error && s.error.startsWith('ResponseCancelled')) return;
   $('state').textContent = s.state;
   $('hist').textContent = s.history;
   $('dot').className = 'dot' + (s.state === 'PLAY' ? ' play' : '');
@@ -232,9 +234,10 @@ function render(s){
   mode = s.mode;
 
   const playing = s.state === 'PLAY';
-  $('step').disabled = $('reset').disabled = !playing || waiting;
+  $('step').disabled = !playing || waiting;
+  $('reset').disabled = !playing;                  // também interrompe uma espera
   $('repeat').disabled = !s.current || waiting;   // repete o "atual"
-  $('back').disabled = !s.current || waiting;     // desfaz o "atual"
+  $('back').disabled = !s.current;                // desfaz o "atual" (interrompe uma espera)
   $('auto').disabled = !playing;
   $('start').disabled = s.state !== 'IDLE';
 }
@@ -258,7 +261,7 @@ function enterWaiting(tag){
   $('answer').placeholder = cfg.placeholder;
   $('inputBox').hidden = false;
   $('answer').focus();
-  $('step').disabled = $('repeat').disabled = $('back').disabled = $('reset').disabled = true;
+  $('step').disabled = $('repeat').disabled = true;   // Voltar e Voltar ao início interrompem a espera
 }
 function exitWaiting(){
   waiting = false;

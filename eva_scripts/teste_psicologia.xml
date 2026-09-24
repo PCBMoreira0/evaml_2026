@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <evaml
-  name="teste_pscicologia"
+  name="teste_psicologia"
   xsi:noNamespaceSchemaLocation="../robot_package/xml_schema/evaml_schema.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
@@ -13,15 +13,10 @@
   <script>
     <counter var="erro" op="=" value="1" />
     <counter var="acerto" op="=" value="0" />
-    <talk>Olá, eu sou EVA, qual é o seu nome?</talk>
-    <listen var="nome"/>
-    <talk>Olá,
-      #nome! Tudo bem com você? Hoje vamos fazer uma brincadeira de perguntas e respostas sobre as
-      suas emoções.</talk>
+    <talk>Tudo bem com você? Hoje vamos fazer uma brincadeira de perguntas e respostas sobre as suas emoções.</talk>
     <led animation="HAPPY" id="retorno"/>
     <talk>Agora vou explicar como irá funcionar o jogo.</talk>
-    <talk>Eu
-      vou fazer uma pergunta, e você irá apresentar o cartão que você acha que é a resposta.</talk>
+    <talk>Eu vou fazer uma pergunta, e você irá apresentar o cartão que você acha que é a resposta.</talk>
     <counter var="pontuacao" op="=" value="0" />
     <counter var="pergunta1" op="=" value="1" />
     <counter var="pergunta2" op="=" value="2" />
@@ -40,699 +35,802 @@
     <counter var="pergunta15" op="=" value="15" />
     <counter var="pergunta16" op="=" value="16" />
     <counter var="pergunta17" op="=" value="17" />
-    
+
     <loop times="5">
-    
-    <random min="1" max="10" var="sorteio" id="volta" />
-    <switch var="sorteio">
+      <useMacro macro="rodada" />
+    </loop>
+    <talk>Você acertou #pontuacao de 5 perguntas!</talk>
+    <talk>foi legal jogar com você até a próxima!</talk>
+    <audio source="efx-mario-end-03" block="TRUE" />
+    <evaEmotion emotion="NEUTRAL" />
+    </script>
+<macros>
+<macro id="rodada">
+  <random min="1" max="17" var="sorteio" />
+  <switch var="sorteio">
       <case op="eq" value="1">
         <led animation="HAPPY" />
         <switch var="pergunta1">
           <case op="eq" value="1">
             <useMacro macro="pergunta1" />
-             <counter var="pergunta1" op="=" value="0" />
+            <counter var="pergunta1" op="=" value="0" />
+            <log name="logterapia">~</log>
           </case>
           <case op="eq" value="0">
             <led animation="SAD" />
-            <goto target="volta" />
+            <useMacro macro="rodada" />
           </case>
         </switch>
-        </case>
+      </case>
       <case op="eq" value="2">
-      <led animation="HAPPY" />
+        <led animation="HAPPY" />
         <switch var="pergunta2">
           <case op="eq" value="2">
             <useMacro macro="pergunta2" />
             <counter var="pergunta2" op="=" value="0" />
+            <log name="logterapia">~</log>
           </case>
           <case op="eq" value="0">
-          <led animation="SAD" />
-          <goto target="volta" />
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
           </case>
         </switch>
       </case>
       <case op="eq" value="3">
-      <led animation="HAPPY" />
+        <led animation="HAPPY" />
         <switch var="pergunta3">
-            <case op="eq" value="3">
-                <useMacro macro="pergunta3" />
-                <counter var="pergunta3" op="=" value="0" />
-            </case>
-            <case op="eq" value="0">
+          <case op="eq" value="3">
+            <useMacro macro="pergunta3" />
+            <counter var="pergunta3" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
             <led animation="SAD" />
-            <goto target="volta" />
-            
-            </case>
+            <useMacro macro="rodada" />
+          </case>
         </switch>
-      
       </case>
-
       <case op="eq" value="4">
         <led animation="HAPPY" />
         <switch var="pergunta4">
-        <case op="eq" value="4">
-        <useMacro macro="pergunta4" />
-        <counter var="pergunta4" op="=" value="0" />
-        
-        </case>
-        <case op="eq" value="0">
-        <led animation="SAD" />
-        <goto target="volta" />
-        
-        </case>
-        
+          <case op="eq" value="4">
+            <useMacro macro="pergunta4" />
+            <counter var="pergunta4" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
         </switch>
-      
       </case>
-
       <case op="eq" value="5">
-      <led animation="HAPPY" />
-      <switch var="pergunta5">
-      <case op="eq" value="5">
-      <useMacro macro="pergunta5" />
-      <counter var="pergunta5" op="=" value="0" />
-      
+        <led animation="HAPPY" />
+        <switch var="pergunta5">
+          <case op="eq" value="5">
+            <useMacro macro="pergunta5" />
+            <counter var="pergunta5" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-      <case op="eq" value="0">
-      <led animation="SAD" />
-      <goto target="volta" />
-      
-      </case>
-      
-      </switch>
-      
-      </case>
-
       <case op="eq" value="6">
-      <led animation="HAPPY" />
-      <switch var="pergunta6">
-      <case op="eq" value="6">
-      <useMacro macro="pergunta6" />
-      <counter var="pergunta6" op="=" value="0" />
+        <led animation="HAPPY" />
+        <switch var="pergunta6">
+          <case op="eq" value="6">
+            <useMacro macro="pergunta6" />
+            <counter var="pergunta6" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-
-
-      <case op="eq" value="0">
-      <led animation="SAD" />
-      <goto target="volta" />
-      
-      </case>
-      </switch>
-
-      </case>
-
       <case op="eq" value="7">
-      <led animation="HAPPY" />
-      <switch var="pergunta7">
-      <case op="eq" value="7">
-      <useMacro macro="pergunta7" />
-      <counter var="pergunta7" op="=" value="0" />
+        <led animation="HAPPY" />
+        <switch var="pergunta7">
+          <case op="eq" value="7">
+            <useMacro macro="pergunta7" />
+            <counter var="pergunta7" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-
-
-      <case op="eq" value="0">
-      <led animation="SAD" />
-      <goto target="volta" />
-      
-      </case>
-      </switch>
-
-      </case>
-
       <case op="eq" value="8">
-      <led animation="HAPPY" />
-      <switch var="pergunta8">
-      <case op="eq" value="8">
-      <useMacro macro="pergunta8" />
-      <counter var="pergunta8" op="=" value="0" />
+        <led animation="HAPPY" />
+        <switch var="pergunta8">
+          <case op="eq" value="8">
+            <useMacro macro="pergunta8" />
+            <counter var="pergunta8" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-
-
-      <case op="eq" value="0">
-      <led animation="SAD" />
-      <goto target="volta" />
-      
-      </case>
-      </switch>
-
-      </case>
-
       <case op="eq" value="9">
-      <led animation="HAPPY" />
-      <switch var="pergunta9">
-      <case op="eq" value="9">
-      <useMacro macro="pergunta9" />
-      <counter var="pergunta9" op="=" value="0" />
+        <led animation="HAPPY" />
+        <switch var="pergunta9">
+          <case op="eq" value="9">
+            <useMacro macro="pergunta9" />
+            <counter var="pergunta9" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-
-
-      <case op="eq" value="0">
-      <led animation="SAD" />
-      <goto target="volta" />
-      
-      </case>
-      </switch>
-
-      </case>
-
       <case op="eq" value="10">
-      <led animation="HAPPY" />
-      <switch var="pergunta10">
-      <case op="eq" value="10">
-      <useMacro macro="pergunta10" />
-      <counter var="pergunta10" op="=" value="0" />
+        <led animation="HAPPY" />
+        <switch var="pergunta10">
+          <case op="eq" value="10">
+            <useMacro macro="pergunta10" />
+            <counter var="pergunta10" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-
-
-      <case op="eq" value="0">
-      <led animation="SAD" />
-      <goto target="volta" />
-      
+      <case op="eq" value="11">
+        <led animation="HAPPY" />
+        <switch var="pergunta11">
+          <case op="eq" value="11">
+            <useMacro macro="pergunta11" />
+            <counter var="pergunta11" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
-      </switch>
-
+      <case op="eq" value="12">
+        <led animation="HAPPY" />
+        <switch var="pergunta12">
+          <case op="eq" value="12">
+            <useMacro macro="pergunta12" />
+            <counter var="pergunta12" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
       </case>
+      <case op="eq" value="13">
+        <led animation="HAPPY" />
+        <switch var="pergunta13">
+          <case op="eq" value="13">
+            <useMacro macro="pergunta13" />
+            <counter var="pergunta13" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
+      </case>
+      <case op="eq" value="14">
+        <led animation="HAPPY" />
+        <switch var="pergunta14">
+          <case op="eq" value="14">
+            <useMacro macro="pergunta14" />
+            <counter var="pergunta14" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
+      </case>
+      <case op="eq" value="15">
+        <led animation="HAPPY" />
+        <switch var="pergunta15">
+          <case op="eq" value="15">
+            <useMacro macro="pergunta15" />
+            <counter var="pergunta15" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
+      </case>
+      <case op="eq" value="16">
+        <led animation="HAPPY" />
+        <switch var="pergunta16">
+          <case op="eq" value="16">
+            <useMacro macro="pergunta16" />
+            <counter var="pergunta16" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
+      </case>
+      <case op="eq" value="17">
+        <led animation="HAPPY" />
+        <switch var="pergunta17">
+          <case op="eq" value="17">
+            <useMacro macro="pergunta17" />
+            <counter var="pergunta17" op="=" value="0" />
+            <log name="logterapia">~</log>
+          </case>
+          <case op="eq" value="0">
+            <led animation="SAD" />
+            <useMacro macro="rodada" />
+          </case>
+        </switch>
+      </case>
+  </switch>
+</macro>
 
-      </switch>
-      
-    </loop>
-    <talk>foi
-      legal jogar com você até a próxima!</talk>
-    <audio source="efx-mario-end-03" block="TRUE" />
-    <log name="logterapia">~</log>
-    <evaEmotion emotion="NEUTRAL" />
-    </script>
-  <macros>
-    <macro id="pergunta1">
-      <log name="logterapia">Como você se sente quando ganha um presente?</log>
-      <led animation="HAPPY" id="novamente" />
-      <talk> Como você se sente quando ganha um presente? </talk>
-      <talk>Feliz, Triste ou com Raiva?</talk>
-      <qrRead var="resposta1" />
-      <switch var="resposta1">
-        <case op="exact" value="feliz">
-          <log name="logterapia">#resposta1</log>
-          <log name="logterapia">#acerto</log>
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <evaEmotion emotion="HAPPY" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-        <default>
-          <log name="logterapia">#resposta1</log>
-          <log name="logterapia">#erro</log>
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <evaEmotion emotion="SAD" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <goto target="novamente" />
-          <evaEmotion emotion="NEUTRAL" />
-        </default>
+<macro id="pergunta1">
+<led animation="HAPPY"/>
+<log name="logterapia">Como você se sente quando ganha um presente?</log>
+<talk>Como você se sente quando ganha um presente?</talk>
+<talk>Feliz, Triste ou com Raiva?</talk>
+<qrRead var="resposta1"/>
+<switch var="resposta1">
+<case op="exact" value="feliz">
+<log name="logterapia">#resposta1</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta1</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta1" />
+</default>
+</switch>
+</macro>
 
+<macro id="pergunta2">
+<led animation="HAPPY"/>
+<log name="logterapia">Se alguém pega o seu brinquedo sem pedir, o que você sente?</log>
+<talk>Se alguém pega o seu brinquedo sem pedir, o que você sente?</talk>
+<talk>Raiva, Medo ou Feliz</talk>
+<qrRead var="resposta2"/>
+<switch var="resposta2">
+<case op="exact" value="raiva">
+<log name="logterapia">#resposta2</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta2</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta2" />
+</default>
+</switch>
+</macro>
 
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
+<macro id="pergunta3">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sente quando está brincando com seu amigo?</log>
+<talk>O que você sente quando está brincando com seu amigo?</talk>
+<talk>Triste, Feliz ou Nojo?</talk>
+<qrRead var="resposta3"/>
+<switch var="resposta3">
+<case op="exact" value="feliz">
+<log name="logterapia">#resposta3</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta3</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta3" />
+</default>
+</switch>
+</macro>
 
-    <macro id="pergunta2">
-      <log name="logterapia">Se alguém pega o seu brinquedo sem pedir, o que você sente?</log>
-      <led animation="HAPPY" id="volt" />
-      <talk>Se alguém pega o seu brinquedo sem pedir, o que você sente?</talk>
-      <talk>Raiva, Medo ou Feliz</talk>
-      <qrRead var="resposta2" />
-      <switch var="resposta2">
-        <case op="exact" value="raiva">
-          <log name="logterapia">#resposta2</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
+<macro id="pergunta4">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sente quando algum colega pega seu lugar na fila do lanche?</log>
+<talk>O que você sente quando algum colega pega seu lugar na fila do lanche?</talk>
+<talk>Nojo, Raiva ou Feliz?</talk>
+<qrRead var="resposta4"/>
+<switch var="resposta4">
+<case op="exact" value="raiva">
+<log name="logterapia">#resposta4</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta4</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta4" />
+</default>
+</switch>
+</macro>
 
-        </case>
-        <default>
-          <log name="logterapia">#resposta2</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <goto target="volt" />
-          <evaEmotion emotion="NEUTRAL" />
-        </default>
+<macro id="pergunta5">
+<led animation="HAPPY"/>
+<log name="logterapia">Se alguém pega uma barata na rua e diz que vai jogá-la em você. O que você sentiria?</log>
+<talk>Se alguém pega uma barata na rua e diz que vai jogá-la em você. O que você sentiria?</talk>
+<talk>Feliz, Surpresa ou nojo?</talk>
+<qrRead var="resposta5"/>
+<switch var="resposta5">
+<case op="exact" value="nojo">
+<log name="logterapia">#resposta5</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta5</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta5" />
+</default>
+</switch>
+</macro>
 
-      </switch>
-      <log name="logterapia">§</log>
+<macro id="pergunta6">
+<led animation="HAPPY"/>
+<log name="logterapia">Qual emoção você sentiria se entrasse um leão no meio da aula de matemática? </log>
+<talk>Qual emoção você sentiria se entrasse um leão no meio da aula de matemática? </talk>
+<talk>triste , Surpresa ou feliz?</talk>
+<qrRead var="resposta6"/>
+<switch var="resposta6">
+<case op="exact" value="surpreso">
+<log name="logterapia">#resposta6</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta6</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta6" />
+</default>
+</switch>
+</macro>
 
-    </macro>
+<macro id="pergunta7">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sente quando está vendo um filme assustador? </log>
+<talk>O que você sente quando está vendo um filme assustador? </talk>
+<talk>raiva, Medo ou nojo?</talk>
+<qrRead var="resposta7"/>
+<switch var="resposta7">
+<case op="exact" value="medo">
+<log name="logterapia">#resposta7</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta7</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta7" />
+</default>
+</switch>
+</macro>
 
-    <macro id="pergunta3">
-      <log name="logterapia">O que você sente quando está brincando com seu amigo?</log>
-      <led animation="HAPPY" id="v" />
-      <talk>O que você sente quando está brincando com seu amigo?</talk>
-      <talk>Triste, Feliz ou Nojo?</talk>
-      <qrRead var="resposta3" />
-      <switch var="resposta3">
-        <case op="exact" value="Feliz">
-          <log name="logterapia">#resposta3</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
+<macro id="pergunta8">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sentiria se seu melhor amigo se mudasse para outro país? </log>
+<talk>O que você sentiria se seu melhor amigo se mudasse para outro país? </talk>
+<talk>Nojo , Feliz ou Triste?</talk>
+<qrRead var="resposta8"/>
+<switch var="resposta8">
+<case op="exact" value="triste">
+<log name="logterapia">#resposta8</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta8</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta8" />
+</default>
+</switch>
+</macro>
 
-        <default>
-          <log name="logterapia">#resposta3</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="v" />
+<macro id="pergunta9">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sente quando recebe seu prato favorito? </log>
+<talk>O que você sente quando recebe seu prato favorito? </talk>
+<talk>feliz , triste ou Medo?</talk>
+<qrRead var="resposta9"/>
+<switch var="resposta9">
+<case op="exact" value="feliz">
+<log name="logterapia">#resposta9</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta9</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta9" />
+</default>
+</switch>
+</macro>
 
-        </default>
+<macro id="pergunta10">
+<led animation="HAPPY"/>
+<log name="logterapia">Quando você recebe uma nota muito baixa em uma prova, o que você sente?</log>
+<talk>Quando você recebe uma nota muito baixa em uma prova, o que você sente?</talk>
+<talk>feliz , triste ou nojo?</talk>
+<qrRead var="resposta10"/>
+<switch var="resposta10">
+<case op="exact" value="triste">
+<log name="logterapia">#resposta10</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta10</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta10" />
+</default>
+</switch>
+</macro>
 
+<macro id="pergunta11">
+<led animation="HAPPY"/>
+<log name="logterapia">Quando você vai lanchar e percebe que o seu lanche está estragado. O que você sente? </log>
+<talk>Quando você vai lanchar e percebe que o seu lanche está estragado. O que você sente? </talk>
+<talk>nojo , medo ou feliz?</talk>
+<qrRead var="resposta11"/>
+<switch var="resposta11">
+<case op="exact" value="nojo">
+<log name="logterapia">#resposta11</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta11</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta11" />
+</default>
+</switch>
+</macro>
 
-      </switch>
-      <log name="logterapia">§</log>
+<macro id="pergunta12">
+<led animation="HAPPY"/>
+<log name="logterapia">Se você está tendo aula e tudo é interrompido para comemoração do aniversário da sua professora, o que você sente?</log>
+<talk>Se você está tendo aula e tudo é interrompido para comemoração do aniversário da sua professora, o que você sente?</talk>
+<talk>feliz , triste ou surpresa?</talk>
+<qrRead var="resposta12"/>
+<switch var="resposta12">
+<case op="exact" value="surpreso">
+<log name="logterapia">#resposta12</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta12</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta12" />
+</default>
+</switch>
+</macro>
 
-    </macro>
+<macro id="pergunta13">
+<led animation="HAPPY"/>
+<log name="logterapia">Quando você está passeando na rua e vê alguém vomitando, o que você sente? </log>
+<talk>Quando você está passeando na rua e vê alguém vomitando, o que você sente? </talk>
+<talk>Nojo, feliz ou surpresa?</talk>
+<qrRead var="resposta13"/>
+<switch var="resposta13">
+<case op="exact" value="nojo">
+<log name="logterapia">#resposta13</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta13</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta13" />
+</default>
+</switch>
+</macro>
 
-    <macro id="pergunta4">
-      <log name="logterapia">O que você sente quando algum colega pega seu lugar na fila do lanche?</log>
-      <led animation="HAPPY" id="vol" />
-      <talk>O que você sente quando algum colega pega seu lugar na fila do lanche?</talk>
-      <talk>Nojo, Raiva ou Feliz?</talk>
-      <qrRead var="resposta4" />
-      <switch var="resposta4">
-        <case op="exact" value="Raiva">
-          <log name="logterapia">#resposta4</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
+<macro id="pergunta14">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sente quando vai fazer uma prova de uma matéria que você acha muito difícil?</log>
+<talk>O que você sente quando vai fazer uma prova de uma matéria que você acha muito difícil?</talk>
+<talk>feliz , medo ou nojo?</talk>
+<qrRead var="resposta14"/>
+<switch var="resposta14">
+<case op="exact" value="medo">
+<log name="logterapia">#resposta14</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta14</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta14" />
+</default>
+</switch>
+</macro>
 
-        </case>
+<macro id="pergunta15">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sentiria se o alarme de incêndio da sua escola tocasse?</log>
+<talk>O que você sentiria se o alarme de incêndio da sua escola tocasse?</talk>
+<talk>feliz , surpresa ou triste?</talk>
+<qrRead var="resposta15"/>
+<switch var="resposta15">
+<case op="exact" value="surpreso">
+<log name="logterapia">#resposta15</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta15</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta15" />
+</default>
+</switch>
+</macro>
 
-        <default>
-          <log name="logterapia">#resposta4</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <goto target="vol" />
-          <evaEmotion emotion="NEUTRAL" />
-        </default>
+<macro id="pergunta16">
+<led animation="HAPPY"/>
+<log name="logterapia">Como você se sente quando alguém te dá um abraço?</log>
+<talk>Como você se sente quando alguém te dá um abraço?</talk>
+<talk>feliz, triste ou Raiva?</talk>
+<qrRead var="resposta16"/>
+<switch var="resposta16">
+<case op="exact" value="feliz">
+<log name="logterapia">#resposta16</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta16</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta16" />
+</default>
+</switch>
+</macro>
 
-      </switch>
-      <log name="logterapia">§</log>
-
-    </macro>
-
-    <macro id="pergunta5">
-      <log name="logterapia">Se alguém pega uma barata na rua e diz que vai jogá-la em você. O que
-        você sentiria?</log>
-      <led animation="HAPPY" id="vo" />
-      <talk>Se alguém pega uma barata na rua e diz que vai jogá-la em você. O que você sentiria?</talk>
-      <talk>Feliz, Surpresa ou nojo?</talk>
-      <qrRead var="resposta5" />
-      <switch var="resposta5">
-        <case op="exact" value="nojo">
-          <log name="logterapia">#resposta5</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta5</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="vo" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-
-    <macro id="pergunta6">
-      <log name="logterapia">Qual emoção você sentiria se entrasse um leão no meio da aula de
-        matemática?</log>
-      <led animation="HAPPY" id="retorn" />
-      <talk>Qual emoção você sentiria se entrasse um leão no meio da aula de matemática? </talk>
-      <talk>triste , Surpresa ou feliz?</talk>
-      <qrRead var="resposta6" />
-      <switch var="resposta6">
-        <case op="exact" value="surpresa">
-          <log name="logterapia">#resposta6</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta6</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="retorn" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-    <macro id="pergunta7">
-      <log name="logterapia">O que você sente quando está vendo um filme assustador?</log>
-      <led animation="HAPPY" id="retor" />
-      <talk>O que você sente quando está vendo um filme assustador? </talk>
-      <talk>raiva, Medo ou nojo?</talk>
-      <qrRead var="resposta7" />
-      <switch var="resposta7">
-        <case op="exact" value="medo">
-          <log name="logterapia">#resposta7</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta7</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="retor" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-
-    <macro id="pergunta8">
-      <log name="logterapia">O que você sentiria se seu melhor amigo se mudasse para outro país?</log>
-      <led animation="HAPPY" id="reto" />
-      <talk>O que você sentiria se seu melhor amigo se mudasse para outro país? </talk>
-      <talk>Nojo , Feliz ou Triste?</talk>
-      <qrRead var="resposta8" />
-      <switch var="resposta8">
-        <case op="exact" value="triste">
-          <log name="logterapia">#resposta8</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta8</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="reto" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-    <macro id="pergunta9">
-      <log name="logterapia">O que você sente quando recebe seu prato favorito?</log>
-      <led animation="HAPPY" id="ret" />
-      <talk>O que você sente quando recebe seu prato favorito? </talk>
-      <talk>feliz , triste ou Medo?</talk>
-      <qrRead var="resposta9" />
-      <switch var="resposta9">
-        <case op="exact" value="feliz">
-          <log name="logterapia">#resposta9</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta9</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="ret" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-    <macro id="pergunta10">
-      <log name="logterapia">Quando você recebe uma nota muito baixa em uma prova, o que você sente?</log>
-      <led animation="HAPPY" id="re" />
-      <talk>Quando você recebe uma nota muito baixa em uma prova, o que você sente?</talk>
-      <talk>feliz , triste ou nojo?</talk>
-      <qrRead var="resposta10" />
-      <switch var="resposta10">
-        <case op="exact" value="triste">
-          <log name="logterapia">#resposta10</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta10</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="re" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-    <macro id="pergunta11">
-      <log name="logterapia">Quando você vai lanchar e percebe que o seu lanche está estragado. O
-        que você sente? </log>
-      <led animation="HAPPY" id="r" />
-      <talk>Quando você vai lanchar e percebe que o seu lanche está estragado. O que você sente? </talk>
-      <talk>nojo , medo ou feliz?</talk>
-      <qrRead var="resposta11" />
-      <switch var="resposta11">
-        <case op="exact" value="nojo">
-          <log name="logterapia">#resposta11</log>
-          <log name="logterapia">#acerto</log>
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <log name="logterapia">#resposta11</log>
-          <log name="logterapia">#erro</log>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="r" />
-        </default>
-      </switch>
-      <log name="logterapia">§</log>
-    </macro>
-
-
-    <macro id="pergunta12">
-      <led animation="HAPPY" id="y" />
-      <talk>Se você está tendo aula e tudo é interrompido para comemoração do aniversário da sua
-        professora, o que você sente?</talk>
-      <talk>feliz , triste ou surpresa?</talk>
-      <qrRead var="resposta12" />
-      <switch var="resposta12">
-        <case op="exact" value="surpreso">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="y" />
-        </default>
-      </switch>
-    </macro>
-
-
-    <macro id="pergunta13">
-      <led animation="HAPPY" id="z" />
-      <talk>Quando você está passeando na rua e vê alguém vomitando, o que você sente? </talk>
-      <talk>Nojo, feliz ou surpresa?</talk>
-      <qrRead var="resposta13" />
-      <switch var="resposta13">
-        <case op="exact" value="Nojo">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="z" />
-        </default>
-      </switch>
-    </macro>
-
-    <macro id="pergunta14">
-      <led animation="HAPPY" id="x" />
-      <talk>O que você sente quando vai fazer uma prova de uma matéria que você acha muito difícil?</talk>
-      <talk>feliz , medo ou nojo?</talk>
-      <qrRead var="resposta14" />
-      <switch var="resposta14">
-        <case op="exact" value="medo">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="x" />
-        </default>
-      </switch>
-    </macro>
-
-
-    <macro id="pergunta15">
-      <led animation="HAPPY" id="w" />
-      <talk>O que você sentiria se o alarme de incêndio da sua escola tocasse?</talk>
-      <talk>feliz , surpresa ou triste?</talk>
-      <qrRead var="resposta15" />
-      <switch var="resposta15">
-        <case op="exact" value="surpreso">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="w" />
-        </default>
-      </switch>
-    </macro>
-
-
-    <macro id="pergunta16">
-      <led animation="HAPPY" id="s" />
-      <talk>Como você se sente quando alguém te dá um abraço?</talk>
-      <talk>feliz, triste ou Raiva?</talk>
-      <qrRead var="resposta16" />
-      <switch var="resposta16">
-        <case op="exact" value="feliz">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="s" />
-        </default>
-      </switch>
-    </macro>
-
-
-    <macro id="pergunta17">
-      <led animation="HAPPY" id="k" />
-      <talk>O que você sente quando vê um inseto estranho se aproximando?</talk>
-      <talk>Nojo , raiva ou Feliz?</talk>
-      <qrRead var="resposta17" />
-      <switch var="resposta17">
-        <case op="exact" value="Nojo">
-          <evaEmotion emotion="HAPPY" />
-          <led animation="HAPPY" />
-          <motion head="YES" />
-          <talk>Muito bem!/Resposta correta!/Acertou!</talk>
-          <evaEmotion emotion="NEUTRAL" />
-        </case>
-
-        <default>
-          <evaEmotion emotion="SAD" />
-          <led animation="ANGRY" />
-          <motion head="NO" />
-          <talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
-          <evaEmotion emotion="NEUTRAL" />
-          <goto target="k" />
-        </default>
-      </switch>
-    </macro>
-  </macros>
+<macro id="pergunta17">
+<led animation="HAPPY"/>
+<log name="logterapia">O que você sente quando vê um inseto estranho se aproximando?</log>
+<talk>O que você sente quando vê um inseto estranho se aproximando?</talk>
+<talk>Nojo , raiva ou Feliz?</talk>
+<qrRead var="resposta17"/>
+<switch var="resposta17">
+<case op="exact" value="nojo">
+<log name="logterapia">#resposta17</log>
+<log name="logterapia">#acerto</log>
+<log name="logterapia">§</log>
+<counter var="pontuacao" op="+" value="1" />
+<evaEmotion emotion="HAPPY" />
+<led animation="HAPPY" />
+<motion head="YES"/>
+<talk>Muito bem!/Resposta correta!/Acertou!</talk>
+<evaEmotion emotion="NEUTRAL" />
+</case>
+<default>
+<log name="logterapia">#resposta17</log>
+<log name="logterapia">#erro</log>
+<log name="logterapia">§</log>
+<evaEmotion emotion="SAD" />
+<led animation="ANGRY" />
+<motion head="NO"/>
+<talk>Acho que essa não é a resposta mais correta. Vamos escolher outra resposta</talk>
+<evaEmotion emotion="NEUTRAL" />
+<useMacro macro="pergunta17" />
+</default>
+</switch>
+</macro>
+</macros>
 </evaml>

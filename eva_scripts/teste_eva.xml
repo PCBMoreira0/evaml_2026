@@ -21,9 +21,7 @@
     <talk>#resp</talk>
     <wait duration="2000" />
     <evaEmotion emotion="SAD" />
-    <listen var="nome"/>
     <wait duration="2000" />
-    <talk>Muito prazer, #nome!</talk>
     <evaEmotion emotion="SURPRISE" />
   </script>
 </evaml>

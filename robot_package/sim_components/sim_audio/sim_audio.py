@@ -133,7 +133,7 @@ def on_message(client, userdata, msg):
             threading.Thread(target=anim, args=(event_anim_state,)).start()
             
             playsound("audio_files/", file_name, "audio", True)
-            client.publish(response_topic + "/AUDIO_RESPONSE", "state|free", qos=2) # Libera o robô.
+            client.publish(response_topic + "/AUDIO_RESPONSE", qos=2) # Libera o robô.
             # Draw the sound speaker
             event_anim_state.clear()
         else:
@@ -142,7 +142,7 @@ def on_message(client, userdata, msg):
     if (msg.topic == sim_base_topic + '/SPEECH') or (msg.topic == robot_base_topic + '/SPEECH'):
         file_name = msg.payload.decode()
         speech(file_name, True) # Speech always runs in "Blocking" mode.
-        client.publish(response_topic + "/TALK_RESPONSE", "state|free", qos=2) # Libera o robô.
+        client.publish(response_topic + "/TALK_RESPONSE", qos=2) # Libera o robô.
 
 
 # Run the MQTT client thread.

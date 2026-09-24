@@ -57,7 +57,7 @@ def on_message(client, userdata, msg):
     text = msg.payload.decode().split("|")[1]
     
     messagebox.showinfo("The robot is speaking...", text)
-    client.publish(response_topic + "/TALK_RESPONSE", "state|free", qos=2) # Libera o robô.
+    client.publish(response_topic + "/TALK_RESPONSE", qos=2) # Libera o robô.
 
 
 

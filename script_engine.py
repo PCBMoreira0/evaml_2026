@@ -142,6 +142,12 @@ class ScriptEngine:
         if self.node == None: # None means the end of a level, where there is no longer a sibling node.
             if len(self.__robot_memory.get_node_stack()) != 0: # If there is an element in the stack.
                 self.node = self.__robot_memory.node_stack_pop()
+            elif len(self.__robot_memory.get_macro_stack()) != 0: # Fim de uma macro em execução.
+                # Restaura a node_stack do chamador e retoma no nó seguinte ao
+                # <useMacro>. O retorno pode ser None (o <useMacro> era o último
+                # nó do seu nível); nesse caso a próxima chamada a play_next()
+                # continua desempilhando a pilha já restaurada.
+                self.node = self.__robot_memory.macro_frame_pop()
             else:
                 if self.__state  == "PLAY":
                     # End of script
@@ -223,16 +229,27 @@ class ScriptEngine:
                     else:
                         self.node = self.node.getparent()
 
+                # Se a busca terminou no <script>, o destino do goto está fora de
+                # qualquer macro: a execução abandonou as macros em andamento e os
+                # frames pendentes deixam de ter sentido.
+                if self.node.tag == "script" and len(self.__robot_memory.get_macro_stack()) != 0:
+                    self.__robot_memory.macro_stack_empty()
                 self.__robot_memory.node_stack_reverse()
                 self.node = None # Will force reading of node_stack.
 
             elif self.node.tag == "useMacro": # Handling <useMacro> element
-                if self.node.getnext() != None: # The "useMacro" node has a sibling ahead.
-                    self.__robot_memory.node_stack_push(self.node.getnext()) # Node that will be executed after <useMacro> returns.
-                
+                return_node = self.node.getnext() # Pode ser None (é o último nó do nível).
+
                 self.__state = "BLOCKED"
                 self.node = command_handler_instance.node_process(self.node, self.__robot_memory) # Run <useMacro> which returns the "macro" node.
                 self.__state = "PLAY"
+
+                # Abre o frame da macro: guarda a node_stack do chamador (com os
+                # retornos de <switch> pendentes) e começa uma pilha limpa para
+                # dentro da macro. Sem isso, um <goto> dentro da macro apagaria
+                # os retornos de quem chamou e o script terminaria cedo demais.
+                self.__robot_memory.macro_frame_push(return_node)
+
                 self.node = self.node[0] # First node inside the "macro".
 
             else:

@@ -24,7 +24,7 @@ END_SYMBOL = "~"
 
 BROKER_IP = "localhost"
 BROKER_PORT = 1883
-TOPIC = "TERMINAL/LOG"
+TOPIC = "EVA/LOG"
 
 
 class LogCollector:

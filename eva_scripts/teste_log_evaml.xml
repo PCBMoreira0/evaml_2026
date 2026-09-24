@@ -5,15 +5,22 @@
     <audioEffects mode="ON" commMode="NULL" vol="100%" />
   </settings>
   <script>
-    <log name="LOG1" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG</log>
-    <log name="LOG1" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG 2</log>
-    <wait duration="2000" commMode="NULL" />
-    <log name="LOG2" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG</log>
-    <log name="LOG1" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG 3</log>
-    <log name="LOG1" commMode="MQTT_PUB" pubTopic="LOG">~</log>
-    <log name="LOG2" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG 2</log>
-    <log name="LOG2" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG 3</log>
-    <log name="LOG2" commMode="MQTT_PUB" pubTopic="LOG">Teste de LOG 4</log>
-    <log name="LOG2" commMode="MQTT_PUB" pubTopic="LOG">~</log>
-  </script>
+    <counter var="ITERATION_VAR1" op="=" value="1" /><switch id="LOOP_ID1_ITERATION_VAR1" var="ITERATION_VAR1"><case op="lte" value="4"><talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">qual o seu nome?</talk>
+      <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">qual o seu nome?</log>
+      <listen var="nome" commMode="MQTT_PUB_SUB" pubTopic="LISTEN" subTopic="LISTEN_RESPONSE" language="pt-BR" />
+      <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">#nome</log>
+      <switch var="nome" commMode="NULL">
+        <case op="exact" value="maria" commMode="NULL">
+          <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">acerto</log>
+          <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+        </case>
+        <default commMode="NULL">
+          <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">erro</log>
+          <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">§</log>
+        </default>
+      </switch>
+      <talk commMode="MQTT_PUB_SUB" pubTopic="TALK" subTopic="state">olá #nome</talk>
+      <log name="lognome" commMode="MQTT_PUB" pubTopic="LOG">~</log>
+
+    <counter var="ITERATION_VAR1" op="+" value="1" /><goto target="LOOP_ID1_ITERATION_VAR1" /></case></switch></script>
 </evaml>

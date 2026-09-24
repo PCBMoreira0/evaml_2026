@@ -47,8 +47,15 @@ class RobotMemory(): #
         # Flag de inicialização da LLM
         self.llm_vars["LLM_INIT"] = False
 
-        # Stack of return nodes, used in script execution.
+        # Stack of return nodes, used in script execution (populated by
+        # <switch> continuations and rebuilt from scratch by <goto>).
         self.node_stack = []
+
+        # Pilha de frames de chamada de <useMacro>. Cada item é
+        # [node_stack_do_chamador, no_de_retorno]. Manter a pilha do chamador
+        # guardada aqui é o que impede um <goto> dentro da macro (que esvazia
+        # e reconstrói node_stack) de destruir os retornos pendentes de fora.
+        self.macro_stack = []
 
         # Contains the results of a comparison with the <case>. Can be True, False, or None.
         self.flag_case = None
@@ -131,6 +138,32 @@ class RobotMemory(): #
 
     def node_stack_last(self):
         return self.node_stack[-1]
+
+    def get_macro_stack(self):
+        return self.macro_stack
+
+    def macro_frame_push(self, return_node):
+        """Abre um frame de execução de macro.
+
+        Guarda a pilha de retornos do chamador (node_stack) e começa uma
+        pilha limpa para dentro da macro. Assim, um <goto> executado dentro
+        da macro (que esvazia e reconstrói node_stack) não tem como destruir
+        os endereços de retorno de quem chamou a macro.
+
+        return_node é o nó a executar quando a macro terminar (o irmão
+        seguinte ao <useMacro>), e pode ser None.
+        """
+        self.macro_stack.append([self.node_stack, return_node])
+        self.node_stack = []
+
+    def macro_frame_pop(self):
+        """Fecha o frame: restaura a pilha do chamador e devolve o nó de retorno."""
+        saved_node_stack, return_node = self.macro_stack.pop()
+        self.node_stack = saved_node_stack
+        return return_node
+
+    def macro_stack_empty(self):
+        self.macro_stack = []
     
     def set_flag_case(self, value):
         self.flag_case = value
@@ -328,6 +361,7 @@ class RobotMemory(): #
         # 
         self.var_dollar = []
         self.node_stack = []
+        self.macro_stack = []
         self.flag_case = None
         self.op_switch = None
         self.vars = {}

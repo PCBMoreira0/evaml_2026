@@ -9,15 +9,24 @@
     <audioEffects mode="ON" />
   </settings>
   <script>
-    <log name="LOG1">Teste de LOG</log>
-    <log name="LOG1">Teste de LOG 2</log>
-    <wait duration="2000" />
-    <log name="LOG2">Teste de LOG</log>
-    <log name="LOG1">Teste de LOG 3</log>
-    <log name="LOG1">~</log>
-    <log name="LOG2">Teste de LOG 2</log>
-    <log name="LOG2">Teste de LOG 3</log>
-    <log name="LOG2">Teste de LOG 4</log>
-    <log name="LOG2">~</log>
+    <loop times="4">
+      <talk>qual o seu nome?</talk>
+      <log name="lognome">qual o seu nome?</log>
+      <listen var="nome"/>
+      <log name="lognome">#nome</log>
+      <switch var="nome">
+        <case op="exact" value="maria">
+          <log name="lognome">acerto</log>
+          <log name="lognome">§</log>
+        </case>
+        <default>
+          <log name="lognome">erro</log>
+          <log name="lognome">§</log>
+        </default>
+      </switch>
+      <talk>olá #nome</talk>
+      <log name="lognome">~</log>
+
+    </loop>
   </script>
 </evaml>
